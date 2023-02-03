@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Layout, theme } from "antd";
+import { Layout, theme, Avatar } from "antd";
 import { Link } from "react-router-dom";
 import LayMenu from "./LayMenu";
 import axios from "@/utils/axios";
 import LayContent from "./LayContent";
 import Breadcrumb from "./Breadcrumb";
-import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
+import {
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
+  LockOutlined,
+  FullscreenOutlined,
+} from "@ant-design/icons";
 import style from "./style.module.css";
 import Logo from "@/assets/logo.svg";
 
@@ -54,13 +59,13 @@ export default function LayoutViwe() {
           <Link to="/">
             <img src={Logo} alt="logo" />
             <h1 style={{ display: collapsed ? "none" : "block" }}>
-              Ant Design Pro
+              安心干管理后台
             </h1>
           </Link>
         </div>
         <LayMenu initialMenuList={initialMenuList} loading={menuLoading} />
       </Sider>
-      
+
       <Layout>
         <Header
           theme="light"
@@ -72,15 +77,35 @@ export default function LayoutViwe() {
           }}
           className={style.header}
         >
-          {React.createElement(
-            collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
-            {
-              className: style.trigger,
-              onClick: () => setCollapsed(!collapsed),
-            }
-          )}
-          <div style={{ height: 36, display: "flex", alignItems: "center" }}>
-            <Breadcrumb menuList={initialMenuList} />
+          <div style={{ display: "flex", alignItems: "center" }}>
+            {React.createElement(
+              collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+              {
+                className: style.trigger,
+                onClick: () => setCollapsed(!collapsed),
+              }
+            )}
+            <div style={{ height: 36, display: "flex", alignItems: "center" }}>
+              <Breadcrumb menuList={initialMenuList} />
+            </div>
+          </div>
+
+          <div style={{ display: "flex", paddingRight: 16 }}>
+            <div className={style["header-actions-item"]}>
+              <LockOutlined />
+            </div>
+            <div className={style["header-actions-item"]}>
+              <FullscreenOutlined />
+            </div>
+
+            <div className={style["header-actions-item"]}>
+              <Avatar
+                src="https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png"
+                size="small"
+                style={{ marginRight: 8 }}
+              />
+              <span style={{ fontSize: 14 }}>Cai Hai</span>
+            </div>
           </div>
         </Header>
 

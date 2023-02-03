@@ -2,8 +2,22 @@
   position: sticky;
   top: 0;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   box-shadow: 0 1px 4px rgb(0 21 41 / 8%);
+}
+
+.header .header-actions-item {
+  display: flex;
+  align-items: center;
+  height: 48px;
+  font-size: 18px;
+  padding: 0 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.header .header-actions-item:hover {
+  background-color: rgba(0, 0, 0, 0.03);
 }
 
 .sider {
