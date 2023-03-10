@@ -6,7 +6,7 @@ module.exports = {
     // open: 'Chrome'//构建完成之后自动打开谷歌
     proxy: {
       "/api": {
-        target: "https://caihai123.com/",
+        target: "https://test-portal.gshbzw.com",
         ws: true,
         changeOrigin: true,
         pathRewrite: {
