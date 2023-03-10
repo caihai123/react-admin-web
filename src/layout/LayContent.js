@@ -1,6 +1,6 @@
 import { useState, Suspense, useEffect, useCallback } from "react";
 import { Layout, Skeleton } from "antd";
-import { Routes, Route } from "react-router-dom";
+import { Routes , Route } from "react-router-dom";
 import { debounce } from "throttle-debounce";
 import Redirect from "./redirect";
 import Error404 from "@/pages/404.js";
@@ -36,7 +36,7 @@ export default function LayContent({ initialMenuList, loading }) {
 
   // 判断当前路由是否在菜单列表中 如果在返回true 否则返回false
   const isInMenuList = (pathname) => {
-    return menuList.find((item) => item.path === pathname);
+    return menuList.some((item) => item.path === pathname);
   };
 
   return (
