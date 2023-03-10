@@ -16,6 +16,22 @@ import Logo from "@/assets/logo.svg";
 
 const { Header, Sider } = Layout;
 
+/**
+ * 将后端菜单处理成此框架支持的格式
+ * @param {array} menuList 后端返回的路由表
+ * @returns 格式化后的路由表
+ */
+function parseRoutersDeep(menuList) {
+  return menuList.map((item) => ({
+    id: item.menuId,
+    title: item.menuTitle,
+    icon: item.menuIcon,
+    path: item.routePath === "/" ? "" : item.routePath,
+    type: item.routePath === "/" ? "2" : "1", // 1:菜单 2:目录
+    children: parseRoutersDeep(item.listMenus || []),
+  }));
+}
+
 export default function LayoutViwe() {
   const [collapsed, setCollapsed] = useState(false); // 控制侧边栏展开收起
 
@@ -25,10 +41,10 @@ export default function LayoutViwe() {
     // 获取权限路由列表
     setMenuLoading(true);
     axios
-      .get("/mock-api/react-antd-admin/get-menu-list.json")
+      .post("/api/core/sys/user/auth/perm/list")
       .then((response) => {
-        const { data } = response.data;
-        setInitialMenuList(data || []);
+        const { userMenus } = response.data;
+        setInitialMenuList(parseRoutersDeep(userMenus || []));
       })
       .finally(() => {
         setMenuLoading(false);
