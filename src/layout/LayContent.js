@@ -40,12 +40,7 @@ export default function LayContent({ initialMenuList, loading }) {
   };
 
   return (
-    <Content
-      style={{
-        margin: 24,
-        background: "#fff",
-      }}
-    >
+    <Content style={{ margin: 20, background: "#fff" }}>
       {pageloading ? (
         <Suspense fallback={<PageLoading />}>
           <Routes>
