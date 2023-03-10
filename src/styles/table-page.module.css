@@ -1,0 +1,10 @@
+.page-head :global(.ant-form-item) {
+  margin-bottom: 16px;
+}
+
+.page-tools {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
