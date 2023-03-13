@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-// import 'antd/dist/reset.css';
+// import "antd/dist/reset.css";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
@@ -10,11 +10,16 @@ import zhCN from "antd/locale/zh_CN";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
-  <React.StrictMode>
-    <ConfigProvider locale={zhCN}>
-      <App />
-    </ConfigProvider>
-  </React.StrictMode>
+  <ConfigProvider
+    locale={zhCN}
+    theme={{
+      token: {
+        borderRadius: 2,
+      },
+    }}
+  >
+    <App />
+  </ConfigProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
