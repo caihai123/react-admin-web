@@ -1,9 +1,8 @@
+import { useState } from "react";
+import { usePagination } from "ahooks";
 import { Table, Form, Input, Button, Space } from "antd";
-import { useState, useEffect } from "react";
 import axios from "@/utils/axios";
 import styles from "@/styles/table-page.module.css";
-
-const defaultPageSize = 10;
 
 export default function Page() {
   const columns = [
@@ -52,46 +51,33 @@ export default function Page() {
       fixed: "right",
     },
   ];
-  const [tableData, setTableData] = useState([]);
-  const [pagination, setPagination] = useState({
-    currentPage: 1,
-    total: 0,
-  });
 
-  // 获取表格数据
-  const getTableData = function (page, size = defaultPageSize) {
-    const pageIndex = page || pagination.currentPage;
-    const pageSize = size || pagination.pageSize;
-    axios
-      .post("/api/core/sys/user/page", {
-        pageIndex,
-        pageSize,
-        params: backupFormData,
-      })
-      .then((value) => {
-        const data = value.data;
-        setTableData(data.data || []);
-        setPagination({
-          currentPage: data.pageIndex,
-          total: data.totalCount,
+  const [backupFormData, setBackupFormData] = useState();
+  const { data: tableData, pagination } = usePagination(
+    ({ current, pageSize }) => {
+      return axios
+        .post("/api/core/sys/user/page", {
+          pageIndex: current,
+          pageSize,
+          params: { ...backupFormData },
+        })
+        .then((value) => {
+          const data = value.data;
+          return {
+            list: data.data,
+            total: data.totalCount,
+          };
         });
-      });
-  };
-
-  let backupFormData = {};
-  const handleHeadFromFinish = function (values) {
-    backupFormData = values;
-    getTableData(1);
-  };
-
-  useEffect(() => {
-    getTableData(1);
-  }, []);
+    },
+    {
+      refreshDeps: [backupFormData],
+    }
+  );
 
   return (
     <div style={{ padding: 20 }}>
       <div className={styles["page-head"]}>
-        <Form layout="inline" onFinish={handleHeadFromFinish}>
+        <Form layout="inline" onFinish={(values) => setBackupFormData(values)}>
           <Form.Item label="所属部门" name="organizationId">
             <Input placeholder="" />
           </Form.Item>
@@ -121,14 +107,15 @@ export default function Page() {
         <Table
           rowKey="userId"
           columns={columns}
-          dataSource={tableData}
+          dataSource={tableData?.list}
           pagination={{
-            current: pagination.currentPage,
+            current: pagination.current,
+            pageSize: pagination.pageSize,
             total: pagination.total,
             showSizeChanger: true,
             showQuickJumper: true,
             showTotal: (total, range) => `共 ${total} 条`,
-            onChange: getTableData,
+            onChange: pagination.onChange,
           }}
           bordered
         />
