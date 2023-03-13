@@ -52,14 +52,14 @@ export default function Page() {
     },
   ];
 
-  const [backupFormData, setBackupFormData] = useState();
+  const [params, setParams] = useState();
   const { data: tableData, pagination } = usePagination(
     ({ current, pageSize }) => {
       return axios
         .post("/api/core/sys/user/page", {
           pageIndex: current,
           pageSize,
-          params: { ...backupFormData },
+          params: { ...params },
         })
         .then((value) => {
           const data = value.data;
@@ -70,14 +70,14 @@ export default function Page() {
         });
     },
     {
-      refreshDeps: [backupFormData],
+      refreshDeps: [params],
     }
   );
 
   return (
     <div style={{ padding: 20 }}>
       <div className={styles["page-head"]}>
-        <Form layout="inline" onFinish={(values) => setBackupFormData(values)}>
+        <Form layout="inline" onFinish={(values) => setParams(values)}>
           <Form.Item label="所属部门" name="organizationId">
             <Input placeholder="" />
           </Form.Item>
