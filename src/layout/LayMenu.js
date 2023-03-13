@@ -1,14 +1,14 @@
-import { createElement, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Menu, Skeleton } from "antd";
 import { Scrollbars } from "react-custom-scrollbars";
-import * as Icon from "@ant-design/icons";
+// import * as Icon from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 
 // 动态渲染icon
-function antdIcon(icon) {
-  return icon && createElement(Icon[icon]);
-}
+// function antdIcon(icon) {
+//   return icon && createElement(Icon[icon]);
+// }
 
 function getItem({ id, type, title, path, children, icon }) {
   return {
