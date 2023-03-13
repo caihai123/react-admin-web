@@ -50,7 +50,7 @@ export default function LayMenu({ initialMenuList, loading }) {
           selectedKeys={[activePathname]}
           items={menuList}
           onClick={({ key }) => navigate(key)}
-          style={{border:'none'}}
+          style={{ border: "none" }}
         ></Menu>
       </Scrollbars>
     </Skeleton>

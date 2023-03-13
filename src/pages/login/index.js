@@ -3,8 +3,6 @@ import { Button, Form, Input } from "antd";
 import { useNavigate } from "react-router-dom";
 import axios from "@/utils/axios";
 
-
-
 function Login() {
   // 验证码相关 start
   const [authCode, setAuthCode] = useState(["", ""]);
@@ -29,7 +27,7 @@ function Login() {
       .then((value) => {
         const { token } = value.data;
         localStorage.setItem("token", token);
-        navigate("/")
+        navigate("/");
       })
       .catch(() => {
         getAuthCode(); // 更新验证码
@@ -48,14 +46,14 @@ function Login() {
         name="userAccount"
         rules={[{ required: true, message: "请填写用户名!" }]}
       >
-        <Input placeholder="请输入用户名"/>
+        <Input placeholder="请输入用户名" />
       </Form.Item>
       <Form.Item
         label="密码"
         name="userPassword"
         rules={[{ required: true, message: "请填写密码!" }]}
       >
-        <Input placeholder="请输入密码"/>
+        <Input placeholder="请输入密码" />
       </Form.Item>
 
       <Form.Item
@@ -71,8 +69,8 @@ function Login() {
           登 录
         </Button>
         <Button style={{ width: 70 }} onClick={getAuthCode}>
-            {authCode[0]}
-          </Button>
+          {authCode[0]}
+        </Button>
       </Form.Item>
     </Form>
   );

@@ -1,6 +1,6 @@
 import { useState, Suspense, useEffect, useCallback } from "react";
 import { Layout, Skeleton } from "antd";
-import { Routes , Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { debounce } from "throttle-debounce";
 import Redirect from "./redirect";
 import Error404 from "@/pages/404.js";

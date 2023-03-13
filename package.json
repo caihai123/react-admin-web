@@ -20,6 +20,7 @@
     "dev": "craco start",
     "build": "craco build",
     "test": "craco test",
+    "lint": "eslint --fix **.js src/**/*.js",
     "eject": "react-scripts eject"
   },
   "browserslist": {
@@ -35,6 +36,8 @@
     ]
   },
   "devDependencies": {
-    "@craco/craco": "^7.0.0"
+    "@craco/craco": "^7.0.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.8.4"
   }
 }

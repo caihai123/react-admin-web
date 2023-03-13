@@ -1,5 +1,5 @@
-function index(){
-    return <div>首页</div>
+function index() {
+  return <div>首页</div>;
 }
 
-export default index
+export default index;
