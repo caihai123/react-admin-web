@@ -1,5 +1,5 @@
 import { useState, Suspense, useEffect, useCallback } from "react";
-import { Layout, Skeleton } from "antd";
+import { Layout, Skeleton, theme } from "antd";
 import { Routes, Route } from "react-router-dom";
 import { debounce } from "throttle-debounce";
 import Redirect from "./redirect";
@@ -39,8 +39,12 @@ export default function LayContent({ initialMenuList, loading }) {
     return menuList.some((item) => item.path === pathname);
   };
 
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
+
   return (
-    <Content style={{ margin: 20, background: "#fff" }}>
+    <Content style={{ margin: 20, background: colorBgContainer }}>
       {pageloading ? (
         <Suspense fallback={<PageLoading />}>
           <Routes>
