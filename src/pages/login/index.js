@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, theme } from "antd";
 import { useNavigate } from "react-router-dom";
 import axios from "@/utils/axios";
 
@@ -34,45 +34,59 @@ function Login() {
       });
   };
 
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
+
   return (
-    <Form
-      onFinish={submitForm}
-      layout="vertical"
-      size="large"
-      style={{ width: 600, margin: "200px auto" }}
+    <div
+      style={{
+        height: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        background: colorBgContainer,
+      }}
     >
-      <Form.Item
-        label="用户名"
-        name="userAccount"
-        rules={[{ required: true, message: "请填写用户名!" }]}
+      <Form
+        onFinish={submitForm}
+        layout="vertical"
+        size="large"
+        style={{ width: 600 }}
       >
-        <Input placeholder="请输入用户名" />
-      </Form.Item>
-      <Form.Item
-        label="密码"
-        name="userPassword"
-        rules={[{ required: true, message: "请填写密码!" }]}
-      >
-        <Input placeholder="请输入密码" />
-      </Form.Item>
+        <Form.Item
+          label="用户名"
+          name="userAccount"
+          rules={[{ required: true, message: "请填写用户名!" }]}
+        >
+          <Input placeholder="请输入用户名" />
+        </Form.Item>
+        <Form.Item
+          label="密码"
+          name="userPassword"
+          rules={[{ required: true, message: "请填写密码!" }]}
+        >
+          <Input placeholder="请输入密码" />
+        </Form.Item>
 
-      <Form.Item
-        label="验证码"
-        name="verifyCode"
-        rules={[{ required: true, message: "请填写验证码!" }]}
-      >
-        <Input placeholder="请输入验证码" />
-      </Form.Item>
+        <Form.Item
+          label="验证码"
+          name="verifyCode"
+          rules={[{ required: true, message: "请填写验证码!" }]}
+        >
+          <Input placeholder="请输入验证码" />
+        </Form.Item>
 
-      <Form.Item>
-        <Button type="primary" htmlType="submit">
-          登 录
-        </Button>
-        <Button style={{ width: 70 }} onClick={getAuthCode}>
-          {authCode[0]}
-        </Button>
-      </Form.Item>
-    </Form>
+        <Form.Item>
+          <Button type="primary" htmlType="submit">
+            登 录
+          </Button>
+          <Button style={{ width: 70 }} onClick={getAuthCode}>
+            {authCode[0]}
+          </Button>
+        </Form.Item>
+      </Form>
+    </div>
   );
 }
 
