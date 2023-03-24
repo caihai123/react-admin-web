@@ -1,20 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Layout, theme, Avatar, Switch } from "antd";
+import { Layout } from "antd";
 import { Link } from "react-router-dom";
 import LayMenu from "./LayMenu";
 import axios from "@/utils/axios";
 import LayContent from "./LayContent";
-import Breadcrumb from "./Breadcrumb";
-import {
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
-  LockOutlined,
-  FullscreenOutlined,
-} from "@ant-design/icons";
+import LayHeader from "./LayHeader";
 import LogoSvg from "@/assets/logo.svg";
 import styled, { keyframes } from "styled-components";
-import { selectTheme, setTheme } from "@/store/modules/system";
-import { useSelector, useDispatch } from "react-redux";
 
 /**
  * 将后端菜单处理成此框架支持的格式
@@ -88,45 +80,6 @@ const Logo = styled.div`
   }
 `;
 
-const Header = styled(Layout.Header)`
-  position: sticky;
-  top: 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 1px 4px rgb(0 21 41 / 8%);
-  z-index: 99;
-  padding: 0;
-  height: 48;
-  lineheight: 1;
-  background: ${(props) => props.background};
-  & .header-actions-item {
-    display: flex;
-    align-items: center;
-    height: 48px;
-    font-size: 18px;
-    padding: 0 12px;
-    cursor: pointer;
-    transition: all 0.3s;
-    &:hover {
-      background-color: rgba(0, 0, 0, 0.03);
-    }
-  }
-`;
-
-const Trigger = styled.div`
-  height: 48px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 24px;
-  font-size: 18px;
-  transition: color 0.3s;
-  &:hover {
-    color: #1890ff;
-  }
-`;
-
 export default function LayoutViwe() {
   const [collapsed, setCollapsed] = useState(false); // 控制侧边栏展开收起
 
@@ -145,16 +98,6 @@ export default function LayoutViwe() {
         setMenuLoading(false);
       });
   }, []);
-
-  const themeName = useSelector(selectTheme);
-  const dispatch = useDispatch();
-  const handelThemeChange = () => {
-    dispatch(setTheme());
-  };
-
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
 
   const siderConfig = {
     width: 210,
@@ -177,42 +120,11 @@ export default function LayoutViwe() {
       </Sider>
 
       <Layout>
-        <Header background={colorBgContainer}>
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <Trigger
-              as={collapsed ? MenuUnfoldOutlined : MenuFoldOutlined}
-              onClick={() => setCollapsed(!collapsed)}
-            />
-            <div style={{ height: 36, display: "flex", alignItems: "center" }}>
-              <Breadcrumb menuList={initialMenuList} />
-            </div>
-          </div>
-
-          <div style={{ display: "flex", paddingRight: 16 }}>
-            <div className="header-actions-item">
-              <Switch
-                checked={themeName === "dark"}
-                size="small"
-                onClick={handelThemeChange}
-              />
-            </div>
-            <div className="header-actions-item">
-              <LockOutlined />
-            </div>
-            <div className="header-actions-item">
-              <FullscreenOutlined />
-            </div>
-            <div className="header-actions-item">
-              <Avatar
-                src="https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png"
-                size="small"
-                style={{ marginRight: 8 }}
-              />
-              <span style={{ fontSize: 14 }}>Cai Hai</span>
-            </div>
-          </div>
-        </Header>
-
+        <LayHeader
+          collapsed={collapsed}
+          menuList={initialMenuList}
+          setCollapsed={setCollapsed}
+        />
         <LayContent initialMenuList={initialMenuList} loading={menuLoading} />
       </Layout>
     </Layout>
