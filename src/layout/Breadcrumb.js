@@ -45,16 +45,15 @@ export default function Component({ menuList }) {
   }, [menuList, location]);
 
   return (
-    <Breadcrumb>
-      {levelList.map((item, index) => (
-        <Breadcrumb.Item key={index}>
-          {item.path && item.path !== "/" ? (
+    <Breadcrumb
+      items={levelList.map((item) => ({
+        title:
+          item.path && item.path !== "/" ? (
             <Link to={item.path}>{item.title}</Link>
           ) : (
             item.title
-          )}
-        </Breadcrumb.Item>
-      ))}
-    </Breadcrumb>
+          ),
+      }))}
+    ></Breadcrumb>
   );
 }
