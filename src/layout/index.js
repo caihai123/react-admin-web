@@ -11,10 +11,8 @@ import {
   LockOutlined,
   FullscreenOutlined,
 } from "@ant-design/icons";
-import style from "./style.module.css";
-import Logo from "@/assets/logo.svg";
-
-const { Header, Sider } = Layout;
+import LogoSvg from "@/assets/logo.svg";
+import styled, { keyframes } from "styled-components";
 
 /**
  * 将后端菜单处理成此框架支持的格式
@@ -31,6 +29,101 @@ function parseRoutersDeep(menuList) {
     children: parseRoutersDeep(item.listMenus || []),
   }));
 }
+
+const Sider = styled(Layout.Sider)`
+  position: fixed !important ;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  box-shadow: 2px 0 8px 0 rgb(29 35 41 / 5%);
+`;
+
+const titleHide = keyframes`
+    0% {
+      display: none;
+      opacity: 0;
+    }
+
+    80% {
+      display: none;
+      opacity: 0;
+    }
+
+    to {
+      display: unset;
+      opacity: 1;
+    }
+  `;
+
+const Logo = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  cursor: pointer;
+  transition: padding 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  & > a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 32px;
+  }
+  & img {
+    display: inline-block;
+    height: 32px;
+    vertical-align: middle;
+  }
+  & h1 {
+    display: ${(props) => (props.collapsed ? "none" : "block")};
+    height: 32px;
+    margin: 0 0 0 12px;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 32px;
+    vertical-align: middle;
+    animation: ${titleHide} 0.3s;
+  }
+`;
+
+const Header = styled.header`
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 1px 4px rgb(0 21 41 / 8%);
+  z-index: 99;
+  padding: 0;
+  height: 48;
+  lineheight: 1;
+  background: ${(props) => props.backgroundColor};
+  & .header-actions-item {
+    display: flex;
+    align-items: center;
+    height: 48px;
+    font-size: 18px;
+    padding: 0 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.03);
+    }
+  }
+`;
+
+const Trigger = styled.div`
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 24px;
+  font-size: 18px;
+  transition: color 0.3s;
+  &:hover {
+    color: #1890ff;
+  }
+`;
 
 export default function LayoutViwe() {
   const [collapsed, setCollapsed] = useState(false); // 控制侧边栏展开收起
@@ -55,66 +148,46 @@ export default function LayoutViwe() {
     token: { colorBgContainer },
   } = theme.useToken();
 
+  const siderConfig = {
+    width: 210,
+    collapsedWidth: 64,
+    collapsed,
+    theme: "light",
+  };
+
   return (
     <Layout style={{ minHeight: "100vh" }}>
-      <Sider
-        width="210px"
-        collapsedWidth={64}
-        theme="light"
-        collapsed={collapsed}
-      ></Sider>
-      <Sider
-        width="210px"
-        collapsedWidth={64}
-        theme="light"
-        className={style.sider}
-        collapsed={collapsed}
-        style={{ position: "fixed" }}
-      >
-        <div className={style.logo}>
+      <Layout.Sider {...siderConfig}></Layout.Sider>
+      <Sider {...siderConfig}>
+        <Logo collapsed={collapsed}>
           <Link to="/">
-            <img src={Logo} alt="logo" />
-            <h1 style={{ display: collapsed ? "none" : "block" }}>
-              安心干管理后台
-            </h1>
+            <img src={LogoSvg} alt="logo" />
+            <h1>安心干管理后台</h1>
           </Link>
-        </div>
+        </Logo>
         <LayMenu initialMenuList={initialMenuList} loading={menuLoading} />
       </Sider>
 
       <Layout>
-        <Header
-          theme="light"
-          style={{
-            padding: 0,
-            height: 48,
-            lineHeight: 1,
-            background: colorBgContainer,
-          }}
-          className={style.header}
-        >
+        <Header backgroundColor={colorBgContainer}>
           <div style={{ display: "flex", alignItems: "center" }}>
-            {React.createElement(
-              collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
-              {
-                className: style.trigger,
-                onClick: () => setCollapsed(!collapsed),
-              }
-            )}
+            <Trigger
+              as={collapsed ? MenuUnfoldOutlined : MenuFoldOutlined}
+              onClick={() => setCollapsed(!collapsed)}
+            />
             <div style={{ height: 36, display: "flex", alignItems: "center" }}>
               <Breadcrumb menuList={initialMenuList} />
             </div>
           </div>
 
           <div style={{ display: "flex", paddingRight: 16 }}>
-            <div className={style["header-actions-item"]}>
+            <div className="header-actions-item">
               <LockOutlined />
             </div>
-            <div className={style["header-actions-item"]}>
+            <div className="header-actions-item">
               <FullscreenOutlined />
             </div>
-
-            <div className={style["header-actions-item"]}>
+            <div className="header-actions-item">
               <Avatar
                 src="https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png"
                 size="small"
