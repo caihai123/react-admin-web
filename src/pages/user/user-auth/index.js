@@ -79,16 +79,16 @@ export default function Page() {
       <div className={styles["page-head"]}>
         <Form layout="inline" onFinish={(values) => setParams(values)}>
           <Form.Item label="所属部门" name="organizationId">
-            <Input placeholder="" />
+            <Input placeholder="请选择部门" />
           </Form.Item>
           <Form.Item label="账户名" name="userAccount">
-            <Input placeholder="" />
+            <Input placeholder="请输入账户名" />
           </Form.Item>
           <Form.Item label="真实姓名" name="userName">
-            <Input placeholder="" />
+            <Input placeholder="请输入真实姓名" />
           </Form.Item>
           <Form.Item label="账户状态" name="status">
-            <Input placeholder="" />
+            <Input placeholder="请选择账户状态" />
           </Form.Item>
           <Form.Item>
             <Space>
