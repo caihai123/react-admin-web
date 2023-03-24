@@ -4,23 +4,15 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { ConfigProvider, theme } from "antd";
-import zhCN from "antd/locale/zh_CN";
+import store from "@/store";
+import { Provider } from "react-redux";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
-  <ConfigProvider
-    locale={zhCN}
-    theme={{
-      token: {
-        borderRadius: 2,
-      },
-      algorithm: theme.darkAlgorithm,
-    }}
-  >
+  <Provider store={store}>
     <App />
-  </ConfigProvider>
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function

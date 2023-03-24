@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Layout, theme, Avatar } from "antd";
+import { Layout, theme, Avatar, Switch } from "antd";
 import { Link } from "react-router-dom";
 import LayMenu from "./LayMenu";
 import axios from "@/utils/axios";
@@ -13,6 +13,8 @@ import {
 } from "@ant-design/icons";
 import LogoSvg from "@/assets/logo.svg";
 import styled, { keyframes } from "styled-components";
+import { selectTheme, setTheme } from "@/store/modules/system";
+import { useSelector, useDispatch } from "react-redux";
 
 /**
  * 将后端菜单处理成此框架支持的格式
@@ -86,7 +88,7 @@ const Logo = styled.div`
   }
 `;
 
-const Header = styled.header`
+const Header = styled(Layout.Header)`
   position: sticky;
   top: 0;
   display: flex;
@@ -97,7 +99,7 @@ const Header = styled.header`
   padding: 0;
   height: 48;
   lineheight: 1;
-  background: ${(props) => props.backgroundColor};
+  background: ${(props) => props.background};
   & .header-actions-item {
     display: flex;
     align-items: center;
@@ -144,6 +146,12 @@ export default function LayoutViwe() {
       });
   }, []);
 
+  const themeName = useSelector(selectTheme);
+  const dispatch = useDispatch();
+  const handelThemeChange = () => {
+    dispatch(setTheme());
+  };
+
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -169,7 +177,7 @@ export default function LayoutViwe() {
       </Sider>
 
       <Layout>
-        <Header backgroundColor={colorBgContainer}>
+        <Header background={colorBgContainer}>
           <div style={{ display: "flex", alignItems: "center" }}>
             <Trigger
               as={collapsed ? MenuUnfoldOutlined : MenuFoldOutlined}
@@ -181,6 +189,13 @@ export default function LayoutViwe() {
           </div>
 
           <div style={{ display: "flex", paddingRight: 16 }}>
+            <div className="header-actions-item">
+              <Switch
+                checked={themeName === "dark"}
+                size="small"
+                onClick={handelThemeChange}
+              />
+            </div>
             <div className="header-actions-item">
               <LockOutlined />
             </div>
