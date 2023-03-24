@@ -20,8 +20,11 @@ function Login() {
   }, []);
   // 验证码相关 end
 
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
   const submitForm = (values) => {
+    setLoading(true);
     const codeId = authCode[1];
     axios
       .post("/api/core/sys/login", { ...values, codeId })
@@ -32,6 +35,9 @@ function Login() {
       })
       .catch(() => {
         getAuthCode(); // 更新验证码
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -102,6 +108,7 @@ function Login() {
                 type="primary"
                 htmlType="submit"
                 style={{ width: "100%" }}
+                loading={loading}
               >
                 登 录
               </Button>
