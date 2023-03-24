@@ -29,7 +29,7 @@ instance.interceptors.response.use(
   function (response) {
     // 对响应数据做点什么
     const data = response.data;
-    var { code } = data;
+    var { code, msg } = data;
     // 请求成功时进行响应处理
     switch (code) {
       case 200:
@@ -38,6 +38,7 @@ instance.interceptors.response.use(
         message.error("未登录或token过期，请重新登录！");
         return Promise.reject(data);
       default:
+        message.error(msg);
         return Promise.reject(data);
     }
   },
