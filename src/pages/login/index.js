@@ -64,7 +64,7 @@ function Login() {
   } = theme.useToken();
 
   return (
-    <Layout style={{ height: "100vh" }}>
+    <Layout style={{ minHeight: "100vh" }}>
       <Header background={colorBgLayout}>
         <h1 style={{ fontSize: 24 }}>公共服务管理平台</h1>
         <div className="tools">
@@ -80,9 +80,26 @@ function Login() {
         <Layout.Sider
           theme="light"
           width="60%"
-          style={{ padding: 24, background: colorBgLayout }}
+          style={{ background: colorBgLayout }}
         >
-          <LoginBanner />
+          <div
+            style={{
+              height: "100%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <div
+              style={{
+                width: "100%",
+                maxWidth: 800,
+                padding: 24,
+              }}
+            >
+              <LoginBanner />
+            </div>
+          </div>
         </Layout.Sider>
         <Layout.Content
           style={{
@@ -96,7 +113,7 @@ function Login() {
             onFinish={submitForm}
             layout="vertical"
             size="large"
-            style={{ width: 400 }}
+            style={{ width: "100%", maxWidth: 448, padding: 24 }}
           >
             <h1 style={{ fontSize: 24 }}>欢迎登录</h1>
             <Form.Item
