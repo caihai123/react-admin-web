@@ -71,6 +71,12 @@ export default function LayHeader(props) {
       </div>
 
       <div style={{ display: "flex", paddingRight: 16 }}>
+        <div className="header-actions-item">
+          <LockOutlined />
+        </div>
+        <div className="header-actions-item">
+          <FullscreenOutlined />
+        </div>
         <div
           className="header-actions-item"
           onClick={() => dispatch(setTheme())}
@@ -80,12 +86,6 @@ export default function LayHeader(props) {
             checkedChildren="🌜"
             unCheckedChildren="🌞"
           />
-        </div>
-        <div className="header-actions-item">
-          <LockOutlined />
-        </div>
-        <div className="header-actions-item">
-          <FullscreenOutlined />
         </div>
         <div className="header-actions-item">
           <Avatar
