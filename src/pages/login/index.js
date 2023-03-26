@@ -65,7 +65,7 @@ function Login() {
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
-      <Header background={colorBgLayout}>
+      <Header background={colorBgContainer}>
         <h1 style={{ fontSize: 24 }}>公共服务管理平台</h1>
         <div className="tools">
           <Switch
@@ -80,7 +80,7 @@ function Login() {
         <Layout.Sider
           theme="light"
           width="60%"
-          style={{ background: colorBgLayout }}
+          style={{ background: colorBgContainer }}
         >
           <div
             style={{
@@ -106,7 +106,7 @@ function Login() {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            background: colorBgContainer,
+            background: colorBgLayout,
           }}
         >
           <Form
