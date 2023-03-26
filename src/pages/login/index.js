@@ -12,7 +12,7 @@ const Header = styled(Layout.Header)`
   justify-content: space-between;
   justify-items: center;
   background: ${(props) => props.background};
-  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   position: relative;
   z-index: 9;
 `;
@@ -60,12 +60,12 @@ function Login() {
   };
 
   const {
-    token: { colorBgBase, colorBgLayout, colorBgContainer },
+    token: { colorBgLayout, colorBgContainer },
   } = theme.useToken();
 
   return (
     <Layout style={{ height: "100vh" }}>
-      <Header background={colorBgBase}>
+      <Header background={colorBgLayout}>
         <h1 style={{ fontSize: 24 }}>公共服务管理平台</h1>
         <div className="tools">
           <Switch

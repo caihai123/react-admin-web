@@ -30,7 +30,7 @@ const Sider = styled(Layout.Sider)`
   top: 0;
   left: 0;
   z-index: 100;
-  box-shadow: 2px 0 8px 0 rgb(29 35 41 / 5%);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 `;
 
 const titleHide = keyframes`
