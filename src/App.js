@@ -22,7 +22,7 @@ export default function App() {
           colorPrimary: isLight ? "#1677ff" : "rgb(23, 101, 174)",
           colorBgLayout: isLight ? "#f5f5f5" : "rgb(42, 44, 44)",
           colorTextBase: isLight ? "#000" : "rgba(229, 224, 216, 0.85)",
-          colorError: isLight ? "#ff4d4f" : "rgb(147, 18, 18)",
+          colorError: isLight ? "#ff4d4f" : "#ec5b59",
         },
         algorithm: isLight ? theme.defaultAlgorithm : theme.darkAlgorithm,
       }}
