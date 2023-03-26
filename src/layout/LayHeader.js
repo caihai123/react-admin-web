@@ -75,7 +75,11 @@ export default function LayHeader(props) {
           className="header-actions-item"
           onClick={() => dispatch(setTheme())}
         >
-          <Switch checked={themeName === "dark"} size="small" />
+          <Switch
+            checked={themeName !== "dark"}
+            checkedChildren="🌜"
+            unCheckedChildren="🌞"
+          />
         </div>
         <div className="header-actions-item">
           <LockOutlined />

@@ -1,8 +1,21 @@
 import { useState, useEffect } from "react";
-import { Layout, Button, Form, Input, theme } from "antd";
+import { Layout, Button, Form, Input, theme, Switch } from "antd";
 import { useNavigate } from "react-router-dom";
 import axios from "@/utils/axios";
 import LoginBanner from "@/components/LoginBanner";
+import { useSelector, useDispatch } from "react-redux";
+import { selectTheme, setTheme } from "@/store/modules/system";
+import styled from "styled-components";
+
+const Header = styled(Layout.Header)`
+  display: flex;
+  justify-content: space-between;
+  justify-items: center;
+  background: ${(props) => props.background};
+  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+  position: relative;
+  z-index: 9;
+`;
 
 function Login() {
   // 验证码相关 start
@@ -19,6 +32,11 @@ function Login() {
     getAuthCode();
   }, []);
   // 验证码相关 end
+
+  // 换肤相关 start
+  const dispatch = useDispatch();
+  const themeName = useSelector(selectTheme);
+  // 换肤相关 end
 
   const [loading, setLoading] = useState(false);
 
@@ -42,21 +60,28 @@ function Login() {
   };
 
   const {
-    token: { colorBgContainer },
+    token: { colorBgBase, colorBgLayout, colorBgContainer },
   } = theme.useToken();
 
   return (
-    <Layout
-      style={{
-        height: "100vh",
-        background: colorBgContainer,
-      }}
-    >
-      <Layout.Header>
-        <h1 style={{ fontSize: 24, color: "#fff" }}>公共服务管理平台</h1>
-      </Layout.Header>
+    <Layout style={{ height: "100vh" }}>
+      <Header background={colorBgBase}>
+        <h1 style={{ fontSize: 24 }}>公共服务管理平台</h1>
+        <div className="tools">
+          <Switch
+            checked={themeName !== "dark"}
+            checkedChildren="🌜"
+            unCheckedChildren="🌞"
+            onClick={() => dispatch(setTheme())}
+          />
+        </div>
+      </Header>
       <Layout>
-        <Layout.Sider theme="light" width="60%" style={{ padding: 24 }}>
+        <Layout.Sider
+          theme="light"
+          width="60%"
+          style={{ padding: 24, background: colorBgLayout }}
+        >
           <LoginBanner />
         </Layout.Sider>
         <Layout.Content
@@ -64,6 +89,7 @@ function Login() {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            background: colorBgContainer,
           }}
         >
           <Form
