@@ -1,4 +1,5 @@
 const path = require("path");
+const WebpackBar = require("webpackbar");
 
 module.exports = {
   devServer: {
@@ -19,5 +20,6 @@ module.exports = {
     alias: {
       "@": path.resolve(__dirname, "src"),
     },
+    plugins: [new WebpackBar()],
   },
 };
