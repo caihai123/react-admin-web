@@ -6,10 +6,10 @@ TweenOne.plugins.push(SvgDrawPlugin);
 
 export default function BannerImage() {
   let delay = 0;
-  function setAddDelay() {
+  const setAddDelay = function () {
     delay += 100;
     return delay;
-  }
+  };
 
   const duration = 400;
 

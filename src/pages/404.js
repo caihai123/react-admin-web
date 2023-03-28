@@ -2,7 +2,7 @@ import { Result, Button } from "antd";
 import { useNavigate } from "react-router-dom";
 
 export default function Page() {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   return (
     <div

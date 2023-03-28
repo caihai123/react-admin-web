@@ -319,7 +319,7 @@ export default function AnimeImage() {
       .add(
         {
           targets: menu.current.children,
-          backgroundColor: function (el, i) {
+          backgroundColor(el, i) {
             if (i === 1) return "#3E64F0";
             else return "#E1E9EE";
           },

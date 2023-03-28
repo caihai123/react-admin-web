@@ -1,31 +1,32 @@
 import { useState, useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { Breadcrumb } from "antd";
-import { treeFilter } from "./utils.js";
+import { treeFilter } from "./utils";
 
 // 将一条枝干的树转成一维数组
-function treeTOList(treeList) {
+const treeTOList = function (treeList) {
+  let treeListCopy = [...treeList];
   const list = [];
-  while (treeList) {
-    let item = treeList[0];
+  while (treeListCopy) {
+    const item = treeListCopy[0];
     if (item) {
       list.push({
         title: item.title,
         path: item.path,
       });
-      treeList = item.children;
+      treeListCopy = item.children;
     } else {
-      treeList = null;
+      treeListCopy = null;
     }
   }
   return list;
-}
+};
 
 export default function Component({ menuList }) {
   const [levelList, setLevelList] = useState([]);
 
   // 监听路由变化，更新面包屑
-  let location = useLocation();
+  const location = useLocation();
   useEffect(() => {
     const path = location.pathname;
     const list = treeFilter(

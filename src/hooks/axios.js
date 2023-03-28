@@ -2,7 +2,7 @@ import axios from "axios";
 import { App } from "antd";
 import { useNavigate } from "react-router-dom";
 
-function useAxios() {
+const useAxios = () => {
   const navigate = useNavigate();
   const { message } = App.useApp();
 
@@ -16,9 +16,9 @@ function useAxios() {
   instance.interceptors.request.use(
     function (config) {
       // 在发送请求之前做些什么
-      let token = localStorage.getItem("token");
+      const token = localStorage.getItem("token");
       if (token) {
-        config.headers.Authorization = "Bearer " + token;
+        config.headers.Authorization = `Bearer ${token}`;
       }
       config.headers.appCode = "ggfwpt2.0"; // 统一授权平台
       return config;
@@ -33,8 +33,8 @@ function useAxios() {
   instance.interceptors.response.use(
     function (response) {
       // 对响应数据做点什么
-      const data = response.data;
-      var { code, msg } = data;
+      const { data } = response;
+      const { code, msg } = data;
       // 请求成功时进行响应处理
       switch (code) {
         case 200:
@@ -55,6 +55,6 @@ function useAxios() {
   );
 
   return instance;
-}
+};
 
 export default useAxios;

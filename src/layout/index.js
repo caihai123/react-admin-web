@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Layout } from "antd";
 import { Link } from "react-router-dom";
 import LayMenu from "./LayMenu";
@@ -7,13 +7,14 @@ import LayContent from "./LayContent";
 import LayHeader from "./LayHeader";
 import LogoSvg from "@/assets/logo.svg";
 import styled, { keyframes } from "styled-components";
+import { useMount } from "ahooks";
 
 /**
  * 将后端菜单处理成此框架支持的格式
  * @param {array} menuList 后端返回的路由表
  * @returns 格式化后的路由表
  */
-function parseRoutersDeep(menuList) {
+const parseRoutersDeep = function (menuList) {
   return menuList.map((item) => ({
     id: item.menuId,
     title: item.menuTitle,
@@ -22,7 +23,7 @@ function parseRoutersDeep(menuList) {
     type: item.routePath === "/" ? "2" : "1", // 1:菜单 2:目录
     children: parseRoutersDeep(item.listMenus || []),
   }));
-}
+};
 
 const Sider = styled(Layout.Sider)`
   position: fixed !important ;
@@ -86,7 +87,7 @@ export default function LayoutViwe() {
 
   const [initialMenuList, setInitialMenuList] = useState([]); // 后端返回的路由表
   const [menuLoading, setMenuLoading] = useState(false);
-  useEffect(() => {
+  useMount(() => {
     // 获取权限路由列表
     setMenuLoading(true);
     axios
@@ -98,7 +99,7 @@ export default function LayoutViwe() {
       .finally(() => {
         setMenuLoading(false);
       });
-  }, []);
+  });
 
   const siderConfig = {
     width: 210,

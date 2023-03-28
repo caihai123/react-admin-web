@@ -3,18 +3,18 @@ import { Layout, Skeleton, theme } from "antd";
 import { Routes, Route } from "react-router-dom";
 import { debounce } from "throttle-debounce";
 import Redirect from "./redirect";
-import Error404 from "@/pages/404.js";
-import Error401 from "@/pages/401.js";
+import Error404 from "@/pages/404";
+import Error401 from "@/pages/401";
 import routes from "@/router/index"; // 前端路由表
-import { flattenDeep } from "./utils.js";
+import { flattenDeep } from "./utils";
 
 const { Content } = Layout;
 
-function PageLoading() {
+const PageLoading = function () {
   return (
     <Skeleton active paragraph={{ rows: 6 }} style={{ padding: 20 }}></Skeleton>
   );
-}
+};
 
 export default function LayContent({ initialMenuList, loading }) {
   // 由initialMenuList变化来的一维菜单列表

@@ -1,10 +1,10 @@
 // 对象深拷贝
-export function objDeepCopy(obj) {
+export const objDeepCopy = function (obj) {
   return JSON.parse(JSON.stringify(obj));
-}
+};
 
 // 我需要一个会改变原数组的过滤
-function arrayFilert(list, fn) {
+const arrayFilert = function (list, fn) {
   for (let i = 0; i < list.length; ) {
     if (!fn(list[i], i)) {
       list.splice(i, 1);
@@ -13,14 +13,14 @@ function arrayFilert(list, fn) {
     }
   }
   return list;
-}
+};
 
 /**
  * 用来过滤数组开始的树结构数据，采用的剔除不相干枝干的逻辑，所以会改变原数组，使用时请传入数组的副本
  * @param {Array} treeList 要过滤的树
  * @param {Funtction} fn 过滤规则
  */
-function deepFilter(treeList, fn) {
+const deepFilter = function (treeList, fn) {
   return arrayFilert(treeList, (item) => {
     if (item.children && item.children.length) {
       deepFilter(item.children, fn);
@@ -35,19 +35,18 @@ function deepFilter(treeList, fn) {
       return fn(item);
     }
   });
-}
+};
 
 /** deepFilter的包装，使方法不改变传入的数据  */
-export function treeFilter(treeList, fn) {
+export const treeFilter = function (treeList, fn) {
   return deepFilter(objDeepCopy(treeList), fn);
-}
+};
 
 // 将树转成一维数组
 export const flattenDeep = (array = []) => {
-  let list = [];
-  array.forEach((item) => deep(item));
+  const list = [];
 
-  function deep(obj) {
+  const deep = function (obj) {
     if (obj.type === "1") {
       // eslint-disable-next-line no-unused-vars
       const { children, ...item } = obj;
@@ -56,7 +55,9 @@ export const flattenDeep = (array = []) => {
     if (obj.children && obj.children.length) {
       obj.children.forEach((item) => deep(item));
     }
-  }
+  };
+
+  array.forEach((item) => deep(item));
 
   return list;
 };

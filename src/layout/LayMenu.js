@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 //   return icon && createElement(Icon[icon]);
 // }
 
-function getItem({ id, type, title, path, children, icon }) {
+const getItem = function ({ id, type, title, path, children, icon }) {
   return {
     key: path || id,
     label: title,
@@ -18,11 +18,11 @@ function getItem({ id, type, title, path, children, icon }) {
     children:
       type === "2" ? (children || []).map((item) => getItem(item)) : undefined,
   };
-}
+};
 
 export default function LayMenu({ initialMenuList, loading }) {
   // 监听路由变化，设置菜单选中状态
-  let location = useLocation();
+  const location = useLocation();
 
   const [activePathname, setActivePathname] = useState(location.pathname);
   useEffect(() => {

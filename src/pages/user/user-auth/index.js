@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { usePagination } from "ahooks";
 import { Table, Form, Input, Button, Space } from "antd";
 import styles from "@/styles/table-page.module.css";
 import useAxios from "@/hooks/axios";
+import AddOrEdit from "./components/AddOrEdit";
 
 export default function Page() {
   const axios = useAxios();
@@ -63,7 +64,7 @@ export default function Page() {
           params: { ...params },
         })
         .then((value) => {
-          const data = value.data;
+          const { data } = value;
           return {
             list: data.data,
             total: data.totalCount,
@@ -74,6 +75,8 @@ export default function Page() {
       refreshDeps: [params],
     }
   );
+
+  const addOrEditRef = useRef(null);
 
   return (
     <div style={{ padding: 20 }}>
@@ -102,7 +105,9 @@ export default function Page() {
         </Form>
       </div>
       <div className={styles["page-tools"]}>
-        <Button type="primary">新增</Button>
+        <Button type="primary" onClick={() => addOrEditRef.current.onStart()}>
+          新增
+        </Button>
       </div>
       <div className="page-main">
         <Table
@@ -121,6 +126,8 @@ export default function Page() {
           bordered
         />
       </div>
+
+      <AddOrEdit ref={addOrEditRef} />
     </div>
   );
 }
