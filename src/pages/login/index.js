@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { Layout, Button, Form, Input, theme, Switch } from "antd";
 import { useNavigate } from "react-router-dom";
-import axios from "@/utils/axios";
 import LoginBanner from "@/components/LoginBanner";
 import { useSelector, useDispatch } from "react-redux";
 import { selectTheme, setTheme } from "@/store/modules/system";
 import styled from "styled-components";
+import useAxios from "@/hooks/axios";
 
 const Header = styled(Layout.Header)`
   display: flex;
@@ -18,6 +18,7 @@ const Header = styled(Layout.Header)`
 `;
 
 function Login() {
+  const axios = useAxios();
   // 验证码相关 start
   const [authCode, setAuthCode] = useState(["", ""]);
   const getAuthCode = () => {

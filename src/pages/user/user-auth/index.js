@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { usePagination } from "ahooks";
 import { Table, Form, Input, Button, Space } from "antd";
-import axios from "@/utils/axios";
 import styles from "@/styles/table-page.module.css";
+import useAxios from "@/hooks/axios";
 
 export default function Page() {
+  const axios = useAxios();
   const columns = [
     {
       title: "账号名",

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Layout } from "antd";
 import { Link } from "react-router-dom";
 import LayMenu from "./LayMenu";
-import axios from "@/utils/axios";
+import useAxios from "@/hooks/axios";
 import LayContent from "./LayContent";
 import LayHeader from "./LayHeader";
 import LogoSvg from "@/assets/logo.svg";
@@ -81,6 +81,7 @@ const Logo = styled.div`
 `;
 
 export default function LayoutViwe() {
+  const axios = useAxios();
   const [collapsed, setCollapsed] = useState(false); // 控制侧边栏展开收起
 
   const [initialMenuList, setInitialMenuList] = useState([]); // 后端返回的路由表
