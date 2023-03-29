@@ -1,14 +1,18 @@
-import { Layout, theme, Avatar, Switch } from "antd";
+import { Layout, theme, Avatar, Switch, Dropdown } from "antd";
 import Breadcrumb from "./Breadcrumb";
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
   LockOutlined,
   FullscreenOutlined,
+  UserOutlined,
+  SettingOutlined,
+  LoginOutlined,
 } from "@ant-design/icons";
 import { selectTheme, setTheme } from "@/store/modules/system";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const Header = styled(Layout.Header)`
   height: 48px;
@@ -54,6 +58,7 @@ export default function LayHeader(props) {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
   const themeName = useSelector(selectTheme);
@@ -87,14 +92,44 @@ export default function LayHeader(props) {
             unCheckedChildren="🌞"
           />
         </div>
-        <div className="header-actions-item">
-          <Avatar
-            src="https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png"
-            size="small"
-            style={{ marginRight: 8 }}
-          />
-          <span style={{ fontSize: 14 }}>Cai Hai</span>
-        </div>
+
+        <Dropdown
+          menu={{
+            items: [
+              {
+                key: 1,
+                label: "个人中心",
+                icon: <UserOutlined />,
+              },
+              {
+                key: 2,
+                label: "个人设置",
+                icon: <SettingOutlined />,
+              },
+              {
+                type: "divider",
+              },
+              {
+                key: 3,
+                label: "退出登录",
+                icon: <LoginOutlined />,
+                onClick: () => {
+                  localStorage.removeItem("token");
+                  navigate("/login");
+                },
+              },
+            ],
+          }}
+        >
+          <div className="header-actions-item">
+            <Avatar
+              src="https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png"
+              size="small"
+              style={{ marginRight: 8 }}
+            />
+            <span style={{ fontSize: 14 }}>Cai Hai</span>
+          </div>
+        </Dropdown>
       </div>
     </Header>
   );
