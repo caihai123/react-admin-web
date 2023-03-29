@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Layout, Button, Form, Input, theme, Switch } from "antd";
+import { App, Layout, Button, Form, Input, theme, Switch } from "antd";
 import { useNavigate } from "react-router-dom";
 import LoginBanner from "@/components/LoginBanner";
 import { useSelector, useDispatch } from "react-redux";
@@ -20,6 +20,8 @@ const Header = styled(Layout.Header)`
 
 const Login = function () {
   const axios = useAxios();
+  const { message } = App.useApp();
+
   // 验证码相关 start
   const [authCode, setAuthCode] = useState(["", ""]);
   const getAuthCode = () => {
@@ -52,6 +54,7 @@ const Login = function () {
         const { token } = value.data;
         localStorage.setItem("token", token);
         navigate("/");
+        message.success("登录成功！");
       })
       .catch(() => {
         getAuthCode(); // 更新验证码
