@@ -1,6 +1,9 @@
 const path = require("path");
 const WebpackBar = require("webpackbar");
 
+// app TITLE
+process.env.REACT_APP_WEBSITE_NAME = "安心干管理后台";
+
 module.exports = {
   devServer: {
     port: 1234,
