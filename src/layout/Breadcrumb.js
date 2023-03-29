@@ -45,6 +45,15 @@ export default function Component({ menuList }) {
     setLevelList(levelList);
   }, [menuList, location]);
 
+  // 动态修改页面title
+  useEffect(() => {
+    const title = process.env.REACT_APP_WEBSITE_NAME;
+    const currentRoute = levelList[levelList.length - 1];
+    document.title = currentRoute?.title
+      ? `${title}-${currentRoute?.title}`
+      : title;
+  }, [levelList]);
+
   return (
     <Breadcrumb
       items={levelList.map((item) => ({
