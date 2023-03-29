@@ -115,7 +115,7 @@ export default function LayoutViwe() {
         <Logo collapsed={collapsed}>
           <Link to="/">
             <img src={LogoSvg} alt="logo" />
-            <h1>安心干管理后台</h1>
+            <h1>{process.env.REACT_APP_WEBSITE_NAME}</h1>
           </Link>
         </Logo>
         <LayMenu initialMenuList={initialMenuList} loading={menuLoading} />
