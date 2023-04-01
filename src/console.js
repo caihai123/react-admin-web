@@ -8,8 +8,16 @@ const consoleFn = function (label, val) {
   const style2 =
     "background:#41b883 ; padding: 1px; border-radius: 0 3px 3px 0;  color: #fff";
   const style3 = "background:transparent";
-  // eslint-disable-next-line no-console
-  console.log(`%c ${label} %c ${val} %c`, style1, style2, style3);
+  window.setTimeout(
+    // eslint-disable-next-line no-console
+    console.log.bind(
+      console,
+      `%c ${label} %c ${val} %c`,
+      style1,
+      style2,
+      style3
+    )
+  );
 };
 
 consoleFn("React", `v${reactV}`);
