@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Menu, Skeleton } from "antd";
+import { Menu, Skeleton, theme } from "antd";
 import { Scrollbars } from "react-custom-scrollbars";
+import { selectTheme } from "@/store//modules//system";
+import { useSelector } from "react-redux";
+
 // import * as Icon from "@ant-design/icons";
 
 // 动态渲染icon
@@ -35,6 +38,11 @@ export default function LayMenu({ initialMenuList, loading }) {
 
   const navigate = useNavigate();
 
+  const themeName = useSelector(selectTheme);
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
+
   return (
     <Skeleton
       active
@@ -49,7 +57,8 @@ export default function LayMenu({ initialMenuList, loading }) {
           selectedKeys={[activePathname]}
           items={menuList}
           onClick={({ key }) => navigate(key)}
-          style={{ border: "none" }}
+          style={{ border: "none", background: colorBgContainer }}
+          theme={themeName === "dark" ? "dark" : "light"}
         ></Menu>
       </Scrollbars>
     </Skeleton>

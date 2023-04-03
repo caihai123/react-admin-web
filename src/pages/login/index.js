@@ -74,7 +74,7 @@ const Login = function () {
         <h1 style={{ fontSize: 24 }}>公共服务管理平台</h1>
         <div className="tools">
           <Switch
-            checked={themeName !== "dark"}
+            checked={themeName === "dark"}
             checkedChildren="🌜"
             unCheckedChildren="🌞"
             onClick={() => dispatch(setTheme())}

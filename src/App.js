@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 export default function App() {
   const themeName = useSelector(selectTheme);
 
-  const isLight = themeName !== "light";
+  const isLight = themeName !== "dark";
 
   return (
     <AntdApp>
@@ -18,12 +18,11 @@ export default function App() {
         theme={{
           token: {
             borderRadius: 2,
-            // colorBgBase: isLight ? "#fff" : "rgb(36, 37, 37)",
-            colorBgContainer: isLight ? "#fff" : "rgb(36, 37, 37)",
-            colorPrimary: isLight ? "#1677ff" : "rgb(23, 101, 174)",
-            colorBgLayout: isLight ? "#f5f5f5" : "rgb(42, 44, 44)",
-            colorTextBase: isLight ? "#000" : "rgba(229, 224, 216, 0.85)",
-            colorError: isLight ? "#ff4d4f" : "#ec5b59",
+            // colorBgBase: isLight ? "#fff" : "#242525",
+            colorBgContainer: isLight ? "#ffffff" : "#242525",
+            colorBgLayout: isLight ? "#f0f2f5" : "#2A2C2C",
+            colorTextBase: isLight ? "#1E293B" : "#E2E8F0",
+            colorBorder: isLight ? "#e5e7eb" : "#454847",
           },
           algorithm: isLight ? theme.defaultAlgorithm : theme.darkAlgorithm,
         }}
