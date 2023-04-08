@@ -29,13 +29,13 @@ Mock.mock("/api/get-menu-all", "get", function () {
         title: "首页",
         path: "/index",
         type: "1",
-        icon: "HomeOutlined",
+        icon: "HomeFilled",
       },
       {
         id: "2",
         title: "权限管理",
         type: "2",
-        icon: "SettingOutlined",
+        icon: "SettingFilled",
         children: [
           {
             id: "2-1",
@@ -57,7 +57,27 @@ Mock.mock("/api/get-menu-all", "get", function () {
           },
         ],
       },
+      {
+        id: "3",
+        title: "错误页面",
+        type: "2",
+        icon: "CloseCircleFilled",
+        children: [
+          {
+            id: "3-1",
+            title: "401",
+            path: "/error/401",
+            type: "1",
+          },
+          {
+            id: "3-2",
+            title: "404",
+            path: "/error/404",
+            type: "1",
+          },
+        ],
+      },
     ],
-    msg: "用户名或密码错误！",
+    msg: "成功！",
   };
 });
