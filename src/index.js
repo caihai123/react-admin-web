@@ -8,6 +8,10 @@ import store from "@/store";
 import { Provider } from "react-redux";
 import "@/console";
 
+if (process.env.REACT_APP_MOCK && process.env.NODE_ENV === "development") {
+  require("@/mock");
+}
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(

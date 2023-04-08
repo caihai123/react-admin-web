@@ -7,9 +7,11 @@ const useAxios = () => {
   const { message } = App.useApp();
 
   const instance = axios.create({
-    baseURL:
-      process.env.NODE_ENV === "production" ? "https://caihai123.com" : "/api",
     timeout: 5000,
+    validateStatus(status) {
+      // return status >= 200 && status < 300; // default
+      return status === 200;
+    },
   });
 
   // 请求拦截器
@@ -20,7 +22,6 @@ const useAxios = () => {
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
-      config.headers.appCode = "ggfwpt2.0"; // 统一授权平台
       return config;
     },
     function (error) {
@@ -33,23 +34,27 @@ const useAxios = () => {
   instance.interceptors.response.use(
     function (response) {
       // 对响应数据做点什么
-      const { data } = response;
-      const { code, msg } = data;
+      const { status, msg } = response.data;
       // 请求成功时进行响应处理
-      switch (code) {
-        case 200:
-          return data;
-        case 401: // 没有权限 包括未登录/登录超时
-          message.error("未登录或token过期，请重新登录！");
-          navigate("/login");
-          return Promise.reject(data);
+      switch (status) {
+        case "success":
+          return response.data;
         default:
           message.error(msg);
-          return Promise.reject(data);
+          return Promise.reject(response);
       }
     },
     function (error) {
       // 对响应错误做点什么
+      switch (error.status) {
+        case 401:
+          message.error("未登录或登录过期，请重新登录！");
+          navigate("/login");
+          break;
+        default:
+          message.error(error);
+          break;
+      }
       return Promise.reject(error);
     }
   );

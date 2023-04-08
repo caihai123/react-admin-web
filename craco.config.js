@@ -11,6 +11,8 @@ process.env.REACT_APP_Commit_Hash = child_process
   .toString()
   .trim();
 
+process.env.REACT_APP_MOCK = true; // 是否开启 mockapi
+
 // 打包时间（启动时间）
 process.env.REACT_APP_Build_Date = (() => {
   const nowDate = new Date();
@@ -28,9 +30,9 @@ module.exports = {
         target: "https://test-portal.gshbzw.com",
         ws: true,
         changeOrigin: true,
-        pathRewrite: {
-          "^/api": "",
-        },
+        // pathRewrite: {
+        //   "^/api": "",
+        // },
       },
     },
   },

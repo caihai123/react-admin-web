@@ -6,7 +6,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { selectTheme, setTheme } from "@/store/modules/system";
 import styled from "styled-components";
 import useAxios from "@/hooks/axios";
-import { useMount } from "ahooks";
 
 const Header = styled(Layout.Header)`
   display: flex;
@@ -22,21 +21,6 @@ const Login = function () {
   const axios = useAxios();
   const { message } = App.useApp();
 
-  // 验证码相关 start
-  const [authCode, setAuthCode] = useState(["", ""]);
-  const getAuthCode = () => {
-    const codeId = Math.ceil(Math.random() * 10000);
-    axios
-      .get(`/api/core/sys/login/verification/code?codeId=${codeId}`)
-      .then((value) => {
-        setAuthCode([value.data, codeId]);
-      });
-  };
-  useMount(() => {
-    getAuthCode();
-  });
-  // 验证码相关 end
-
   // 换肤相关 start
   const dispatch = useDispatch();
   const themeName = useSelector(selectTheme);
@@ -47,17 +31,14 @@ const Login = function () {
   const navigate = useNavigate();
   const submitForm = (values) => {
     setLoading(true);
-    const codeId = authCode[1];
+
     axios
-      .post("/api/core/sys/login", { ...values, codeId })
+      .post("/api/login", values)
       .then((value) => {
-        const { token } = value.data;
+        const { token } = value.result;
         localStorage.setItem("token", token);
         navigate("/");
         message.success("登录成功！");
-      })
-      .catch(() => {
-        getAuthCode(); // 更新验证码
       })
       .finally(() => {
         setLoading(false);
@@ -127,7 +108,7 @@ const Login = function () {
               rules={[{ required: true, message: "请填写用户名!" }]}
               required={false}
             >
-              <Input placeholder="请输入用户名" />
+              <Input placeholder="用户名：admin" />
             </Form.Item>
             <Form.Item
               label="密码"
@@ -135,20 +116,7 @@ const Login = function () {
               rules={[{ required: true, message: "请填写密码!" }]}
               required={false}
             >
-              <Input.Password placeholder="请输入密码" />
-            </Form.Item>
-
-            <Form.Item
-              label="验证码"
-              name="verifyCode"
-              rules={[{ required: true, message: "请填写验证码!" }]}
-              required={false}
-            >
-              <Input.Search
-                placeholder="请输入验证码"
-                enterButton={authCode[0]}
-                onSearch={getAuthCode}
-              />
+              <Input.Password placeholder="密码：password" />
             </Form.Item>
 
             <Form.Item style={{ marginTop: 40 }}>
