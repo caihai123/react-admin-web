@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { App, Layout, Button, Form, Input, theme, Switch } from "antd";
 import { useNavigate } from "react-router-dom";
-import LoginBanner from "@/components/LoginBanner";
+import LoginBanner from "./components/LoginBanner";
 import { useSelector, useDispatch } from "react-redux";
 import { selectTheme, setTheme } from "@/store/modules/system";
 import styled from "styled-components";
