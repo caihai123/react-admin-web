@@ -3,7 +3,7 @@ const WebpackBar = require("webpackbar");
 const child_process = require("child_process");
 
 // app TITLE
-process.env.REACT_APP_WEBSITE_NAME = "安心干管理后台";
+process.env.REACT_APP_WEBSITE_NAME = "React Or Antd";
 
 // commitHash
 process.env.REACT_APP_Commit_Hash = child_process
