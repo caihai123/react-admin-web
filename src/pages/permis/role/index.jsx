@@ -35,7 +35,7 @@ export default function Page() {
           </Button>
         </Space>
       ),
-      width: 120,
+      width: 100,
       fixed: "right",
     },
   ];
@@ -51,7 +51,6 @@ export default function Page() {
         })
         .then((value) => {
           const { result: data } = value;
-          console.log(data);
           return {
             list: data.records,
             total: data.total,
@@ -112,6 +111,7 @@ export default function Page() {
             onChange: pagination.onChange,
           }}
           bordered
+          scroll={{ x: "max-content" }}
         />
       </div>
     </div>

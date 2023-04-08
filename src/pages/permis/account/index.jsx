@@ -8,15 +8,16 @@ export default function Page() {
   const axios = useAxios();
   const columns = [
     {
-      title: "账号",
-      dataIndex: "account",
-    },
-    {
       title: "真实姓名",
       dataIndex: "name",
     },
     {
+      title: "账号",
+      dataIndex: "account",
+    },
+    {
       title: "性别",
+      key: "gender",
       render: (row) => {
         if (row.gender === 1) {
           return <Tag color="#2db7f5">男</Tag>;
@@ -35,6 +36,7 @@ export default function Page() {
     },
     {
       title: "状态",
+      key: "status",
       render: (row) => <Switch checked={row.status === 1} />,
     },
     {
@@ -53,7 +55,7 @@ export default function Page() {
           </Button>
         </Space>
       ),
-      width: 120,
+      width: 100,
       fixed: "right",
     },
   ];
@@ -86,11 +88,11 @@ export default function Page() {
     <div style={{ padding: 20 }}>
       <div className={styles["page-head"]}>
         <Form layout="inline" onFinish={(values) => setParams(values)}>
-          <Form.Item label="账号" name="account">
-            <Input placeholder="请输入账号" />
-          </Form.Item>
           <Form.Item label="真实姓名" name="name">
             <Input placeholder="请输入真实姓名" />
+          </Form.Item>
+          <Form.Item label="账号" name="account">
+            <Input placeholder="请输入账号" />
           </Form.Item>
           <Form.Item label="性别" name="gender">
             <Select
@@ -148,6 +150,7 @@ export default function Page() {
             onChange: pagination.onChange,
           }}
           bordered
+          scroll={{ x: "max-content" }}
         />
       </div>
     </div>

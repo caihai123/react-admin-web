@@ -44,7 +44,7 @@ export default function Page() {
           </Button>
         </Space>
       ),
-      width: 120,
+      width: 100,
       fixed: "right",
     },
   ];
@@ -76,6 +76,7 @@ export default function Page() {
           dataSource={tableData}
           pagination={false}
           bordered
+          scroll={{ x: "max-content" }}
         />
       </div>
     </div>
