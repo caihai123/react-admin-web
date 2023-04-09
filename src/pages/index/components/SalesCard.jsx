@@ -88,6 +88,15 @@ const SalesCard = function () {
                     data={salesData}
                     xField="x"
                     yField="y"
+                    yAxis={{
+                      grid: {
+                        line: {
+                          style: {
+                            stroke: "#8C8C8C",
+                          },
+                        },
+                      },
+                    }}
                     meta={{ y: { alias: "销售量" } }}
                     padding={[16, 48, 48, 48]}
                   />
@@ -107,6 +116,15 @@ const SalesCard = function () {
                     data={salesData}
                     xField="x"
                     yField="y"
+                    yAxis={{
+                      grid: {
+                        line: {
+                          style: {
+                            stroke: "#8C8C8C",
+                          },
+                        },
+                      },
+                    }}
                     meta={{ y: { alias: "销售量" } }}
                     padding={[16, 48, 48, 48]}
                   />
