@@ -1,5 +1,6 @@
-import { Card, Radio } from "antd";
+import { Card, Radio, Dropdown, Space } from "antd";
 import { Pie } from "@ant-design/plots";
+import { EllipsisOutlined } from "@ant-design/icons";
 
 const config = {
   appendPadding: 10,
@@ -54,15 +55,30 @@ const ProportionSales = function () {
         fontSize: 16,
       }}
       extra={
-        <div>
-          <div>
-            <Radio.Group>
-              <Radio.Button value="all">全部渠道</Radio.Button>
-              <Radio.Button value="online">线上</Radio.Button>
-              <Radio.Button value="stores">门店</Radio.Button>
-            </Radio.Group>
-          </div>
-        </div>
+        <Space>
+          <Radio.Group>
+            <Radio.Button value="all">全部渠道</Radio.Button>
+            <Radio.Button value="online">线上</Radio.Button>
+            <Radio.Button value="stores">门店</Radio.Button>
+          </Radio.Group>
+          <Dropdown
+            menu={{
+              items: [
+                {
+                  key: 1,
+                  label: "操作一",
+                },
+                {
+                  key: 2,
+                  label: "操作二",
+                },
+              ],
+            }}
+            placement="bottomRight"
+          >
+            <EllipsisOutlined />
+          </Dropdown>
+        </Space>
       }
     >
       <Pie {...config} />
