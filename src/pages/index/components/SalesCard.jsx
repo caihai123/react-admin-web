@@ -66,6 +66,8 @@ const rankingListData = [...Array(7)].map((_, i) => ({
   total: 323234,
 }));
 
+const formatNumber = (num) => parseFloat(num).toLocaleString("en-US");
+
 const StyledSalesRank = styled.div`
   margin-bottom: 24px;
   padding: 0 32px;
@@ -176,7 +178,7 @@ const SalesCard = function () {
                           <span className="rankingItemTitle" title={item.title}>
                             {item.title}
                           </span>
-                          <span className="rankingItemValue">{item.total}</span>
+                          <span>{formatNumber(item.total)}</span>
                         </li>
                       ))}
                     </ul>
@@ -232,7 +234,7 @@ const SalesCard = function () {
                           <span className="rankingItemTitle" title={item.title}>
                             {item.title}
                           </span>
-                          <span className="rankingItemValue">{item.total}</span>
+                          <span>{formatNumber(item.total)}</span>
                         </li>
                       ))}
                     </ul>

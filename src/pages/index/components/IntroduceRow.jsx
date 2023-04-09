@@ -40,6 +40,8 @@ const Trend = function ({ children, flag, ...rest }) {
   );
 };
 
+const formatNumber = (num) => parseFloat(num).toLocaleString("en-US");
+
 const MetaWrap = styled.div`
   display: flex;
   justify-content: space-between;
@@ -110,7 +112,7 @@ const IntroduceRow = function () {
             </ContentFixed>
           </CardContent>
           <CardFoot borderColor={colorBorderSecondary}>
-            日销售额 ￥12,423
+            日销售额 ￥{formatNumber(12423)}
           </CardFoot>
         </Card>
       </Col>
