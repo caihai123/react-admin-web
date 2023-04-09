@@ -9,10 +9,10 @@ const mock = [
 
       return {
         result: {
-          records: [...Array(pageSize)].map(() =>
+          records: [...Array(pageSize)].map((_, i) =>
             Mock.mock({
               id: "@guid",
-              roleName: "@ctitle",
+              roleName: `角色名称-${pageIndex * pageSize - pageSize + i + 1}`,
               description: "@csentence",
               "status|1": [0, 1],
             })
