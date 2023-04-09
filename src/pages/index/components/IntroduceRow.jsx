@@ -78,7 +78,6 @@ const topColResponsiveProps = {
   md: 12,
   lg: 12,
   xl: 6,
-  style: { marginBottom: 20 },
 };
 
 const cardBodyStyle = {
@@ -91,7 +90,7 @@ const IntroduceRow = function () {
   } = theme.useToken();
 
   return (
-    <Row gutter={20}>
+    <Row gutter={[20, 20]}>
       <Col {...topColResponsiveProps}>
         <Card bodyStyle={cardBodyStyle}>
           <MetaWrap textColor={colorTextTertiary}>

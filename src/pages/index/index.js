@@ -9,9 +9,10 @@ const index = function () {
   } = theme.useToken();
   return (
     <div style={{ height: "100%", background: colorBgLayout }}>
-      <IntroduceRow />
-
       <Row gutter={[20, 20]}>
+        <Col span={24}>
+          <IntroduceRow />
+        </Col>
         <Col span={24}>
           <SalesCard />
         </Col>
