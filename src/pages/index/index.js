@@ -11,7 +11,7 @@ const index = function () {
     <div style={{ height: "100%", background: colorBgLayout }}>
       <IntroduceRow />
 
-      <Row gutter={[24, 24]}>
+      <Row gutter={[20, 20]}>
         <Col span={24}>
           <SalesCard />
         </Col>
