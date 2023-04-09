@@ -108,7 +108,6 @@ const StyledSalesRank = styled.div`
     }
 
     & span {
-      color: rgba(0, 0, 0, 0.85);
       font-size: 14px;
       line-height: 22px;
     }
