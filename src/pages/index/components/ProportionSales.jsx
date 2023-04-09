@@ -1,4 +1,4 @@
-import { Card, Radio, Dropdown, Space } from "antd";
+import { Button, Card, Radio, Dropdown, Space } from "antd";
 import { Pie } from "@ant-design/plots";
 import { EllipsisOutlined } from "@ant-design/icons";
 
@@ -76,7 +76,12 @@ const ProportionSales = function () {
             }}
             placement="bottomRight"
           >
-            <EllipsisOutlined />
+            <Button
+              type="text"
+              size="small"
+              shape="circle"
+              icon={<EllipsisOutlined />}
+            />
           </Dropdown>
         </Space>
       }
