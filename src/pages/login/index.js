@@ -100,7 +100,7 @@ const Login = function () {
         </Title>
         <div className="tools">
           <Switch
-            checked={themeName !== "dark"}
+            checked={themeName === "dark"}
             checkedChildren="🌜"
             unCheckedChildren="🌞"
             onClick={() => dispatch(setTheme())}

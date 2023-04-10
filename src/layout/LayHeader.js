@@ -87,7 +87,7 @@ export default function LayHeader(props) {
           onClick={() => dispatch(setTheme())}
         >
           <Switch
-            checked={themeName !== "dark"}
+            checked={themeName === "dark"}
             checkedChildren="🌜"
             unCheckedChildren="🌞"
           />

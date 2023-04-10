@@ -11,10 +11,10 @@ export const systemSlice = createSlice({
       const theme =
         action.payload ||
         (() => {
-          if (state.theme === "light") {
-            return "dark";
-          } else {
+          if (state.theme === "dark") {
             return "light";
+          } else {
+            return "dark";
           }
         })();
       state.theme = theme;
