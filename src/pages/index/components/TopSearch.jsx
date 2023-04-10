@@ -427,7 +427,6 @@ const TopSearch = function () {
             </Trend>
           </div>
           <TinyArea
-            color="#975FE4"
             height={46}
             forceFit
             smooth
@@ -455,7 +454,6 @@ const TopSearch = function () {
           </div>
 
           <TinyArea
-            color="#975FE4"
             height={46}
             forceFit
             smooth
