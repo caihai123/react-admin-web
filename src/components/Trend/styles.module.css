@@ -1,0 +1,22 @@
+.trendItem {
+    display: inline-block;
+    font-size: 14px;
+    line-height: 22px;
+}
+
+.trendItem .up,
+.trendItem .down {
+    position: relative;
+    margin-left: 4px;
+    font-size: 10px;
+    transform: scale(0.83);
+}
+
+.trendItem .up {
+    color: #f5222d;
+}
+
+.trendItem .down {
+    top: -1px;
+    color: #52c41a;
+}

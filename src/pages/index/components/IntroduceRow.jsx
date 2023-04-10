@@ -1,44 +1,8 @@
 import { Row, Col, Card, Tooltip, Statistic, theme } from "antd";
-import {
-  InfoCircleOutlined,
-  CaretUpOutlined,
-  CaretDownOutlined,
-} from "@ant-design/icons";
+import { InfoCircleOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import { TinyArea, TinyColumn, Progress } from "@ant-design/plots";
-
-const StyledTrend = styled.div`
-  display: inline-block;
-  font-size: 14px;
-  line-height: 22px;
-  & > .up,
-  .down {
-    position: relative;
-    margin-left: 4px;
-    font-size: 10px;
-    transform: scale(0.83);
-  }
-  & > .up {
-    color: #f5222d;
-  }
-  & > .down {
-    top: -1px;
-    color: #52c41a;
-  }
-`;
-
-const Trend = function ({ children, flag, ...rest }) {
-  return (
-    <StyledTrend {...rest}>
-      {children}
-      {flag && (
-        <span className={flag}>
-          {flag === "up" ? <CaretUpOutlined /> : <CaretDownOutlined />}
-        </span>
-      )}
-    </StyledTrend>
-  );
-};
+import Trend from "@/components/Trend";
 
 const formatNumber = (num) => parseFloat(num).toLocaleString("en-US");
 
