@@ -1,7 +1,8 @@
-import { Row, Col, Card, theme } from "antd";
+import { Row, Col, theme } from "antd";
 import IntroduceRow from "./components/IntroduceRow";
 import SalesCard from "./components/SalesCard";
 import ProportionSales from "./components/ProportionSales";
+import TopSearch from "./components/TopSearch";
 
 const index = function () {
   const {
@@ -16,16 +17,10 @@ const index = function () {
         <Col span={24}>
           <SalesCard />
         </Col>
-        <Col span={12}>
-          <Card
-            title="线上热门搜索"
-            headStyle={{
-              fontWeight: 400,
-              fontSize: 16,
-            }}
-          ></Card>
+        <Col xl={12} lg={24} md={24} sm={24} xs={24}>
+          <TopSearch />
         </Col>
-        <Col span={12}>
+        <Col xl={12} lg={24} md={24} sm={24} xs={24}>
           <ProportionSales />
         </Col>
       </Row>
