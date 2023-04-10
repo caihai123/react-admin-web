@@ -9,22 +9,6 @@ import LogoSvg from "@/assets/logo.svg";
 import styled, { keyframes } from "styled-components";
 import { useMount } from "ahooks";
 
-/**
- * 将后端菜单处理成此框架支持的格式
- * @param {array} menuList 后端返回的路由表
- * @returns 格式化后的路由表
- */
-const parseRoutersDeep = function (menuList) {
-  return menuList.map((item) => ({
-    id: item.menuId,
-    title: item.menuTitle,
-    icon: item.menuIcon,
-    path: item.routePath === "/" ? "" : item.routePath,
-    type: item.routePath === "/" ? "2" : "1", // 1:菜单 2:目录
-    children: parseRoutersDeep(item.listMenus || []),
-  }));
-};
-
 const Sider = styled(Layout.Sider)`
   position: fixed !important ;
   height: 100vh;
@@ -91,10 +75,10 @@ export default function LayoutViwe() {
     // 获取权限路由列表
     setMenuLoading(true);
     axios
-      .post("/api/core/sys/user/auth/perm/list")
-      .then((response) => {
-        const { userMenus } = response.data;
-        setInitialMenuList(parseRoutersDeep(userMenus || []));
+      .get("/api/get-menu-all")
+      .then((value) => {
+        const userMenus = value.result || [];
+        setInitialMenuList(userMenus);
       })
       .finally(() => {
         setMenuLoading(false);

@@ -1,12 +1,29 @@
 import { useState } from "react";
-import { App, Layout, Button, Form, Input, theme, Switch } from "antd";
+import {
+  App,
+  Layout,
+  Button,
+  Form,
+  Input,
+  theme,
+  Switch,
+  Checkbox,
+} from "antd";
 import { useNavigate } from "react-router-dom";
-import LoginBanner from "@/components/LoginBanner";
+import LoginBanner from "./components/LoginBanner";
 import { useSelector, useDispatch } from "react-redux";
 import { selectTheme, setTheme } from "@/store/modules/system";
 import styled from "styled-components";
 import useAxios from "@/hooks/axios";
-import { useMount } from "ahooks";
+import {
+  UserOutlined,
+  LockOutlined,
+  AlipayCircleOutlined,
+  TaobaoCircleOutlined,
+  WeiboOutlined,
+} from "@ant-design/icons";
+import LogoSvg from "@/assets/logo.svg";
+import FormBg from "@/assets/login-bg.svg";
 
 const Header = styled(Layout.Header)`
   display: flex;
@@ -18,24 +35,33 @@ const Header = styled(Layout.Header)`
   z-index: 9;
 `;
 
+const Title = styled.div`
+  display: flex;
+  align-items: center;
+  & > .logo {
+    height: 44px;
+  }
+  & > h1 {
+    margin: 0;
+    margin-left: 12px;
+  }
+`;
+
+const BlogrollIcon = styled.span`
+  margin-left: 8px;
+  color: rgba(0, 0, 0, 0.2);
+  font-size: 24px;
+  vertical-align: middle;
+  cursor: pointer;
+  transition: color 0.3s ease 0s;
+  &:hover {
+    color: rgb(24, 144, 255);
+  }
+`;
+
 const Login = function () {
   const axios = useAxios();
   const { message } = App.useApp();
-
-  // 验证码相关 start
-  const [authCode, setAuthCode] = useState(["", ""]);
-  const getAuthCode = () => {
-    const codeId = Math.ceil(Math.random() * 10000);
-    axios
-      .get(`/api/core/sys/login/verification/code?codeId=${codeId}`)
-      .then((value) => {
-        setAuthCode([value.data, codeId]);
-      });
-  };
-  useMount(() => {
-    getAuthCode();
-  });
-  // 验证码相关 end
 
   // 换肤相关 start
   const dispatch = useDispatch();
@@ -47,17 +73,14 @@ const Login = function () {
   const navigate = useNavigate();
   const submitForm = (values) => {
     setLoading(true);
-    const codeId = authCode[1];
+
     axios
-      .post("/api/core/sys/login", { ...values, codeId })
+      .post("/api/login", values)
       .then((value) => {
-        const { token } = value.data;
+        const { token } = value.result;
         localStorage.setItem("token", token);
         navigate("/");
         message.success("登录成功！");
-      })
-      .catch(() => {
-        getAuthCode(); // 更新验证码
       })
       .finally(() => {
         setLoading(false);
@@ -71,7 +94,10 @@ const Login = function () {
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Header background={colorBgContainer}>
-        <h1 style={{ fontSize: 24 }}>公共服务管理平台</h1>
+        <Title>
+          <img src={LogoSvg} alt="logo" className="logo" />
+          <h1 style={{ fontSize: 24 }}>{process.env.REACT_APP_WEBSITE_NAME}</h1>
+        </Title>
         <div className="tools">
           <Switch
             checked={themeName === "dark"}
@@ -112,46 +138,50 @@ const Login = function () {
             justifyContent: "center",
             alignItems: "center",
             background: colorBgLayout,
+            backgroundImage: `url(${FormBg})`,
           }}
         >
           <Form
             onFinish={submitForm}
             layout="vertical"
             size="large"
-            style={{ width: "100%", maxWidth: 448, padding: 24 }}
+            style={{
+              width: "100%",
+              marginTop: -40,
+              maxWidth: 448,
+              padding: 24,
+            }}
+            initialValues={{
+              userAccount: "admin",
+              userPassword: "password",
+            }}
           >
-            <h1 style={{ fontSize: 24 }}>欢迎登录</h1>
+            <h1 style={{ marginBottom: 24, fontSize: 24 }}>欢迎登录</h1>
             <Form.Item
-              label="用户名"
               name="userAccount"
               rules={[{ required: true, message: "请填写用户名!" }]}
               required={false}
             >
-              <Input placeholder="请输入用户名" />
+              <Input prefix={<UserOutlined />} placeholder="用户名：admin" />
             </Form.Item>
             <Form.Item
-              label="密码"
               name="userPassword"
               rules={[{ required: true, message: "请填写密码!" }]}
               required={false}
             >
-              <Input.Password placeholder="请输入密码" />
-            </Form.Item>
-
-            <Form.Item
-              label="验证码"
-              name="verifyCode"
-              rules={[{ required: true, message: "请填写验证码!" }]}
-              required={false}
-            >
-              <Input.Search
-                placeholder="请输入验证码"
-                enterButton={authCode[0]}
-                onSearch={getAuthCode}
+              <Input.Password
+                prefix={<LockOutlined />}
+                placeholder="密码：password"
               />
             </Form.Item>
 
-            <Form.Item style={{ marginTop: 40 }}>
+            <div style={{ marginBottom: 24 }}>
+              <Checkbox defaultChecked>自动登录</Checkbox>
+              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+              <a style={{ float: "right" }}>忘记密码？</a>
+            </div>
+
+            <Form.Item>
               <Button
                 type="primary"
                 htmlType="submit"
@@ -161,6 +191,19 @@ const Login = function () {
                 登 录
               </Button>
             </Form.Item>
+
+            <div>
+              其他登录方式：
+              <BlogrollIcon>
+                <AlipayCircleOutlined />
+              </BlogrollIcon>
+              <BlogrollIcon>
+                <TaobaoCircleOutlined />
+              </BlogrollIcon>
+              <BlogrollIcon>
+                <WeiboOutlined />
+              </BlogrollIcon>
+            </div>
           </Form>
         </Layout.Content>
       </Layout>

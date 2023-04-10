@@ -1,5 +1,5 @@
 import { useState, Suspense, useEffect, useCallback } from "react";
-import { Layout, Skeleton, theme } from "antd";
+import { Layout, Spin, theme } from "antd";
 import { Routes, Route } from "react-router-dom";
 import { debounce } from "throttle-debounce";
 import Redirect from "./redirect";
@@ -12,7 +12,16 @@ const { Content } = Layout;
 
 const PageLoading = function () {
   return (
-    <Skeleton active paragraph={{ rows: 6 }} style={{ padding: 20 }}></Skeleton>
+    <div
+      style={{
+        height: "100%",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Spin tip="Loading"></Spin>
+    </div>
   );
 };
 

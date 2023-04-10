@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, createElement } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Menu, Skeleton, theme } from "antd";
 import { Scrollbars } from "react-custom-scrollbars";
@@ -6,17 +6,18 @@ import { selectTheme } from "@/store//modules//system";
 import { useSelector } from "react-redux";
 
 // import * as Icon from "@ant-design/icons";
+import * as Icon from "@ant-design/icons";
 
 // 动态渲染icon
-// function antdIcon(icon) {
-//   return icon && createElement(Icon[icon]);
-// }
+const antdIcon = function (icon) {
+  return icon && createElement(Icon[icon]);
+};
 
 const getItem = function ({ id, type, title, path, children, icon }) {
   return {
     key: path || id,
     label: title,
-    // icon: icon ? antdIcon(icon) : "",
+    icon: icon ? antdIcon(icon) : "",
     children:
       type === "2" ? (children || []).map((item) => getItem(item)) : undefined,
   };

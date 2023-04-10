@@ -3,13 +3,15 @@ const WebpackBar = require("webpackbar");
 const child_process = require("child_process");
 
 // app TITLE
-process.env.REACT_APP_WEBSITE_NAME = "安心干管理后台";
+process.env.REACT_APP_WEBSITE_NAME = "React Or Antd";
 
 // commitHash
 process.env.REACT_APP_Commit_Hash = child_process
   .execSync("git show -s --format=%H")
   .toString()
   .trim();
+
+process.env.REACT_APP_MOCK = true; // 是否开启 mockapi
 
 // 打包时间（启动时间）
 process.env.REACT_APP_Build_Date = (() => {
@@ -28,9 +30,9 @@ module.exports = {
         target: "https://test-portal.gshbzw.com",
         ws: true,
         changeOrigin: true,
-        pathRewrite: {
-          "^/api": "",
-        },
+        // pathRewrite: {
+        //   "^/api": "",
+        // },
       },
     },
   },
