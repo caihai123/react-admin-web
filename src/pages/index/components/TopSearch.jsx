@@ -1,4 +1,4 @@
-import { Card, Row, Col, Table, Statistic, Tooltip } from "antd";
+import { Card, Row, Col, Table, Statistic, Tooltip, theme } from "antd";
 import Trend from "@/components/Trend";
 import { TinyArea } from "@ant-design/plots";
 import { InfoCircleOutlined } from "@ant-design/icons";
@@ -387,18 +387,20 @@ const searchData = [
   },
 ];
 
-const labelStyles = {
-  height: 22,
-  overflow: "hidden",
-  color: "rgba(0,0,0,.45)",
-  fontSize: 14,
-  lineHeight: 1,
-  whiteSpace: "nowrap",
-  textOverflow: "ellipsis",
-  wordBreak: "break-all",
-};
-
 const TopSearch = function () {
+  const {
+    token: { colorTextSecondary },
+  } = theme.useToken();
+  const labelStyles = {
+    height: 22,
+    overflow: "hidden",
+    color: colorTextSecondary,
+    fontSize: 14,
+    lineHeight: 1,
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
+    wordBreak: "break-all",
+  };
   return (
     <Card
       title="线上热门搜索"
