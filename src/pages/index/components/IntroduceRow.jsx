@@ -48,7 +48,7 @@ const MetaWrap = styled.div`
   line-height: 22px;
   font-size: 14px;
   color: ${(props) => props.textColor};
-  & .action {
+  & .action--icon {
     cursor: pointer;
   }
 `;
@@ -95,7 +95,7 @@ const IntroduceRow = function () {
         <Card bodyStyle={cardBodyStyle}>
           <MetaWrap textColor={colorTextTertiary}>
             <div>总销售额</div>
-            <div className="action">
+            <div className="action--icon">
               <Tooltip title="指标说明">
                 <InfoCircleOutlined />
               </Tooltip>
@@ -120,7 +120,7 @@ const IntroduceRow = function () {
         <Card bodyStyle={cardBodyStyle}>
           <MetaWrap textColor={colorTextTertiary}>
             <div>访问量</div>
-            <div className="action">
+            <div className="action--icon">
               <Tooltip title="指标说明">
                 <InfoCircleOutlined />
               </Tooltip>
@@ -146,7 +146,7 @@ const IntroduceRow = function () {
         <Card bodyStyle={cardBodyStyle}>
           <MetaWrap textColor={colorTextTertiary}>
             <div>支付笔数</div>
-            <div className="action">
+            <div className="action--icon">
               <Tooltip title="指标说明">
                 <InfoCircleOutlined />
               </Tooltip>
@@ -170,7 +170,7 @@ const IntroduceRow = function () {
         <Card bodyStyle={cardBodyStyle}>
           <MetaWrap textColor={colorTextTertiary}>
             <div>运营活动效果</div>
-            <div className="action">
+            <div className="action--icon">
               <Tooltip title="指标说明">
                 <InfoCircleOutlined />
               </Tooltip>
