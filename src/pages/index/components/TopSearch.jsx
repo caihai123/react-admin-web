@@ -406,8 +406,9 @@ const TopSearch = function () {
         fontWeight: 400,
         fontSize: 16,
       }}
+      bodyStyle={{ height: 448 }}
     >
-      <Row gutter={[20, 16]}>
+      <Row gutter={[20, 20]}>
         <Col sm={12} xs={24}>
           <div style={labelStyles}>
             搜索用户数

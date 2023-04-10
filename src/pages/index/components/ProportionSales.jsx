@@ -3,6 +3,7 @@ import { Pie } from "@ant-design/plots";
 import { EllipsisOutlined } from "@ant-design/icons";
 
 const config = {
+  height: 400,
   appendPadding: 10,
   data: [
     {
