@@ -10,6 +10,7 @@ mock.forEach(({ url, type, handler }) => {
   Mock.mock(url, type, function (...params) {
     const result = handler(...params);
     setTimeout(
+      // eslint-disable-next-line no-console
       console.log.bind(
         console,
         {
