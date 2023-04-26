@@ -112,8 +112,24 @@ module.exports = (_, argv) => {
       // 设置环境变量
       new webpack.DefinePlugin({ "process.env": env }),
 
-      new HtmlWebpackPlugin({ template: "./public/index.html" }),
-
+      new HtmlWebpackPlugin({
+        inject: true,
+        template: "./public/index.html",
+        minify: isEnvProduction
+          ? {
+              removeComments: true,
+              collapseWhitespace: true,
+              removeRedundantAttributes: true,
+              useShortDoctype: true,
+              removeEmptyAttributes: true,
+              removeStyleLinkTypeAttributes: true,
+              keepClosingSlash: true,
+              minifyJS: true,
+              minifyCSS: true,
+              minifyURLs: true,
+            }
+          : undefined,
+      }),
       // 执行eslint校验
       new ESLintPlugin({ emitWarning: true }),
 
