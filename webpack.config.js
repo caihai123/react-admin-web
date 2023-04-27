@@ -5,6 +5,7 @@ const child_process = require("child_process");
 const ESLintPlugin = require("eslint-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const dayjs = require("dayjs");
+const InterpolateHtmlPlugin = require("react-dev-utils/InterpolateHtmlPlugin");
 
 const APP_NAME = "React Or Antd";
 
@@ -130,6 +131,13 @@ module.exports = (_, argv) => {
             }
           : undefined,
       }),
+
+      // 向 index.html 中设置环境变量
+      new InterpolateHtmlPlugin(HtmlWebpackPlugin, {
+        REACT_APP_WEBSITE_NAME: APP_NAME,
+        PUBLIC_URL: "",
+      }),
+
       // 执行eslint校验
       new ESLintPlugin({ emitWarning: true }),
 
