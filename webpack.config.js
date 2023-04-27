@@ -6,6 +6,7 @@ const ESLintPlugin = require("eslint-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const dayjs = require("dayjs");
 const InterpolateHtmlPlugin = require("react-dev-utils/InterpolateHtmlPlugin");
+const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 
 const APP_NAME = "React Or Antd";
 
@@ -13,9 +14,6 @@ module.exports = (_, argv) => {
   const { mode } = argv;
 
   process.env.NODE_ENV = mode; // .eslintrc.js中需要访问
-
-  const isEnvDevelopment = mode === "development";
-  const isEnvProduction = mode === "production";
 
   // 环境变量
   const env = {
@@ -34,13 +32,19 @@ module.exports = (_, argv) => {
 
     // 打包时间（启动时间）
     REACT_APP_Build_Date: JSON.stringify(dayjs().format("YYYY-MM-DD HH:mm:ss")),
+
+    // 是否在 development 环境开启热更新
+    FAST_REFRESH: true,
   };
+
+  const isEnvDevelopment = mode === "development";
+  const isEnvProduction = mode === "production";
+  const shouldUseReactRefresh = env.FAST_REFRESH;
 
   const devServer = {
     historyApiFallback: true,
     port: 8080,
     open: false, // 是否自动打开浏览器
-    hot: true, // 是否开启热更新
     proxy: {
       "/api": {
         target: "https://test-portal.gshbzw.com",
@@ -80,6 +84,13 @@ module.exports = (_, argv) => {
         {
           test: /\.(js|jsx)$/,
           loader: "babel-loader",
+          options: {
+            plugins: [
+              isEnvDevelopment &&
+                shouldUseReactRefresh &&
+                require.resolve("react-refresh/babel"),
+            ].filter(Boolean),
+          },
         },
         {
           test: /\.css$/i,
@@ -149,6 +160,13 @@ module.exports = (_, argv) => {
         new MiniCssExtractPlugin({
           filename: "static/css/[name].[contenthash:8].css",
           chunkFilename: "static/css/[name].[contenthash:8].chunk.css",
+        }),
+
+      // 生产环境可开始热更新
+      isEnvDevelopment &&
+        shouldUseReactRefresh &&
+        new ReactRefreshWebpackPlugin({
+          overlay: false,
         }),
     ].filter(Boolean),
   };
