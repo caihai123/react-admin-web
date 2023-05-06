@@ -10,14 +10,10 @@ const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin"
 
 const APP_NAME = "React Or Antd";
 
-module.exports = (_, argv) => {
-  const { mode } = argv;
-
-  process.env.NODE_ENV = mode; // .eslintrc.js中需要访问
-
+module.exports = function (webpackEnv) {
   // 环境变量
   const env = {
-    NODE_ENV: JSON.stringify(mode),
+    NODE_ENV: JSON.stringify(webpackEnv),
 
     // app TITLE
     REACT_APP_WEBSITE_NAME: JSON.stringify(APP_NAME),
@@ -40,35 +36,13 @@ module.exports = (_, argv) => {
     GENERATE_SOURCEMAP: true,
   };
 
-  const isEnvDevelopment = mode === "development";
-  const isEnvProduction = mode === "production";
+  const isEnvDevelopment = webpackEnv === "development";
+  const isEnvProduction = webpackEnv === "production";
   const shouldUseReactRefresh = env.FAST_REFRESH;
   const shouldUseSourceMap = env.GENERATE_SOURCEMAP;
 
-  const devServer = {
-    historyApiFallback: true,
-    port: 8080,
-    open: false, // 是否自动打开浏览器
-    proxy: {
-      "/api": {
-        target: "https://test-portal.gshbzw.com",
-        ws: true,
-        changeOrigin: true,
-        // pathRewrite: {
-        //   "^/api": "",
-        // },
-      },
-    },
-    client: {
-      overlay: {
-        errors: true,
-        warnings: false,
-      },
-    },
-  };
-
   return {
-    mode,
+    mode: webpackEnv,
     entry: "./src/index.js",
     // eslint-disable-next-line no-nested-ternary
     devtool: isEnvProduction
@@ -76,7 +50,6 @@ module.exports = (_, argv) => {
         ? "source-map"
         : false
       : isEnvDevelopment && "cheap-module-source-map",
-    devServer,
     output: {
       publicPath: "/",
       filename: isEnvProduction

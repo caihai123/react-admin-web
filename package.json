@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "webpack serve --mode development",
+    "dev": "node scripts/start",
     "build": "webpack build --mode production",
     "lint": "eslint --fix **.js src/**/*.js  src/**/*.jsx"
   },
