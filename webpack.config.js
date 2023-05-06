@@ -35,11 +35,15 @@ module.exports = (_, argv) => {
 
     // 是否在 development 环境开启热更新
     FAST_REFRESH: true,
+
+    // 是否开启源映射文件
+    GENERATE_SOURCEMAP: true,
   };
 
   const isEnvDevelopment = mode === "development";
   const isEnvProduction = mode === "production";
   const shouldUseReactRefresh = env.FAST_REFRESH;
+  const shouldUseSourceMap = env.GENERATE_SOURCEMAP;
 
   const devServer = {
     historyApiFallback: true,
@@ -66,7 +70,12 @@ module.exports = (_, argv) => {
   return {
     mode,
     entry: "./src/index.js",
-    devtool: isEnvProduction ? false : "eval",
+    // eslint-disable-next-line no-nested-ternary
+    devtool: isEnvProduction
+      ? shouldUseSourceMap
+        ? "source-map"
+        : false
+      : isEnvDevelopment && "cheap-module-source-map",
     devServer,
     output: {
       publicPath: "/",
@@ -81,6 +90,13 @@ module.exports = (_, argv) => {
     },
     module: {
       rules: [
+        // Handle node_modules packages that contain sourcemaps
+        shouldUseSourceMap && {
+          enforce: "pre",
+          exclude: /@babel(?:\/|\\{1,2})runtime/,
+          test: /\.(js|mjs|jsx|ts|tsx|css)$/,
+          loader: require.resolve("source-map-loader"),
+        },
         {
           test: /\.(js|jsx)$/,
           loader: "babel-loader",
@@ -118,9 +134,9 @@ module.exports = (_, argv) => {
                     "postcss-normalize",
                   ],
                 },
-                // sourceMap: isEnvProduction
-                //   ? shouldUseSourceMap
-                //   : isEnvDevelopment,
+                sourceMap: isEnvProduction
+                  ? shouldUseSourceMap
+                  : isEnvDevelopment,
               },
             },
           ].filter(Boolean),
