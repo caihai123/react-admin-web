@@ -153,7 +153,7 @@ module.exports = (_, argv) => {
             },
           ],
         },
-      ],
+      ].filter(Boolean),
     },
     resolve: {
       alias: {
