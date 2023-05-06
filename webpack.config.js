@@ -98,6 +98,31 @@ module.exports = (_, argv) => {
             isEnvProduction && MiniCssExtractPlugin.loader,
             isEnvDevelopment && "style-loader",
             "css-loader",
+            {
+              loader: require.resolve("postcss-loader"),
+              options: {
+                postcssOptions: {
+                  ident: "postcss",
+                  config: false,
+                  plugins: [
+                    "postcss-flexbugs-fixes",
+                    [
+                      "postcss-preset-env",
+                      {
+                        autoprefixer: {
+                          flexbox: "no-2009",
+                        },
+                        stage: 3,
+                      },
+                    ],
+                    "postcss-normalize",
+                  ],
+                },
+                // sourceMap: isEnvProduction
+                //   ? shouldUseSourceMap
+                //   : isEnvDevelopment,
+              },
+            },
           ].filter(Boolean),
         },
         {
