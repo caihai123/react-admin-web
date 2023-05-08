@@ -1,3 +1,4 @@
+const fs = require("fs");
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const webpack = require("webpack");
@@ -9,6 +10,9 @@ const InterpolateHtmlPlugin = require("react-dev-utils/InterpolateHtmlPlugin");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 
 const APP_NAME = "React Or Antd";
+
+const appDirectory = fs.realpathSync(process.cwd());
+const resolveApp = (relativePath) => path.resolve(appDirectory, relativePath);
 
 module.exports = function (webpackEnv) {
   // 环境变量
@@ -43,7 +47,7 @@ module.exports = function (webpackEnv) {
 
   return {
     mode: webpackEnv,
-    entry: "./src/index.js",
+    entry: resolveApp("src/index.js"),
     // eslint-disable-next-line no-nested-ternary
     devtool: isEnvProduction
       ? shouldUseSourceMap
@@ -58,7 +62,7 @@ module.exports = function (webpackEnv) {
       chunkFilename: isEnvProduction
         ? "static/js/[name].[contenthash:8].chunk.js"
         : isEnvDevelopment && "static/js/[name].chunk.js",
-      path: path.resolve(__dirname, "dist"),
+      path: resolveApp("dist"),
       clean: true, // 清除dist文件
     },
     module: {
@@ -130,7 +134,7 @@ module.exports = function (webpackEnv) {
     },
     resolve: {
       alias: {
-        "@": path.resolve(__dirname, "src"),
+        "@": resolveApp("src"),
       },
       extensions: [".js", ".jsx", ".css"],
     },
