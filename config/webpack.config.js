@@ -140,6 +140,9 @@ module.exports = function (webpackEnv) {
       },
       extensions: [".js", ".jsx", ".css"],
     },
+    infrastructureLogging: {
+      level: "none", // 禁用日志
+    },
     plugins: [
       new FriendlyErrorsWebpackPlugin(),
 
