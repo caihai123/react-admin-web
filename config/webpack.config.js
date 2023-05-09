@@ -8,6 +8,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const dayjs = require("dayjs");
 const InterpolateHtmlPlugin = require("react-dev-utils/InterpolateHtmlPlugin");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
+const FriendlyErrorsWebpackPlugin = require("@soda/friendly-errors-webpack-plugin");
 
 const APP_NAME = "React Or Antd";
 
@@ -65,6 +66,7 @@ module.exports = function (webpackEnv) {
       path: resolveApp("dist"),
       clean: true, // 清除dist文件
     },
+    stats: "errors-only",
     module: {
       rules: [
         // Handle node_modules packages that contain sourcemaps
@@ -139,6 +141,8 @@ module.exports = function (webpackEnv) {
       extensions: [".js", ".jsx", ".css"],
     },
     plugins: [
+      new FriendlyErrorsWebpackPlugin(),
+
       // 设置环境变量
       new webpack.DefinePlugin({ "process.env": env }),
 

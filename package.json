@@ -28,6 +28,7 @@
     "@babel/core": "^7.21.4",
     "@babel/preset-react": "^7.18.6",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
+    "@soda/friendly-errors-webpack-plugin": "^1.8.1",
     "babel-loader": "^9.1.2",
     "css-loader": "^6.7.3",
     "eslint": "^8.38.0",
