@@ -17,5 +17,6 @@ module.exports = {
       errors: true,
       warnings: false,
     },
+    logging: "none", // 不在浏览器控制台显示日志
   },
 };
