@@ -45,6 +45,7 @@ compiler.hooks.done.tap("my-serve", (stats) => {
   console.log(
     `  To create a production build, run ${chalk.cyan("npm run build")}.`
   );
+  console.log();
 });
 
 const devServer = new WebpackDevServer(devServerConfig, compiler);
