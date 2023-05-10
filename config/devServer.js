@@ -1,4 +1,5 @@
 module.exports = {
+  https: false,
   historyApiFallback: true,
   port: 8080,
   open: false, // 是否自动打开浏览器
