@@ -187,7 +187,7 @@ module.exports = function (webpackEnv) {
           chunkFilename: "static/css/[name].[contenthash:8].chunk.css",
         }),
 
-      // 生产环境可开始热更新
+      // 生产环境可开启快速热更新
       isEnvDevelopment &&
         shouldUseReactRefresh &&
         new ReactRefreshWebpackPlugin({
