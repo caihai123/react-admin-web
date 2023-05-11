@@ -50,4 +50,8 @@ compiler.hooks.done.tap("my-serve", (stats) => {
 
 const devServer = new WebpackDevServer(devServerConfig, compiler);
 
-devServer.start();
+devServer.startCallback(() => {
+  console.log(
+    chalk.bgBlue.black(" INFO ") + chalk.cyan(" 正在启动开发服务器...\n")
+  );
+});
