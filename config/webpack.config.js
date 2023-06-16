@@ -175,7 +175,9 @@ module.exports = function (webpackEnv) {
       }),
 
       // 执行eslint校验
-      new ESLintPlugin({ emitWarning: true }),
+      new ESLintPlugin({
+        extensions: ["js", "jsx", "json"],
+      }),
 
       // 打印编译进度
       new webpack.ProgressPlugin(),
