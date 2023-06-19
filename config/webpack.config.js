@@ -45,6 +45,7 @@ module.exports = function (webpackEnv) {
   const isEnvProduction = webpackEnv === "production";
   const shouldUseReactRefresh = env.FAST_REFRESH;
   const shouldUseSourceMap = env.GENERATE_SOURCEMAP;
+  const assetsDir = "static";
 
   return {
     mode: webpackEnv,
@@ -58,18 +59,18 @@ module.exports = function (webpackEnv) {
     output: {
       publicPath: "/",
       filename: isEnvProduction
-        ? "static/js/[name].[contenthash:8].js"
-        : isEnvDevelopment && "static/js/bundle.js",
+        ? `${assetsDir}/js/[name].[contenthash:8].js`
+        : isEnvDevelopment && `${assetsDir}/js/bundle.js`,
       chunkFilename: isEnvProduction
-        ? "static/js/[name].[contenthash:8].chunk.js"
-        : isEnvDevelopment && "static/js/[name].chunk.js",
+        ? `${assetsDir}/js/[name].[contenthash:8].chunk.js`
+        : isEnvDevelopment && `${assetsDir}/js/[name].chunk.js`,
       path: resolveApp("dist"),
       clean: true, // 清除dist文件
     },
     stats: "errors-only",
     module: {
       rules: [
-        // Handle node_modules packages that contain sourcemaps
+        // 处理包含源映射的node_modules包
         shouldUseSourceMap && {
           enforce: "pre",
           exclude: /@babel(?:\/|\\{1,2})runtime/,
@@ -127,8 +128,8 @@ module.exports = function (webpackEnv) {
             {
               loader: "url-loader",
               options: {
-                limit: 8192, // 8kb以下转base64
-                name: "static/image/[name].[hash].[ext]", // 文件名格式
+                limit: 4 * 1024, // 4kb以下转base64
+                name: `${assetsDir}/image/[name].[hash].[ext]`, // 文件名格式
               },
             },
           ],
@@ -187,8 +188,8 @@ module.exports = function (webpackEnv) {
       // 将css提取到单独的文件中
       isEnvProduction &&
         new MiniCssExtractPlugin({
-          filename: "static/css/[name].[contenthash:8].css",
-          chunkFilename: "static/css/[name].[contenthash:8].chunk.css",
+          filename: `${assetsDir}/css/[name].[contenthash:8].css`,
+          chunkFilename: `${assetsDir}/css/[name].[contenthash:8].chunk.css`,
         }),
 
       // 生产环境可开启快速热更新
