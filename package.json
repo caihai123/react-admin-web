@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "node scripts/start",
-    "build": "webpack build --mode production",
+    "build": "node scripts/build",
     "lint": "eslint --fix **.js src/**/*.js  src/**/*.jsx"
   },
   "dependencies": {
