@@ -140,6 +140,7 @@ module.exports = function (webpackEnv) {
       },
       extensions: [".js", ".jsx", ".css"],
     },
+    performance: { hints: false },
     infrastructureLogging: {
       level: "none", // 禁用日志
     },
