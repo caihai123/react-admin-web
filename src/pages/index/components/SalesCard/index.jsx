@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { Card, Tabs, DatePicker, Space, Row, Col } from "antd";
 import { Column } from "@ant-design/plots";
 import styles from "./style.module.css";
