@@ -30,6 +30,7 @@
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
     "@soda/friendly-errors-webpack-plugin": "^1.8.1",
     "babel-loader": "^9.1.2",
+    "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.3",
     "eslint": "^8.38.0",
     "eslint-config-react-app": "^7.0.1",

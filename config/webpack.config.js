@@ -9,6 +9,7 @@ const dayjs = require("dayjs");
 const InterpolateHtmlPlugin = require("react-dev-utils/InterpolateHtmlPlugin");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const FriendlyErrorsWebpackPlugin = require("@soda/friendly-errors-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 
 const APP_NAME = "React Or Antd";
 
@@ -198,6 +199,20 @@ module.exports = function (webpackEnv) {
         new ReactRefreshWebpackPlugin({
           overlay: false,
         }),
+
+      new CopyPlugin({
+        patterns: [
+          {
+            from: resolveApp("public").replace(/\\/g, "/"),
+            toType: "dir",
+            noErrorOnMissing: true,
+            globOptions: {
+              ignore: [resolveApp("public/index.html").replace(/\\/g, "/")],
+            },
+            info: { minimized: true },
+          },
+        ],
+      }),
     ].filter(Boolean),
   };
 };
