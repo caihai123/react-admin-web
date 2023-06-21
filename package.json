@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "node scripts/start",
+    "start": "node scripts/start",
     "build": "node scripts/build",
+    "dev":"npm start",
     "lint": "eslint --fix **.js src/**/*.js  src/**/*.jsx"
   },
   "dependencies": {
