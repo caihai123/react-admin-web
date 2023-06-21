@@ -3,6 +3,7 @@ import { usePagination } from "ahooks";
 import { Table, Form, Input, Select, Button, Space, Switch, Tag } from "antd";
 import styles from "@/styles/table-page.module.css";
 import useAxios from "@/hooks/axios";
+import DropdownFrom from "@/components/DropdownFrom";
 
 export default function Page() {
   const axios = useAxios();
@@ -87,7 +88,7 @@ export default function Page() {
   return (
     <div style={{ padding: 20 }}>
       <div className={styles["page-head"]}>
-        <Form layout="inline" onFinish={(values) => setParams(values)}>
+        <DropdownFrom onFinish={(values) => setParams(values)}>
           <Form.Item label="真实姓名" name="name">
             <Input placeholder="请输入真实姓名" />
           </Form.Item>
@@ -120,15 +121,7 @@ export default function Page() {
               style={{ width: 183 }}
             />
           </Form.Item>
-          <Form.Item>
-            <Space>
-              <Button type="primary" htmlType="submit">
-                查 询
-              </Button>
-              <Button>重 置</Button>
-            </Space>
-          </Form.Item>
-        </Form>
+        </DropdownFrom>
       </div>
       <div className={styles["page-tools"]}>
         <Button type="primary" onClick={() => addOrEditRef.current.onStart()}>
