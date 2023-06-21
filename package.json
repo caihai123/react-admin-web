@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node scripts/start",
     "build": "node scripts/build",
-    "dev":"npm start",
+    "dev": "npm start",
     "lint": "eslint --fix **.js src/**/*.js  src/**/*.jsx"
   },
   "dependencies": {
