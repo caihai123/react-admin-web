@@ -1,12 +1,11 @@
-import { useState, useRef } from "react";
-import { usePagination } from "ahooks";
-import { Table, Form, Input, Select, Button, Space, Switch } from "antd";
-import styles from "@/styles/table-page.module.css";
+import { Button, Space, Switch } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
+import ProTable from "@/components/ProTable";
 import useAxios from "@/hooks/axios";
-import DropdownFrom from "@/components/DropdownFrom";
 
 export default function Page() {
   const axios = useAxios();
+
   const columns = [
     {
       title: "角色名称",
@@ -15,10 +14,17 @@ export default function Page() {
     {
       title: "备注",
       dataIndex: "description",
+      hideInSearch: true,
     },
     {
       title: "状态",
       render: (row) => <Switch checked={row.status === 1} />,
+      type: "select",
+      dataIndex: "status",
+      options: [
+        { label: "启用", value: "1" },
+        { label: "禁用", value: "0" },
+      ],
     },
     {
       title: "操作",
@@ -38,75 +44,31 @@ export default function Page() {
       ),
       width: 100,
       fixed: "right",
+      hideInSearch: true,
     },
   ];
 
-  const [params, setParams] = useState();
-  const { data: tableData, pagination } = usePagination(
-    ({ current, pageSize }) => {
-      return axios
-        .post("/api/role/page", {
-          params,
-          pageIndex: current,
-          pageSize,
-        })
-        .then((value) => {
-          const { result: data } = value;
-          return {
-            list: data.records,
-            total: data.total,
-          };
-        });
-    },
-    {
-      refreshDeps: [params],
-    }
-  );
-
-  const addOrEditRef = useRef(null);
-
   return (
-    <div style={{ padding: 20 }}>
-      <div className={styles["page-head"]}>
-        <DropdownFrom onFinish={(values) => setParams(values)}>
-          <Form.Item label="角色名称" name="roleName">
-            <Input placeholder="请输入角色名称" />
-          </Form.Item>
-          <Form.Item label="状态" name="status">
-            <Select
-              placeholder="请选择状态"
-              options={[
-                { value: 1, label: "启用" },
-                { value: 0, label: "禁用" },
-              ]}
-              style={{ width: 183 }}
-            />
-          </Form.Item>
-        </DropdownFrom>
-      </div>
-      <div className={styles["page-tools"]}>
-        <Button type="primary" onClick={() => addOrEditRef.current.onStart()}>
+    <ProTable
+      columns={columns}
+      rowKey="id"
+      headerTitle="角色列表"
+      request={(params, { current, pageSize }) =>
+        axios
+          .post("/api/role/page", { params, pageIndex: current, pageSize })
+          .then((value) => {
+            const { result: data } = value;
+            return {
+              list: data.records,
+              total: data.total,
+            };
+          })
+      }
+      toolBarRender={() => [
+        <Button key="add" type="primary" icon={<PlusOutlined />}>
           新增
-        </Button>
-      </div>
-      <div className="page-main">
-        <Table
-          rowKey="id"
-          columns={columns}
-          dataSource={tableData?.list}
-          pagination={{
-            current: pagination.current,
-            pageSize: pagination.pageSize,
-            total: pagination.total,
-            showSizeChanger: true,
-            showQuickJumper: true,
-            showTotal: (total, range) => `共 ${total} 条`,
-            onChange: pagination.onChange,
-          }}
-          bordered
-          scroll={{ x: "max-content" }}
-        />
-      </div>
-    </div>
+        </Button>,
+      ]}
+    />
   );
 }
