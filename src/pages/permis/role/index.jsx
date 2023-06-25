@@ -18,9 +18,9 @@ export default function Page() {
     },
     {
       title: "状态",
-      render: (row) => <Switch checked={row.status === 1} />,
-      type: "select",
       dataIndex: "status",
+      render: (status) => <Switch checked={status === 1} />,
+      type: "select",
       options: [
         { label: "启用", value: "1" },
         { label: "禁用", value: "0" },

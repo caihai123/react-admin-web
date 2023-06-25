@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { Button, Space, Switch, Tag } from "antd";
 import useAxios from "@/hooks/axios";
 import ProTable from "@/components/ProTable";
+import { PlusOutlined } from "@ant-design/icons";
 
 export default function Page() {
   const axios = useAxios();
@@ -16,12 +17,14 @@ export default function Page() {
     },
     {
       title: "性别",
-      key: "gender",
-      render: (row) => {
-        if (row.gender === 1) {
+      dataIndex: "gender",
+      render: (gender) => {
+        if (gender === 1) {
           return <Tag color="#2db7f5">男</Tag>;
-        } else if (row.gender === 2) {
+        } else if (gender === 2) {
           return <Tag color="magenta">女</Tag>;
+        } else {
+          return gender;
         }
       },
       type: "select",
@@ -40,8 +43,8 @@ export default function Page() {
     },
     {
       title: "状态",
-      key: "status",
-      render: (row) => <Switch checked={row.status === 1} />,
+      dataIndex: "status",
+      render: (status) => <Switch checked={status === 1} />,
       type: "select",
       options: [
         { label: "启用", value: 1 },
@@ -77,8 +80,8 @@ export default function Page() {
       columns={columns}
       rowKey="id"
       headerTitle="用户列表"
-      request={(params, { current, pageSize }) =>
-        axios
+      request={(params, { current, pageSize }) => {
+        return axios
           .post("/api/account/page", { params, pageIndex: current, pageSize })
           .then((value) => {
             const { result: data } = value;
@@ -86,10 +89,14 @@ export default function Page() {
               list: data.records,
               total: data.total,
             };
-          })
-      }
+          });
+      }}
       toolBarRender={
-        <Button type="primary" onClick={() => addOrEditRef.current.onStart()}>
+        <Button
+          type="primary"
+          icon={<PlusOutlined />}
+          onClick={() => addOrEditRef.current.onStart()}
+        >
           新增
         </Button>
       }
