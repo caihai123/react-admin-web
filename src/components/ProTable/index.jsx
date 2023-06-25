@@ -15,7 +15,7 @@ const createInput = function (item) {
       />
     );
   } else {
-    return <Input placeholder={`请填写${item.title}`} />;
+    return <Input placeholder={`请输入${item.title}`} />;
   }
 };
 
