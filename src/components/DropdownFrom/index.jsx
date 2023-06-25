@@ -16,6 +16,9 @@ const DropdownBox = styled(Form)`
     vertical-align: top;
     margin-bottom: 16px;
   }
+  & .ant-form-item {
+    margin-bottom: 16px;
+  }
 `;
 
 const ToolsItem = styled(Form.Item)`
