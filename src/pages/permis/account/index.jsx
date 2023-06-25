@@ -1,9 +1,7 @@
-import { useState, useRef } from "react";
-import { usePagination } from "ahooks";
-import { Table, Form, Input, Select, Button, Space, Switch, Tag } from "antd";
-import styles from "@/styles/table-page.module.css";
+import { useRef } from "react";
+import { Button, Space, Switch, Tag } from "antd";
 import useAxios from "@/hooks/axios";
-import DropdownFrom from "@/components/DropdownFrom";
+import ProTable from "@/components/ProTable";
 
 export default function Page() {
   const axios = useAxios();
@@ -26,6 +24,11 @@ export default function Page() {
           return <Tag color="magenta">女</Tag>;
         }
       },
+      type: "select",
+      options: [
+        { label: "男", value: 1 },
+        { label: "女", value: 2 },
+      ],
     },
     {
       title: "手机号",
@@ -39,6 +42,11 @@ export default function Page() {
       title: "状态",
       key: "status",
       render: (row) => <Switch checked={row.status === 1} />,
+      type: "select",
+      options: [
+        { label: "启用", value: 1 },
+        { label: "禁用", value: 0 },
+      ],
     },
     {
       title: "操作",
@@ -58,94 +66,33 @@ export default function Page() {
       ),
       width: 100,
       fixed: "right",
+      hideInSearch: true,
     },
   ];
-
-  const [params, setParams] = useState();
-  const { data: tableData, pagination } = usePagination(
-    ({ current, pageSize }) => {
-      return axios
-        .post("/api/account/page", {
-          params,
-          pageIndex: current,
-          pageSize,
-        })
-        .then((value) => {
-          const { result: data } = value;
-          return {
-            list: data.records,
-            total: data.total,
-          };
-        });
-    },
-    {
-      refreshDeps: [params],
-    }
-  );
 
   const addOrEditRef = useRef(null);
 
   return (
-    <div style={{ padding: 20 }}>
-      <div className={styles["page-head"]}>
-        <DropdownFrom onFinish={(values) => setParams(values)}>
-          <Form.Item label="真实姓名" name="name">
-            <Input placeholder="请输入真实姓名" />
-          </Form.Item>
-          <Form.Item label="账号" name="account">
-            <Input placeholder="请输入账号" />
-          </Form.Item>
-          <Form.Item label="性别" name="gender">
-            <Select
-              placeholder="请选择性别"
-              options={[
-                { value: 1, label: "男" },
-                { value: 2, label: "女" },
-              ]}
-              style={{ width: 183 }}
-            />
-          </Form.Item>
-          <Form.Item label="手机号" name="phone">
-            <Input placeholder="请输入手机号" />
-          </Form.Item>
-          <Form.Item label="邮箱" name="email">
-            <Input placeholder="请输入邮箱" />
-          </Form.Item>
-          <Form.Item label="状态" name="status">
-            <Select
-              placeholder="请选择状态"
-              options={[
-                { value: 1, label: "启用" },
-                { value: 0, label: "禁用" },
-              ]}
-              style={{ width: 183 }}
-            />
-          </Form.Item>
-        </DropdownFrom>
-      </div>
-      <div className={styles["page-tools"]}>
+    <ProTable
+      columns={columns}
+      rowKey="id"
+      headerTitle="用户列表"
+      request={(params, { current, pageSize }) =>
+        axios
+          .post("/api/account/page", { params, pageIndex: current, pageSize })
+          .then((value) => {
+            const { result: data } = value;
+            return {
+              list: data.records,
+              total: data.total,
+            };
+          })
+      }
+      toolBarRender={
         <Button type="primary" onClick={() => addOrEditRef.current.onStart()}>
           新增
         </Button>
-      </div>
-      <div className="page-main">
-        <Table
-          rowKey="id"
-          columns={columns}
-          dataSource={tableData?.list}
-          pagination={{
-            current: pagination.current,
-            pageSize: pagination.pageSize,
-            total: pagination.total,
-            showSizeChanger: true,
-            showQuickJumper: true,
-            showTotal: (total, range) => `共 ${total} 条`,
-            onChange: pagination.onChange,
-          }}
-          bordered
-          scroll={{ x: "max-content" }}
-        />
-      </div>
-    </div>
+      }
+    />
   );
 }
