@@ -28,6 +28,7 @@ const ProTable = function (props) {
   );
 
   const {
+    search = true,
     // 工具栏渲染函数
     toolBarRender = null,
 
@@ -49,19 +50,21 @@ const ProTable = function (props) {
 
   return (
     <div style={{ padding: 20 }}>
-      <DropdownFrom onFinish={(values) => setParams(values)}>
-        {props.columns
-          .filter((item) => item.hideInSearch !== true)
-          .map((item) => (
-            <Form.Item
-              label={item.title}
-              name={item.dataIndex}
-              key={item.key || item.dataIndex}
-            >
-              {createInput(item)}
-            </Form.Item>
-          ))}
-      </DropdownFrom>
+      {search ? (
+        <DropdownFrom onFinish={(values) => setParams(values)}>
+          {props.columns
+            .filter((item) => item.hideInSearch !== true)
+            .map((item) => (
+              <Form.Item
+                label={item.title}
+                name={item.dataIndex}
+                key={item.key || item.dataIndex}
+              >
+                {createInput(item)}
+              </Form.Item>
+            ))}
+        </DropdownFrom>
+      ) : undefined}
 
       {toolBarRender ? (
         <div
