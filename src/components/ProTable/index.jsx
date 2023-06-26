@@ -1,8 +1,9 @@
-import { useState, useImperativeHandle } from "react";
+import { useState, forwardRef, useImperativeHandle } from "react";
 import DropdownFrom from "@/components/DropdownFrom";
 import { Table, Form, Select, Input, Space, Button, theme } from "antd";
 import styles from "./style.module.css";
 import { usePagination } from "ahooks";
+import PropTypes from "prop-types";
 
 // 生成输入框
 const createInput = function (item) {
@@ -19,7 +20,7 @@ const createInput = function (item) {
   }
 };
 
-const ProTable = function (props, ref) {
+const ProTable = forwardRef(function (props, ref) {
   const [params, setParams] = useState();
 
   const { data: tableData, pagination } = usePagination(
@@ -28,7 +29,9 @@ const ProTable = function (props, ref) {
   );
 
   const {
+    // 是否显示搜索表单
     search = true,
+
     // 工具栏渲染函数
     toolBarRender = null,
 
@@ -42,9 +45,21 @@ const ProTable = function (props, ref) {
     tableRowSelection = {},
   } = props;
 
-  useImperativeHandle(ref, () => ({}));
-
   const [selectedRowKeys, setSelectedRowKeys] = useState([]); // 当前选中的keys
+
+  useImperativeHandle(ref, () => ({
+    // 刷新，不传时页码时刷新到当前页
+    reload: (current) => pagination.changeCurrent(current),
+
+    // 触发搜索表单的搜索事件
+    search: () => null,
+
+    // 触发搜索表单的重置事件
+    reset: () => null,
+
+    // 清空选中项
+    clearSelected: () => setSelectedRowKeys([]),
+  }));
 
   const {
     token: { borderRadius, controlItemBgActive, colorText },
@@ -142,6 +157,30 @@ const ProTable = function (props, ref) {
       </div>
     </div>
   );
+});
+
+ProTable.propTypes = {
+  rowKey: PropTypes.string.isRequired,
+  request: PropTypes.func.isRequired,
+  columns: PropTypes.array.isRequired,
+  search: PropTypes.bool,
+  toolBarRender: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.array,
+    PropTypes.func,
+  ]),
+  headerTitle: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.array,
+    PropTypes.func,
+    PropTypes.string,
+  ]),
+  batchBarRender: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.array,
+    PropTypes.func,
+  ]),
+  tableRowSelection: PropTypes.object,
 };
 
 export default ProTable;
