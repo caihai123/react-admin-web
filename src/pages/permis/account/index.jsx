@@ -91,6 +91,14 @@ export default function Page() {
             };
           });
       }}
+      batchBarRender={[
+        <Button type="primary" key="del" danger>
+          批量删除
+        </Button>,
+        <Button type="primary" key="export">
+          导出数据
+        </Button>,
+      ]}
       toolBarRender={
         <Button
           type="primary"

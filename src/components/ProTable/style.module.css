@@ -8,3 +8,10 @@
 .tools .header-title {
   font-size: 16px;
 }
+
+.batch-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+}
