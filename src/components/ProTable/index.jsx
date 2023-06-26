@@ -49,21 +49,19 @@ const ProTable = function (props) {
 
   return (
     <div style={{ padding: 20 }}>
-      <div className={styles["query"]}>
-        <DropdownFrom onFinish={(values) => setParams(values)}>
-          {props.columns
-            .filter((item) => item.hideInSearch !== true)
-            .map((item) => (
-              <Form.Item
-                label={item.title}
-                name={item.dataIndex}
-                key={item.key || item.dataIndex}
-              >
-                {createInput(item)}
-              </Form.Item>
-            ))}
-        </DropdownFrom>
-      </div>
+      <DropdownFrom onFinish={(values) => setParams(values)}>
+        {props.columns
+          .filter((item) => item.hideInSearch !== true)
+          .map((item) => (
+            <Form.Item
+              label={item.title}
+              name={item.dataIndex}
+              key={item.key || item.dataIndex}
+            >
+              {createInput(item)}
+            </Form.Item>
+          ))}
+      </DropdownFrom>
 
       {toolBarRender ? (
         <div
