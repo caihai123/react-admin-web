@@ -49,7 +49,14 @@ const DropdownForm = function (props) {
           <Button type="primary" htmlType="submit">
             查询
           </Button>
-          <Button onClick={() => form.resetFields()}>重置</Button>
+          <Button
+            onClick={() => {
+              form.resetFields();
+              form.submit();
+            }}
+          >
+            重置
+          </Button>
           {visible ? (
             <Button
               type="link"
