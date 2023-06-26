@@ -128,6 +128,7 @@ const ProTable = function (props) {
                   type: "checkbox",
                   selectedRowKeys,
                   onChange: (keys) => setSelectedRowKeys(keys),
+                  preserveSelectedRowKeys: true,
                   ...tableRowSelection,
                 }
               : undefined
