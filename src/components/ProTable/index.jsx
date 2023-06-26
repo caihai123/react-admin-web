@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useImperativeHandle } from "react";
 import DropdownFrom from "@/components/DropdownFrom";
 import { Table, Form, Select, Input, Space, Button, theme } from "antd";
 import styles from "./style.module.css";
@@ -19,7 +19,7 @@ const createInput = function (item) {
   }
 };
 
-const ProTable = function (props) {
+const ProTable = function (props, ref) {
   const [params, setParams] = useState();
 
   const { data: tableData, pagination } = usePagination(
@@ -41,6 +41,8 @@ const ProTable = function (props) {
     // 表格的rowSelection配置项，优先级最高，可能会覆盖掉
     tableRowSelection = {},
   } = props;
+
+  useImperativeHandle(ref, () => ({}));
 
   const [selectedRowKeys, setSelectedRowKeys] = useState([]); // 当前选中的keys
 
