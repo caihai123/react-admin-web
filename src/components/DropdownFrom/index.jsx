@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Form, Button, Space } from "antd";
-import { DownOutlined, UpOutlined } from "@ant-design/icons";
+import { CaretUpOutlined, CaretDownOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 
 const toolsWidth = "188px";
@@ -25,7 +25,7 @@ const ToolsItem = styled(Form.Item)`
   position: absolute;
   right: -16px;
   bottom: 0;
-  z-index: 1000;
+  z-index: 10;
 `;
 
 const DropdownForm = function (props) {
@@ -57,7 +57,7 @@ const DropdownForm = function (props) {
               onClick={() => setVisible(false)}
             >
               收起
-              <UpOutlined style={{ marginInlineStart: 0 }} />
+              <CaretUpOutlined style={{ marginInlineStart: 0 }} />
             </Button>
           ) : (
             <Button
@@ -66,7 +66,7 @@ const DropdownForm = function (props) {
               onClick={() => setVisible(true)}
             >
               展开
-              <DownOutlined style={{ marginInlineStart: 0 }} />
+              <CaretDownOutlined style={{ marginInlineStart: 0 }} />
             </Button>
           )}
         </Space>
