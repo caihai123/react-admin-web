@@ -1,4 +1,4 @@
-import { useState, forwardRef, useImperativeHandle } from "react";
+import { useState, forwardRef, useImperativeHandle, useRef } from "react";
 import DropdownFrom from "@/components/DropdownFrom";
 import { Table, Form, Select, Input, Space, Button, theme } from "antd";
 import styles from "./style.module.css";
@@ -21,14 +21,10 @@ const createInput = function (item) {
 };
 
 const ProTable = forwardRef(function (props, ref) {
-  const [params, setParams] = useState();
-
-  const { data: tableData, pagination } = usePagination(
-    ({ current, pageSize }) => props.request(params, { current, pageSize }),
-    { refreshDeps: [params] }
-  );
-
   const {
+    // 表格列配置
+    columns = [],
+
     // 是否显示搜索表单
     search = true,
 
@@ -45,17 +41,38 @@ const ProTable = forwardRef(function (props, ref) {
     tableRowSelection = {},
   } = props;
 
+  // 表单的默认值，没有必要使用useState
+  const initialValues = Object.fromEntries(
+    columns
+      .filter((item) => typeof item.initialValue !== "undefined")
+      .map(({ dataIndex, initialValue }) => [dataIndex, initialValue])
+  );
+
+  const [params, setParams] = useState(initialValues);
+  const searchFrom = useRef(null);
+
+  const { data: tableData, pagination } = usePagination(
+    ({ current, pageSize }) => props.request(params, { current, pageSize }),
+    { refreshDeps: [params] }
+  );
+
   const [selectedRowKeys, setSelectedRowKeys] = useState([]); // 当前选中的keys
 
   useImperativeHandle(ref, () => ({
-    // 刷新，不传时页码时刷新到当前页
+    // 刷新，不传页码时刷新到当前页
     reload: (current) => pagination.changeCurrent(current),
 
     // 触发搜索表单的搜索事件
-    search: () => null,
+    search: () => {
+      const submit = searchFrom?.current?.submit;
+      submit ? submit() : setParams(null);
+    },
 
     // 触发搜索表单的重置事件
-    reset: () => null,
+    reset: () => {
+      const reset = searchFrom?.current?.reset;
+      reset ? reset() : setParams(null);
+    },
 
     // 清空选中项
     clearSelected: () => setSelectedRowKeys([]),
@@ -68,8 +85,12 @@ const ProTable = forwardRef(function (props, ref) {
   return (
     <div style={{ padding: 20 }}>
       {search ? (
-        <DropdownFrom onFinish={(values) => setParams(values)}>
-          {props.columns
+        <DropdownFrom
+          ref={searchFrom}
+          onFinish={(values) => setParams(values)}
+          initialValues={initialValues}
+        >
+          {columns
             .filter((item) => item.hideInSearch !== true)
             .map((item) => (
               <Form.Item
@@ -130,7 +151,7 @@ const ProTable = forwardRef(function (props, ref) {
         <Table
           rowKey={props.rowKey}
           dataSource={tableData?.list}
-          columns={props.columns.filter((item) => item.hideInTable !== true)}
+          columns={columns.filter((item) => item.hideInTable !== true)}
           pagination={{
             current: pagination.current,
             pageSize: pagination.pageSize,
