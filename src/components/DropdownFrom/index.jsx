@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, forwardRef, useImperativeHandle } from "react";
 import { Form, Button, Space } from "antd";
 import { CaretUpOutlined, CaretDownOutlined } from "@ant-design/icons";
 import styled from "styled-components";
@@ -28,10 +28,20 @@ const ToolsItem = styled(Form.Item)`
   z-index: 10;
 `;
 
-const DropdownForm = function (props) {
+const DropdownForm = forwardRef(function (props, ref) {
   const [form] = Form.useForm();
   const [visible, setVisible] = useState(false);
   const { children, ...rest } = props;
+
+  const reset = function () {
+    form.resetFields();
+    form.submit();
+  };
+
+  useImperativeHandle(ref, () => ({
+    submit: form.submit,
+    reset,
+  }));
 
   return (
     <DropdownBox
@@ -49,14 +59,7 @@ const DropdownForm = function (props) {
           <Button type="primary" htmlType="submit">
             查询
           </Button>
-          <Button
-            onClick={() => {
-              form.resetFields();
-              form.submit();
-            }}
-          >
-            重置
-          </Button>
+          <Button onClick={() => reset()}>重置</Button>
           {visible ? (
             <Button
               type="link"
@@ -80,6 +83,6 @@ const DropdownForm = function (props) {
       </ToolsItem>
     </DropdownBox>
   );
-};
+});
 
 export default DropdownForm;
