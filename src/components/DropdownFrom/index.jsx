@@ -1,7 +1,8 @@
-import { useState, forwardRef, useImperativeHandle } from "react";
+import { forwardRef, useImperativeHandle } from "react";
 import { Form, Button, Space } from "antd";
 import { CaretUpOutlined, CaretDownOutlined } from "@ant-design/icons";
 import styled from "styled-components";
+import { useBoolean } from "ahooks";
 
 const toolsWidth = "188px";
 
@@ -30,7 +31,8 @@ const ToolsItem = styled(Form.Item)`
 
 const DropdownForm = forwardRef(function (props, ref) {
   const [form] = Form.useForm();
-  const [visible, setVisible] = useState(false);
+  const [visible, { setTrue, setFalse }] = useBoolean(false);
+
   const { children, ...rest } = props;
 
   const reset = function () {
@@ -64,7 +66,7 @@ const DropdownForm = forwardRef(function (props, ref) {
             <Button
               type="link"
               style={{ padding: 0 }}
-              onClick={() => setVisible(false)}
+              onClick={() => setFalse()}
             >
               收起
               <CaretUpOutlined style={{ marginInlineStart: 0 }} />
@@ -73,7 +75,7 @@ const DropdownForm = forwardRef(function (props, ref) {
             <Button
               type="link"
               style={{ padding: 0 }}
-              onClick={() => setVisible(true)}
+              onClick={() => setTrue()}
             >
               展开
               <CaretDownOutlined style={{ marginInlineStart: 0 }} />
