@@ -41,12 +41,15 @@ const ProTable = forwardRef(function (props, ref) {
     tableRowSelection = {},
   } = props;
 
-  // 表单的默认值，没有必要使用useState
+  // 表单的默认值
   const initialValues = Object.fromEntries(
     columns
       .filter((item) => typeof item.initialValue !== "undefined")
       .map(({ dataIndex, initialValue }) => [dataIndex, initialValue])
   );
+
+  // 表格上使用的columns
+  const tableColumns = columns.filter((item) => item.hideInTable !== true);
 
   const [params, setParams] = useState(initialValues);
   const searchFrom = useRef(null);
@@ -88,7 +91,7 @@ const ProTable = forwardRef(function (props, ref) {
 
   return (
     <div style={{ padding: 20 }}>
-      {search ? (
+      {search && (
         <DropdownFrom
           ref={searchFrom}
           onFinish={(values) => setParams(values)}
@@ -106,9 +109,9 @@ const ProTable = forwardRef(function (props, ref) {
               </Form.Item>
             ))}
         </DropdownFrom>
-      ) : undefined}
+      )}
 
-      {toolBarRender ? (
+      {toolBarRender && (
         <div
           className={styles["tools"]}
           style={{
@@ -125,9 +128,9 @@ const ProTable = forwardRef(function (props, ref) {
               : toolBarRender}
           </Space>
         </div>
-      ) : undefined}
+      )}
 
-      {batchBarRender ? (
+      {batchBarRender && (
         <div
           className={styles["batch-bar"]}
           style={{
@@ -149,13 +152,13 @@ const ProTable = forwardRef(function (props, ref) {
               : batchBarRender}
           </Space>
         </div>
-      ) : undefined}
+      )}
 
       <div className={styles["main"]}>
         <Table
           rowKey={props.rowKey}
           dataSource={tableData?.list}
-          columns={columns.filter((item) => item.hideInTable !== true)}
+          columns={tableColumns}
           pagination={{
             current: pagination.current,
             pageSize: pagination.pageSize,
