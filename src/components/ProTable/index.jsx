@@ -48,6 +48,19 @@ const ProTable = forwardRef(function (props, ref) {
       .map(({ dataIndex, initialValue }) => [dataIndex, initialValue])
   );
 
+  // 搜索表单项
+  const formItems = columns
+    .filter((item) => item.hideInSearch !== true)
+    .map((item) => (
+      <Form.Item
+        label={item.title}
+        name={item.dataIndex}
+        key={item.key || item.dataIndex}
+      >
+        {createInput(item)}
+      </Form.Item>
+    ));
+
   // 表格上使用的columns
   const tableColumns = columns.filter((item) => item.hideInTable !== true);
 
@@ -97,17 +110,7 @@ const ProTable = forwardRef(function (props, ref) {
           onFinish={(values) => setParams(values)}
           initialValues={initialValues}
         >
-          {columns
-            .filter((item) => item.hideInSearch !== true)
-            .map((item) => (
-              <Form.Item
-                label={item.title}
-                name={item.dataIndex}
-                key={item.key || item.dataIndex}
-              >
-                {createInput(item)}
-              </Form.Item>
-            ))}
+          {formItems}
         </DropdownFrom>
       )}
 
