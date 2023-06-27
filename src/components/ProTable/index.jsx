@@ -1,4 +1,10 @@
-import { useState, forwardRef, useImperativeHandle, useRef } from "react";
+import {
+  useState,
+  forwardRef,
+  useImperativeHandle,
+  useRef,
+  useMemo,
+} from "react";
 import DropdownFrom from "@/components/DropdownFrom";
 import { Table, Form, Select, Input, Space, Button, theme } from "antd";
 import styles from "./style.module.css";
@@ -42,27 +48,36 @@ const ProTable = forwardRef(function (props, ref) {
   } = props;
 
   // 表单的默认值
-  const initialValues = Object.fromEntries(
-    columns
-      .filter((item) => typeof item.initialValue !== "undefined")
-      .map(({ dataIndex, initialValue }) => [dataIndex, initialValue])
+  const initialValues = useMemo(
+    () =>
+      Object.fromEntries(
+        columns
+          .filter((item) => typeof item.initialValue !== "undefined")
+          .map(({ dataIndex, initialValue }) => [dataIndex, initialValue])
+      ),
+    [columns]
   );
 
   // 搜索表单项
-  const formItems = columns
-    .filter((item) => item.hideInSearch !== true)
-    .map((item) => (
-      <Form.Item
-        label={item.title}
-        name={item.dataIndex}
-        key={item.key || item.dataIndex}
-      >
-        {createInput(item)}
-      </Form.Item>
-    ));
+  const formItems = useMemo(() => {
+    return columns
+      .filter((item) => item.hideInSearch !== true)
+      .map((item) => (
+        <Form.Item
+          label={item.title}
+          name={item.dataIndex}
+          key={item.key || item.dataIndex}
+        >
+          {createInput(item)}
+        </Form.Item>
+      ));
+  }, [columns]);
 
   // 表格上使用的columns
-  const tableColumns = columns.filter((item) => item.hideInTable !== true);
+  const tableColumns = useMemo(
+    () => columns.filter((item) => item.hideInTable !== true),
+    [columns]
+  );
 
   const [params, setParams] = useState(initialValues);
   const searchFrom = useRef(null);

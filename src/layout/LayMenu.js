@@ -1,4 +1,4 @@
-import { createElement } from "react";
+import { createElement, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Menu, Skeleton, theme } from "antd";
 import { Scrollbars } from "react-custom-scrollbars";
@@ -28,7 +28,10 @@ export default function LayMenu({ initialMenuList, loading }) {
 
   const location = useLocation();
 
-  const menuList = initialMenuList.map((item) => getItem(item));
+  const menuList = useMemo(
+    () => initialMenuList.map((item) => getItem(item)),
+    [initialMenuList]
+  );
 
   const themeName = useSelector(selectTheme);
   const {

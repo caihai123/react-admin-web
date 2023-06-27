@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+import { Suspense, useMemo } from "react";
 import { Layout, Spin, theme } from "antd";
 import { Routes, Route } from "react-router-dom";
 import { useBoolean, useTimeout } from "ahooks";
@@ -27,7 +27,10 @@ const PageLoading = function () {
 
 export default function LayContent({ initialMenuList, loading }) {
   // 由initialMenuList变化来的一维菜单列表
-  const menuList = flattenDeep(initialMenuList);
+  const menuList = useMemo(
+    () => flattenDeep(initialMenuList),
+    [initialMenuList]
+  );
 
   const [pageloading, { set: setPageloading }] = useBoolean(true);
   // 首次加载时可能会先显示出401页面，所以需要控制让路由延时渲染，留出计算菜单权限的时间
