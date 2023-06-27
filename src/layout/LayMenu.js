@@ -1,4 +1,4 @@
-import { useEffect, useState, createElement } from "react";
+import { createElement } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Menu, Skeleton, theme } from "antd";
 import { Scrollbars } from "react-custom-scrollbars";
@@ -24,20 +24,11 @@ const getItem = function ({ id, type, title, path, children, icon }) {
 };
 
 export default function LayMenu({ initialMenuList, loading }) {
-  // 监听路由变化，设置菜单选中状态
+  const navigate = useNavigate();
+
   const location = useLocation();
 
-  const [activePathname, setActivePathname] = useState(location.pathname);
-  useEffect(() => {
-    setActivePathname(location.pathname);
-  }, [location]);
-
-  const [menuList, setMenuList] = useState([]);
-  useEffect(() => {
-    setMenuList(initialMenuList.map((item) => getItem(item)));
-  }, [initialMenuList]);
-
-  const navigate = useNavigate();
+  const menuList = initialMenuList.map((item) => getItem(item));
 
   const themeName = useSelector(selectTheme);
   const {
@@ -55,7 +46,7 @@ export default function LayMenu({ initialMenuList, loading }) {
       <Scrollbars style={{ height: "calc(100% - 64px)" }} autoHide>
         <Menu
           mode="inline"
-          selectedKeys={[activePathname]}
+          selectedKeys={[location.pathname]}
           items={menuList}
           onClick={({ key }) => navigate(key)}
           style={{ border: "none", background: colorBgContainer }}

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { Breadcrumb } from "antd";
 import { treeFilter } from "./utils";
@@ -23,11 +23,9 @@ const treeTOList = function (treeList) {
 };
 
 export default function Component({ menuList }) {
-  const [levelList, setLevelList] = useState([]);
-
-  // 监听路由变化，更新面包屑
   const location = useLocation();
-  useEffect(() => {
+
+  const levelList = (() => {
     const path = location.pathname;
     const list = treeFilter(
       menuList,
@@ -42,8 +40,8 @@ export default function Component({ menuList }) {
     if (first.path !== "/index") {
       levelList.unshift({ title: "首页", path: "/index" });
     }
-    setLevelList(levelList);
-  }, [menuList, location]);
+    return levelList;
+  })();
 
   // 动态修改页面title
   useEffect(() => {
