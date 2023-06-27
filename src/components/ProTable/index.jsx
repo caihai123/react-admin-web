@@ -51,7 +51,11 @@ const ProTable = forwardRef(function (props, ref) {
   const [params, setParams] = useState(initialValues);
   const searchFrom = useRef(null);
 
-  const { data: tableData, pagination } = usePagination(
+  const {
+    data: tableData,
+    pagination,
+    loading,
+  } = usePagination(
     ({ current, pageSize }) => props.request(params, { current, pageSize }),
     { refreshDeps: [params] }
   );
@@ -161,6 +165,7 @@ const ProTable = forwardRef(function (props, ref) {
             showTotal: (total, range) => `共 ${total} 条`,
             onChange: pagination.onChange,
           }}
+          loading={loading}
           rowSelection={
             batchBarRender
               ? {
