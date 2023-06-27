@@ -1,4 +1,10 @@
-import { Layout, theme, Avatar, Switch, Dropdown } from "antd";
+import { Layout, theme, Avatar, Switch, Dropdown, message } from "antd";
+import { useMount, useBoolean, useUnmount } from "ahooks";
+import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import screenfull from "screenfull";
+import { selectTheme, setTheme } from "@/store/modules/system";
 import Breadcrumb from "./Breadcrumb";
 import {
   MenuUnfoldOutlined,
@@ -8,11 +14,8 @@ import {
   UserOutlined,
   SettingOutlined,
   LoginOutlined,
+  FullscreenExitOutlined,
 } from "@ant-design/icons";
-import { selectTheme, setTheme } from "@/store/modules/system";
-import { useSelector, useDispatch } from "react-redux";
-import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
 
 const Header = styled(Layout.Header)`
   height: 48px;
@@ -63,6 +66,26 @@ export default function LayHeader(props) {
   const dispatch = useDispatch();
   const themeName = useSelector(selectTheme);
 
+  // 全屏相关 start
+  const [isFullscreen, { set: setIsFullscreen }] = useBoolean(false);
+  const fullscreenChange = () => setIsFullscreen(screenfull.isFullscreen);
+  const fullscreenToggle = () => {
+    if (screenfull.isEnabled) {
+      screenfull.toggle();
+    } else {
+      message.warning("您的浏览器不支持全屏！");
+    }
+  };
+  useMount(() => {
+    if (screenfull.isEnabled) {
+      screenfull.on("change", fullscreenChange);
+    }
+  });
+  useUnmount(() => {
+    screenfull.off("change", fullscreenChange);
+  });
+  // 全屏相关 end
+
   return (
     <Header background={colorBgContainer}>
       <div style={{ display: "flex", alignItems: "center" }}>
@@ -79,8 +102,8 @@ export default function LayHeader(props) {
         <div className="header-actions-item">
           <LockOutlined />
         </div>
-        <div className="header-actions-item">
-          <FullscreenOutlined />
+        <div className="header-actions-item" onClick={fullscreenToggle}>
+          {isFullscreen ? <FullscreenExitOutlined /> : <FullscreenOutlined />}
         </div>
         <div
           className="header-actions-item"
