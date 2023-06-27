@@ -3,6 +3,7 @@ import { Button, Space, Switch, Tag } from "antd";
 import useAxios from "@/hooks/axios";
 import ProTable from "@/components/ProTable";
 import { PlusOutlined } from "@ant-design/icons";
+import dict from "@/utils/dict";
 
 export default function Page() {
   const axios = useAxios();
@@ -28,10 +29,7 @@ export default function Page() {
         }
       },
       type: "select",
-      options: [
-        { label: "男", value: 1 },
-        { label: "女", value: 2 },
-      ],
+      options: dict["gender"].options,
     },
     {
       title: "手机号",
