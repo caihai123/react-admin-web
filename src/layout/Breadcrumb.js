@@ -50,7 +50,7 @@ export default function Component({ menuList }) {
     document.title = currentRoute?.title
       ? `${title}-${currentRoute?.title}`
       : title;
-  });
+  }, [levelList]);
 
   return (
     <Breadcrumb
