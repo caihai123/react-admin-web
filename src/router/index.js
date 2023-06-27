@@ -25,10 +25,6 @@ const routes = [
     path: "/error/404",
     component: lazy(() => import("@/pages/404")),
   },
-  {
-    path: "/user/user-auth",
-    component: lazy(() => import("@/pages/user/user-auth")),
-  },
 ];
 
 export default routes;
