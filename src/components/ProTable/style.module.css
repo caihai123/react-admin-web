@@ -1,12 +1,19 @@
-.tools {
+.tools-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding-bottom: 16px;
 }
 
-.tools .header-title {
+.tools-bar .header-title {
   font-size: 16px;
+}
+
+.tools-bar .tool-right{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 16px;
 }
 
 .batch-bar {

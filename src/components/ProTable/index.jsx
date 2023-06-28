@@ -6,7 +6,7 @@ import {
   useMemo,
 } from "react";
 import DropdownFrom from "@/components/DropdownFrom";
-import { Table, Form, Select, Input, Space, Button, theme } from "antd";
+import { Table, Form, Select, Input, Space, Button, theme, Card } from "antd";
 import styles from "./style.module.css";
 import { usePagination } from "ahooks";
 import PropTypes from "prop-types";
@@ -43,8 +43,11 @@ const ProTable = forwardRef(function (props, ref) {
     // 批量操作功能的渲染函数，不为空时会自动配置checkbox
     batchBarRender = null,
 
-    // 表格的rowSelection配置项，优先级最高，可能会覆盖掉
+    // 表格的rowSelection配置项，优先级最高，可能会覆盖掉默认配置
     tableRowSelection = {},
+
+    // 分页配置项，为对象时可能会覆盖掉默认值
+    pagination: paginationConfig = true,
   } = props;
 
   // 表单的默认值
@@ -88,7 +91,11 @@ const ProTable = forwardRef(function (props, ref) {
     loading,
   } = usePagination(
     ({ current, pageSize }) => props.request(params, { current, pageSize }),
-    { refreshDeps: [params] }
+    {
+      refreshDeps: [params],
+      defaultCurrent: paginationConfig?.current || 1,
+      defaultPageSize: paginationConfig?.pageSize || 10,
+    }
   );
 
   const [selectedRowKeys, setSelectedRowKeys] = useState([]); // 当前选中的keys
@@ -118,91 +125,108 @@ const ProTable = forwardRef(function (props, ref) {
   } = theme.useToken();
 
   return (
-    <div style={{ padding: 20 }}>
+    <>
       {search && (
-        <DropdownFrom
-          ref={searchFrom}
-          onFinish={(values) => setParams(values)}
-          initialValues={initialValues}
+        <Card
+          style={{ marginBottom: 16 }}
+          bodyStyle={{ paddingTop: 16, paddingBottom: 0 }}
         >
-          {formItems}
-        </DropdownFrom>
+          <DropdownFrom
+            ref={searchFrom}
+            onFinish={(values) => setParams(values)}
+            initialValues={initialValues}
+          >
+            {formItems}
+          </DropdownFrom>
+        </Card>
       )}
 
-      {toolBarRender && (
-        <div
-          className={styles["tools"]}
-          style={{
-            display: selectedRowKeys.length > 0 ? "none" : "",
-            color: colorText,
-          }}
-        >
-          <div className={styles["header-title"]}>
-            {typeof headerTitle === "function" ? headerTitle() : headerTitle}
+      <Card
+        bodyStyle={{ paddingTop: 16, paddingBottom: paginationConfig ? 0 : 24 }}
+      >
+        {toolBarRender && (
+          <div
+            className={styles["tools-bar"]}
+            style={{
+              display: selectedRowKeys.length > 0 ? "none" : "",
+              color: colorText,
+            }}
+          >
+            <div className={styles["header-title"]}>
+              {typeof headerTitle === "function" ? headerTitle() : headerTitle}
+            </div>
+            <div className={styles["tool-right"]}>
+              <Space>
+                {typeof toolBarRender === "function"
+                  ? toolBarRender()
+                  : toolBarRender}
+              </Space>
+            </div>
           </div>
-          <Space>
-            {typeof toolBarRender === "function"
-              ? toolBarRender()
-              : toolBarRender}
-          </Space>
-        </div>
-      )}
+        )}
 
-      {batchBarRender && (
-        <div
-          className={styles["batch-bar"]}
-          style={{
-            display: selectedRowKeys.length > 0 ? "" : "none",
-            color: colorText,
-            backgroundColor: controlItemBgActive,
-            borderRadius,
-          }}
-        >
-          <div>
-            <span>已选 {selectedRowKeys.length} 项</span>
-            <Button type="link" onClick={() => setSelectedRowKeys([])}>
-              取消选择
-            </Button>
+        {batchBarRender && (
+          <div
+            className={styles["batch-bar"]}
+            style={{
+              display: selectedRowKeys.length > 0 ? "" : "none",
+              color: colorText,
+              backgroundColor: controlItemBgActive,
+              borderRadius,
+            }}
+          >
+            <div>
+              <span>已选 {selectedRowKeys.length} 项</span>
+              <Button type="link" onClick={() => setSelectedRowKeys([])}>
+                取消选择
+              </Button>
+            </div>
+            <Space>
+              {typeof batchBarRender === "function"
+                ? batchBarRender(selectedRowKeys)
+                : batchBarRender}
+            </Space>
           </div>
-          <Space>
-            {typeof batchBarRender === "function"
-              ? batchBarRender(selectedRowKeys)
-              : batchBarRender}
-          </Space>
-        </div>
-      )}
+        )}
 
-      <div className={styles["main"]}>
-        <Table
-          rowKey={props.rowKey}
-          dataSource={tableData?.list}
-          columns={tableColumns}
-          pagination={{
-            current: pagination.current,
-            pageSize: pagination.pageSize,
-            total: pagination.total,
-            showSizeChanger: true,
-            showQuickJumper: true,
-            showTotal: (total, range) => `共 ${total} 条`,
-            onChange: pagination.onChange,
-          }}
-          loading={loading}
-          rowSelection={
-            batchBarRender
-              ? {
-                  type: "checkbox",
-                  selectedRowKeys,
-                  onChange: (keys) => setSelectedRowKeys(keys),
-                  preserveSelectedRowKeys: true,
-                  ...tableRowSelection,
-                }
-              : undefined
-          }
-          bordered
-          scroll={{ x: "max-content" }}
-        />
-      </div>
-    </div>
+        <div className={styles["main"]}>
+          <Table
+            rowKey={props.rowKey}
+            dataSource={tableData?.list}
+            columns={tableColumns}
+            pagination={
+              paginationConfig
+                ? {
+                    current: pagination.current,
+                    pageSize: pagination.pageSize,
+                    total: pagination.total,
+                    showSizeChanger: true,
+                    showQuickJumper: true,
+                    showTotal: (total, range) =>
+                      `第 ${range.join("-")} 条/共 ${total} 条`,
+                    onChange: pagination.onChange,
+                    ...paginationConfig,
+                  }
+                : false
+            }
+            loading={loading}
+            rowSelection={
+              batchBarRender
+                ? {
+                    type: "checkbox",
+                    selectedRowKeys,
+                    onChange: (keys) => setSelectedRowKeys(keys),
+                    preserveSelectedRowKeys: true,
+                    ...tableRowSelection,
+                  }
+                : undefined
+            }
+            bordered
+            scroll={{ x: "max-content" }}
+          />
+        </div>
+      </Card>
+    </>
   );
 });
 
@@ -228,6 +252,7 @@ ProTable.propTypes = {
     PropTypes.func,
   ]),
   tableRowSelection: PropTypes.object,
+  pagination: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
 };
 
 export default ProTable;
