@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { useMount } from "ahooks";
-import { Table, Button, Input, Space, Tag } from "antd";
+import { Button, Space, Tag } from "antd";
 import useAxios from "@/hooks/axios";
+import ProTable from "@/components/ProTable";
+import { PlusOutlined } from "@ant-design/icons";
 
 export default function Page() {
   const axios = useAxios();
@@ -17,16 +17,19 @@ export default function Page() {
     {
       title: "图标",
       dataIndex: "icon",
+      hideInSearch: true,
     },
     {
       title: "类型",
-      render: (row) => {
-        if (row.type === "1") {
+      render: (type) => {
+        if (type === "1") {
           return <Tag color="#87d068">菜单</Tag>;
-        } else if (row.type === "2") {
+        } else if (type === "2") {
           return <Tag color="#108ee9">目录</Tag>;
         }
       },
+      dataIndex: "type",
+      hideInSearch: true,
     },
     {
       title: "操作",
@@ -46,39 +49,29 @@ export default function Page() {
       ),
       width: 100,
       fixed: "right",
+      hideInSearch: true,
     },
   ];
 
-  const [tableData, setTableDate] = useState([]);
-
-  const getTableData = function () {
-    axios.get("/api/get-menu-all").then((value) => {
-      setTableDate(value.result || []);
-    });
-  };
-  useMount(() => {
-    getTableData();
-  });
-
   return (
-    <div style={{ padding: 20 }}>
-      <Space style={{ marginBottom: 16 }} size="middle">
-        <Input.Search
-          placeholder="可输入title path icon 查询"
-          style={{ width: 400 }}
-        />
-        <Button type="primary">新增</Button>
-      </Space>
-      <div>
-        <Table
-          rowKey="id"
-          columns={columns}
-          dataSource={tableData}
-          pagination={false}
-          bordered
-          scroll={{ x: "max-content" }}
-        />
-      </div>
-    </div>
+    <ProTable
+      rowKey="id"
+      columns={columns}
+      headerTitle="菜单列表"
+      request={() => {
+        return axios.get("/api/get-menu-all").then((value) => {
+          const { result: data } = value;
+          return {
+            list: data,
+          };
+        });
+      }}
+      toolBarRender={
+        <Button type="primary" icon={<PlusOutlined />}>
+          新增
+        </Button>
+      }
+      pagination={false}
+    ></ProTable>
   );
 }
