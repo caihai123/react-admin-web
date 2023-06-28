@@ -95,6 +95,7 @@ const ProTable = forwardRef(function (props, ref) {
       refreshDeps: [params],
       defaultCurrent: paginationConfig?.current || 1,
       defaultPageSize: paginationConfig?.pageSize || 10,
+      loadingDelay: 300,
     }
   );
 
