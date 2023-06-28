@@ -1,5 +1,5 @@
 import { Suspense, useMemo } from "react";
-import { Layout, Spin, theme } from "antd";
+import { Layout, Spin } from "antd";
 import { Routes, Route } from "react-router-dom";
 import { useBoolean, useTimeout } from "ahooks";
 import Redirect from "./redirect";
@@ -41,12 +41,8 @@ export default function LayContent({ initialMenuList, loading }) {
     return menuList.some((item) => item.path === pathname);
   };
 
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
-
   return (
-    <Content style={{ margin: 20, background: colorBgContainer }}>
+    <Content style={{ margin: 20 }}>
       {!pageloading ? (
         <Suspense fallback={<PageLoading />}>
           <Routes>
