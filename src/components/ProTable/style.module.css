@@ -9,11 +9,27 @@
   font-size: 16px;
 }
 
-.tools-bar .tool-right{
+.tools-bar .tool-right {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap: 16px;
+  gap: 8px;
+}
+
+.tools-bar .toolbar-setting {
+  display: flex;
+  gap: 8px;
+  line-height: 32px;
+  align-items: center;
+}
+.tools-bar .toolbar-setting .toolbar-setting-item {
+  margin-block: 0;
+  margin-inline: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+.tools-bar .toolbar-setting .toolbar-setting-item:hover{
+  color: #1677ff;
 }
 
 .batch-bar {

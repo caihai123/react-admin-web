@@ -6,10 +6,26 @@ import {
   useMemo,
 } from "react";
 import DropdownFrom from "@/components/DropdownFrom";
-import { Table, Form, Select, Input, Space, Button, theme, Card } from "antd";
+import {
+  Table,
+  Form,
+  Select,
+  Input,
+  Space,
+  Button,
+  theme,
+  Card,
+  Tooltip,
+  Dropdown,
+} from "antd";
 import styles from "./style.module.css";
 import { usePagination } from "ahooks";
 import PropTypes from "prop-types";
+import {
+  ReloadOutlined,
+  ColumnHeightOutlined,
+  // SettingOutlined,
+} from "@ant-design/icons";
 
 // 生成输入框
 const createInput = function (item) {
@@ -25,6 +41,8 @@ const createInput = function (item) {
     return <Input placeholder={`请输入${item.title}`} />;
   }
 };
+
+const initialTableSize = "large";
 
 const ProTable = forwardRef(function (props, ref) {
   const {
@@ -89,6 +107,7 @@ const ProTable = forwardRef(function (props, ref) {
     data: tableData,
     pagination,
     loading,
+    refresh,
   } = usePagination(
     ({ current, pageSize }) => props.request(params, { current, pageSize }),
     {
@@ -99,11 +118,12 @@ const ProTable = forwardRef(function (props, ref) {
     }
   );
 
+  const [tableSize, setTableSize] = useState(initialTableSize);
+
   const [selectedRowKeys, setSelectedRowKeys] = useState([]); // 当前选中的keys
 
   useImperativeHandle(ref, () => ({
-    // 刷新，不传页码时刷新到当前页
-    reload: (current) => pagination.changeCurrent(current),
+    refresh,
 
     // 触发搜索表单的搜索事件
     search: () => {
@@ -145,7 +165,7 @@ const ProTable = forwardRef(function (props, ref) {
       <Card
         bodyStyle={{ paddingTop: 16, paddingBottom: paginationConfig ? 0 : 24 }}
       >
-        {toolBarRender && (
+        {
           <div
             className={styles["tools-bar"]}
             style={{
@@ -157,14 +177,51 @@ const ProTable = forwardRef(function (props, ref) {
               {typeof headerTitle === "function" ? headerTitle() : headerTitle}
             </div>
             <div className={styles["tool-right"]}>
-              <Space>
-                {typeof toolBarRender === "function"
-                  ? toolBarRender()
-                  : toolBarRender}
-              </Space>
+              {toolBarRender && (
+                <Space>
+                  {typeof toolBarRender === "function"
+                    ? toolBarRender()
+                    : toolBarRender}
+                </Space>
+              )}
+              <div className={styles["toolbar-setting"]}>
+                <div
+                  className={styles["toolbar-setting-item"]}
+                  onClick={() => refresh()}
+                >
+                  <Tooltip title="刷新">
+                    <ReloadOutlined />
+                  </Tooltip>
+                </div>
+                <Dropdown
+                  overlayStyle={{ width: 80 }}
+                  menu={{
+                    items: [
+                      { key: "large", label: "默认" },
+                      { key: "middle", label: "中等" },
+                      { key: "small", label: "紧凑" },
+                    ],
+                    selectable: true,
+                    defaultSelectedKeys: [initialTableSize],
+                    onClick: ({ key }) => setTableSize(key),
+                  }}
+                  trigger={["click"]}
+                >
+                  <div className={styles["toolbar-setting-item"]}>
+                    <Tooltip title="密度">
+                      <ColumnHeightOutlined />
+                    </Tooltip>
+                  </div>
+                </Dropdown>
+                {/* <div className={styles["toolbar-setting-item"]}>
+                  <Tooltip title="列设置">
+                    <SettingOutlined />
+                  </Tooltip>
+                </div> */}
+              </div>
             </div>
           </div>
-        )}
+        }
 
         {batchBarRender && (
           <div
@@ -223,6 +280,7 @@ const ProTable = forwardRef(function (props, ref) {
                 : undefined
             }
             bordered
+            size={tableSize}
             scroll={{ x: "max-content" }}
           />
         </div>
