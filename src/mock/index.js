@@ -4,6 +4,10 @@ import login from "./login";
 import role from "./premis/role";
 import account from "./premis/account";
 
+Mock.setup({
+  timeout: "500-1000",
+});
+
 const mock = [...login, ...role, ...account];
 
 mock.forEach(({ url, type, handler }) => {
