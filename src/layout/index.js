@@ -93,7 +93,7 @@ export default function LayoutViwe() {
   };
 
   return (
-    <Layout style={{ minHeight: "100vh" }}>
+    <Layout style={{ minHeight: "100vh", flexDirection: "row" }}>
       <Layout.Sider {...siderConfig}></Layout.Sider>
       <Sider {...siderConfig}>
         <Logo collapsed={collapsed}>
