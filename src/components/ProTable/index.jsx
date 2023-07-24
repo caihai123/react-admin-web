@@ -24,8 +24,9 @@ import PropTypes from "prop-types";
 import {
   ReloadOutlined,
   ColumnHeightOutlined,
-  // SettingOutlined,
+  SettingOutlined,
 } from "@ant-design/icons";
+import ColumnSetting from "./ColumnSetting";
 
 // 生成输入框
 const createInput = function (item) {
@@ -42,7 +43,11 @@ const createInput = function (item) {
   }
 };
 
-const initialTableSize = "large";
+const getRowkey = function (row) {
+  return row.key || row.dataIndex;
+};
+
+const initialTableSize = "large"; // 表格尺寸默认值
 
 const ProTable = forwardRef(function (props, ref) {
   const {
@@ -87,7 +92,7 @@ const ProTable = forwardRef(function (props, ref) {
         <Form.Item
           label={item.title}
           name={item.dataIndex}
-          key={item.key || item.dataIndex}
+          key={getRowkey(item)}
         >
           {createInput(item)}
         </Form.Item>
@@ -98,6 +103,11 @@ const ProTable = forwardRef(function (props, ref) {
   const tableColumns = useMemo(
     () => columns.filter((item) => item.hideInTable !== true),
     [columns]
+  );
+
+  // 表格设置栏
+  const [configkeys, setConfigkeys] = useState(
+    tableColumns.map((item) => getRowkey(item))
   );
 
   const [params, setParams] = useState(initialValues);
@@ -213,11 +223,21 @@ const ProTable = forwardRef(function (props, ref) {
                     </Tooltip>
                   </div>
                 </Dropdown>
-                {/* <div className={styles["toolbar-setting-item"]}>
-                  <Tooltip title="列设置">
-                    <SettingOutlined />
-                  </Tooltip>
-                </div> */}
+
+                <ColumnSetting
+                  value={configkeys}
+                  options={tableColumns.map((item) => ({
+                    label: item.title,
+                    value: getRowkey(item),
+                  }))}
+                  onChange={(keys) => setConfigkeys(keys)}
+                >
+                  <div className={styles["toolbar-setting-item"]}>
+                    <Tooltip title="列设置">
+                      <SettingOutlined />
+                    </Tooltip>
+                  </div>
+                </ColumnSetting>
               </div>
             </div>
           </div>
@@ -251,7 +271,10 @@ const ProTable = forwardRef(function (props, ref) {
           <Table
             rowKey={props.rowKey}
             dataSource={tableData?.list}
-            columns={tableColumns}
+            columns={tableColumns.filter((item) => {
+              const key = getRowkey(item);
+              return configkeys.includes(key);
+            })}
             pagination={
               paginationConfig
                 ? {
