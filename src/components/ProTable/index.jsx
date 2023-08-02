@@ -160,7 +160,7 @@ const ProTable = forwardRef(function (props, ref) {
       {search && (
         <Card
           style={{ marginBottom: 16 }}
-          bodyStyle={{ paddingTop: 16, paddingBottom: 0 }}
+          bodyStyle={{ paddingTop: 0, paddingBottom: 0 }}
         >
           <DropdownFrom
             ref={searchFrom}

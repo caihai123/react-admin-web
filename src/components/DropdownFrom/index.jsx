@@ -9,6 +9,7 @@ const toolsWidth = "188px";
 const DropdownBox = styled(Form)`
   position: relative;
   overflow-y: hidden;
+  padding-top: 16px;
   &:after {
     content: "";
     display: inline-block;
@@ -49,7 +50,7 @@ const DropdownForm = forwardRef(function (props, ref) {
     <DropdownBox
       layout="inline"
       style={{
-        height: visible ? "auto" : "48px",
+        height: visible ? "auto" : "64px",
         paddingRight: visible ? "0" : toolsWidth,
       }}
       form={form}
