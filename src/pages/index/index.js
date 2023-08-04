@@ -4,10 +4,11 @@ import SalesCard from "./components/SalesCard";
 import ProportionSales from "./components/ProportionSales";
 import TopSearch from "./components/TopSearch";
 
-const index = function () {
+export default function Index() {
   const {
     token: { colorBgLayout },
   } = theme.useToken();
+
   return (
     <div style={{ height: "100%", background: colorBgLayout }}>
       <Row gutter={[20, 20]}>
@@ -26,6 +27,4 @@ const index = function () {
       </Row>
     </div>
   );
-};
-
-export default index;
+}
