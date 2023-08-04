@@ -1,5 +1,5 @@
 import { forwardRef, useImperativeHandle } from "react";
-import { Form, Button, Space } from "antd";
+import { Card, Form, Button, Space } from "antd";
 import { CaretUpOutlined, CaretDownOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import { useBoolean } from "ahooks";
@@ -34,7 +34,7 @@ const DropdownForm = forwardRef(function (props, ref) {
   const [form] = Form.useForm();
   const [visible, { setTrue, setFalse }] = useBoolean(false);
 
-  const { children, ...rest } = props;
+  const { children, style, className, ...rest } = props;
 
   const reset = function () {
     form.resetFields();
@@ -47,44 +47,50 @@ const DropdownForm = forwardRef(function (props, ref) {
   }));
 
   return (
-    <DropdownBox
-      layout="inline"
-      style={{
-        height: visible ? "auto" : "64px",
-        paddingRight: visible ? "0" : toolsWidth,
-      }}
-      form={form}
-      {...rest}
+    <Card
+      bodyStyle={{ paddingTop: 0, paddingBottom: 0 }}
+      style={style}
+      className={className}
     >
-      {children}
-      <ToolsItem>
-        <Space>
-          <Button type="primary" htmlType="submit">
-            查询
-          </Button>
-          <Button onClick={() => reset()}>重置</Button>
-          {visible ? (
-            <Button
-              type="link"
-              style={{ padding: 0 }}
-              onClick={() => setFalse()}
-            >
-              收起
-              <CaretUpOutlined style={{ marginInlineStart: 0 }} />
+      <DropdownBox
+        layout="inline"
+        style={{
+          height: visible ? "auto" : "64px",
+          paddingRight: visible ? "0" : toolsWidth,
+        }}
+        form={form}
+        {...rest}
+      >
+        {children}
+        <ToolsItem>
+          <Space>
+            <Button type="primary" htmlType="submit">
+              查询
             </Button>
-          ) : (
-            <Button
-              type="link"
-              style={{ padding: 0 }}
-              onClick={() => setTrue()}
-            >
-              展开
-              <CaretDownOutlined style={{ marginInlineStart: 0 }} />
-            </Button>
-          )}
-        </Space>
-      </ToolsItem>
-    </DropdownBox>
+            <Button onClick={() => reset()}>重置</Button>
+            {visible ? (
+              <Button
+                type="link"
+                style={{ padding: 0 }}
+                onClick={() => setFalse()}
+              >
+                收起
+                <CaretUpOutlined style={{ marginInlineStart: 0 }} />
+              </Button>
+            ) : (
+              <Button
+                type="link"
+                style={{ padding: 0 }}
+                onClick={() => setTrue()}
+              >
+                展开
+                <CaretDownOutlined style={{ marginInlineStart: 0 }} />
+              </Button>
+            )}
+          </Space>
+        </ToolsItem>
+      </DropdownBox>
+    </Card>
   );
 });
 

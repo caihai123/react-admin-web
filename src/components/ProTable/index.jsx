@@ -158,21 +158,17 @@ const ProTable = forwardRef(function (props, ref) {
   return (
     <>
       {search && (
-        <Card
-          style={{ marginBottom: 16 }}
-          bodyStyle={{ paddingTop: 0, paddingBottom: 0 }}
+        <DropdownFrom
+          ref={searchFrom}
+          onFinish={(values) => setParams(values)}
+          initialValues={initialValues}
         >
-          <DropdownFrom
-            ref={searchFrom}
-            onFinish={(values) => setParams(values)}
-            initialValues={initialValues}
-          >
-            {formItems}
-          </DropdownFrom>
-        </Card>
+          {formItems}
+        </DropdownFrom>
       )}
 
       <Card
+        style={{ marginTop: 16 }}
         bodyStyle={{ paddingTop: 16, paddingBottom: paginationConfig ? 0 : 24 }}
       >
         {
