@@ -11,6 +11,12 @@ module.exports = {
   // 是否在 development 环境开启热更新
   FAST_REFRESH: true,
 
+  // 默认值：8080
+  PORT: 8080,
+
+  // 是否以https模式运行开发服务器。
+  HTTPS: true,
+
   // 是否开启源映射文件
   GENERATE_SOURCEMAP: true,
 };

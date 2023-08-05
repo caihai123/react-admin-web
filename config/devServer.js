@@ -1,8 +1,8 @@
 const env = require("./env");
 
 module.exports = {
-  https: false,
-  port: 8080,
+  https: env.HTTPS,
+  port: env.PORT || 8080,
   open: false, // 是否自动打开浏览器
   proxy: {
     "/api": {
