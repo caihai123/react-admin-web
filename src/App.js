@@ -27,7 +27,7 @@ export default function App() {
           algorithm: isLight ? theme.defaultAlgorithm : theme.darkAlgorithm,
         }}
       >
-        <BrowserRouter>
+        <BrowserRouter basename={process.env.PUBLIC_PATH.slice(0, -1)}>
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/*" element={<Layout />} />
