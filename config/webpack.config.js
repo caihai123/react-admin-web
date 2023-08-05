@@ -10,38 +10,12 @@ const InterpolateHtmlPlugin = require("react-dev-utils/InterpolateHtmlPlugin");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const FriendlyErrorsWebpackPlugin = require("@soda/friendly-errors-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
-
-const APP_NAME = "React Or Antd";
+const env = require("./env");
 
 const appDirectory = fs.realpathSync(process.cwd());
 const resolveApp = (relativePath) => path.resolve(appDirectory, relativePath);
 
 module.exports = function (webpackEnv) {
-  // 环境变量
-  const env = {
-    NODE_ENV: JSON.stringify(webpackEnv),
-
-    // app TITLE
-    REACT_APP_WEBSITE_NAME: JSON.stringify(APP_NAME),
-
-    // commitHash
-    REACT_APP_Commit_Hash: JSON.stringify(
-      child_process.execSync("git show -s --format=%H").toString().trim()
-    ),
-
-    // 是否开启 mockapi
-    REACT_APP_MOCK: true,
-
-    // 打包时间（启动时间）
-    REACT_APP_Build_Date: JSON.stringify(dayjs().format("YYYY-MM-DD HH:mm:ss")),
-
-    // 是否在 development 环境开启热更新
-    FAST_REFRESH: true,
-
-    // 是否开启源映射文件
-    GENERATE_SOURCEMAP: true,
-  };
-
   const isEnvDevelopment = webpackEnv === "development";
   const isEnvProduction = webpackEnv === "production";
   const shouldUseReactRefresh = env.FAST_REFRESH;
@@ -58,7 +32,7 @@ module.exports = function (webpackEnv) {
         : false
       : isEnvDevelopment && "cheap-module-source-map",
     output: {
-      publicPath: "/",
+      publicPath: env.PUBLIC_PATH,
       filename: isEnvProduction
         ? `${assetsDir}/js/[name].[contenthash:8].js`
         : isEnvDevelopment && `${assetsDir}/js/bundle.js`,
@@ -151,7 +125,24 @@ module.exports = function (webpackEnv) {
       new FriendlyErrorsWebpackPlugin(),
 
       // 设置环境变量
-      new webpack.DefinePlugin({ "process.env": env }),
+      new webpack.DefinePlugin({
+        "process.env": {
+          NODE_ENV: JSON.stringify(webpackEnv),
+          REACT_APP_WEBSITE_NAME: JSON.stringify(env.APP_NAME),
+          // 是否开启 mockapi
+          REACT_APP_MOCK: env.REACT_APP_MOCK,
+          // 打包时间（启动时间）
+          REACT_APP_Build_Date: JSON.stringify(
+            dayjs().format("YYYY-MM-DD HH:mm:ss")
+          ),
+          // commitHash
+          REACT_APP_Commit_Hash: JSON.stringify(
+            child_process.execSync("git show -s --format=%H").toString().trim()
+          ),
+          // 部署路径
+          PUBLIC_PATH: JSON.stringify(env.PUBLIC_PATH),
+        },
+      }),
 
       new HtmlWebpackPlugin({
         inject: true,
@@ -174,8 +165,8 @@ module.exports = function (webpackEnv) {
 
       // 向 index.html 中设置环境变量
       new InterpolateHtmlPlugin(HtmlWebpackPlugin, {
-        REACT_APP_WEBSITE_NAME: APP_NAME,
-        PUBLIC_URL: "",
+        REACT_APP_WEBSITE_NAME: env.APP_NAME,
+        PUBLIC_URL: env.PUBLIC_PATH.slice(0, -1),
       }),
 
       // 执行eslint校验
