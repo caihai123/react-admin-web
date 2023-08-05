@@ -52,7 +52,7 @@ const useAxios = () => {
           navigate("/login");
           break;
         default:
-          message.error(error);
+          message.error(error.message);
           break;
       }
       return Promise.reject(error);
