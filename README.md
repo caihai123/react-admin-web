@@ -28,13 +28,7 @@ npm run lint
 ```
 
 ## webpack 
+本项目不是基于 [Create React App](https://create-react-app.dev/) 等快速启动项目的工具搭建了。当然也参考了部分 `Create React App` 和 `vue-cli` 的代码。具体代码可参考项目中的 `config` 和 `script` 文件夹。
 
 ## Eslint 和 Prettier
-
-## 最后
->项目中的所有代码都需要通过 [ESLint](https://eslint.bootcss.com/) 的检测，为了保持更好的开发体验，建议在 vscode 中安装 ESLint 和 Prettier 插件并添加以下配置：
-`
-"editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
-},
-`
+ 为了保持更好的开发体验，项目已经集成了 Eslint 和 Prettier 进行代码检查，同时也配置的一些基础的检验规则，如有需要可自行在 `.eslintrc.js` 和 `.prettierrc.js` 中按需要自行调整。
