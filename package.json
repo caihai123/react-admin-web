@@ -7,7 +7,7 @@
     "build": "node scripts/build",
     "dev": "npm start",
     "lint": "eslint --fix **.js src/**/*.js  src/**/*.jsx",
-    "gh-pages":"node gh-pages"
+    "gh-pages": "node gh-pages"
   },
   "dependencies": {
     "@ant-design/charts": "^1.4.2",
