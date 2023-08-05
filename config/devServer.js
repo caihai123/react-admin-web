@@ -4,16 +4,16 @@ module.exports = {
   https: env.HTTPS,
   port: env.PORT || 8080,
   open: false, // 是否自动打开浏览器
-  proxy: {
-    "/api": {
-      target: "https://test-portal.gshbzw.com",
-      ws: true,
-      changeOrigin: true,
-      // pathRewrite: {
-      //   "^/api": "",
-      // },
-    },
-  },
+  // proxy: {
+  //   "/api": {
+  //     target: "",
+  //     ws: true,
+  //     changeOrigin: true,
+  //     pathRewrite: {
+  //       "^/api": "",
+  //     },
+  //   },
+  // },
   client: {
     overlay: {
       errors: true,
