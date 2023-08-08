@@ -15,7 +15,7 @@ module.exports = {
   PORT: 8080,
 
   // 是否以https模式运行开发服务器。
-  HTTPS: true,
+  HTTPS: false,
 
   // 是否开启源映射文件
   GENERATE_SOURCEMAP: true,
