@@ -6,18 +6,7 @@ import {
   useMemo,
 } from "react";
 import DropdownFrom from "@/components/DropdownFrom";
-import {
-  Table,
-  Form,
-  Select,
-  Input,
-  Space,
-  Button,
-  theme,
-  Card,
-  Tooltip,
-  Dropdown,
-} from "antd";
+import { Table, Space, Button, theme, Card, Tooltip, Dropdown } from "antd";
 import styles from "./style.module.css";
 import { usePagination } from "ahooks";
 import PropTypes from "prop-types";
@@ -27,21 +16,7 @@ import {
   SettingOutlined,
 } from "@ant-design/icons";
 import ColumnSetting from "./ColumnSetting";
-
-// 生成输入框
-const createInput = function (item) {
-  if (item.type === "select") {
-    return (
-      <Select
-        placeholder={`请选择${item.title}`}
-        options={item.options}
-        style={{ width: "183px" }}
-      />
-    );
-  } else {
-    return <Input placeholder={`请输入${item.title}`} />;
-  }
-};
+import FormItem from "./FormItem";
 
 const getRowkey = function (row) {
   return row.key || row.dataIndex;
@@ -88,15 +63,7 @@ const ProTable = forwardRef(function (props, ref) {
   const formItems = useMemo(() => {
     return columns
       .filter((item) => item.hideInSearch !== true)
-      .map((item) => (
-        <Form.Item
-          label={item.title}
-          name={item.dataIndex}
-          key={getRowkey(item)}
-        >
-          {createInput(item)}
-        </Form.Item>
-      ));
+      .map((item) => <FormItem item={item} key={getRowkey(item)} />);
   }, [columns]);
 
   // 表格上使用的columns
