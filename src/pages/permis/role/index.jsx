@@ -1,4 +1,4 @@
-import { Button, Space, Switch } from "antd";
+import { Button, Space, Switch, message } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import ProTable from "@/components/ProTable";
 import useAxios from "@/hooks/axios";
@@ -65,7 +65,12 @@ export default function Page() {
           })
       }
       toolBarRender={() => [
-        <Button key="add" type="primary" icon={<PlusOutlined />}>
+        <Button
+          key="add"
+          type="primary"
+          icon={<PlusOutlined />}
+          onClick={() => message.warning("演示功能")}
+        >
           新增
         </Button>,
       ]}

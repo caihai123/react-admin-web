@@ -1,5 +1,4 @@
-import { useRef } from "react";
-import { Button, Space, Switch, Tag } from "antd";
+import { Button, message, Space, Switch, Tag } from "antd";
 import useAxios from "@/hooks/axios";
 import ProTable from "@/components/ProTable";
 import { PlusOutlined } from "@ant-design/icons";
@@ -71,8 +70,6 @@ export default function Page() {
     },
   ];
 
-  const addOrEditRef = useRef(null);
-
   return (
     <ProTable
       columns={columns}
@@ -90,10 +87,19 @@ export default function Page() {
           });
       }}
       batchBarRender={[
-        <Button type="primary" key="del" danger>
+        <Button
+          type="primary"
+          key="del"
+          danger
+          onClick={() => message.warning("演示功能")}
+        >
           批量删除
         </Button>,
-        <Button type="primary" key="export">
+        <Button
+          type="primary"
+          key="export"
+          onClick={() => message.warning("演示功能")}
+        >
           导出数据
         </Button>,
       ]}
@@ -101,7 +107,7 @@ export default function Page() {
         <Button
           type="primary"
           icon={<PlusOutlined />}
-          onClick={() => addOrEditRef.current.onStart()}
+          onClick={() => message.warning("演示功能")}
         >
           新增
         </Button>
