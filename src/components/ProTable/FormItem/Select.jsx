@@ -6,6 +6,7 @@ export default function Select({ item }) {
       <ASelect
         placeholder={`请选择${item.title}`}
         options={item.options}
+        style={{ width: 183 }}
         {...item.fieldProps}
       />
     </Form.Item>
