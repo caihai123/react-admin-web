@@ -64,6 +64,13 @@ const mock = [
             ],
           },
           {
+            id: "4",
+            title: "pro-table",
+            type: "1",
+            path: "/pro-table",
+            icon: "AppstoreFilled",
+          },
+          {
             id: "3",
             title: "错误页面",
             type: "2",
