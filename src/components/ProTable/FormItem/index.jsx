@@ -1,5 +1,7 @@
 import Input from "./Input";
 import Select from "./Select";
+import Checkbox from "./Checkbox";
+import Radio from "./Radio";
 import Date from "./Date";
 import DateRange from "./DateRange";
 
@@ -10,6 +12,10 @@ export default function FormItem({ item }) {
     switch (item.type) {
       case "select":
         return <Select item={item} />;
+      case "checkbox":
+        return <Checkbox item={item} />;
+      case "radio":
+        return <Radio item={item} />;
       case "date":
         return <Date item={item} />;
       case "dateRange":
