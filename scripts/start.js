@@ -9,9 +9,11 @@ const { prepareUrls } = require("react-dev-utils/WebpackDevServerUtils");
 const address = require("address");
 const defaultGateway = require("default-gateway"); // 在 package.json 中找不到，他是 webpack-dev-server下面的一个依赖
 const url = require("url");
+const env = require("../config/env");
 
 process.env.NODE_ENV = "development";
 
+const pathname = env.PUBLIC_PATH.slice(0, -1);
 const webpackConfig = configFactory(process.env.NODE_ENV);
 const compiler = webpack(webpackConfig);
 
@@ -25,7 +27,7 @@ const getLanUrlForTerminal = function () {
     protocol,
     hostname: lanUrlForConfig,
     port,
-    pathname: "/",
+    pathname,
   });
   return lanUrlForTerminal;
 };
@@ -34,7 +36,7 @@ compiler.hooks.done.tap("my-serve", (stats) => {
   if (stats.hasErrors()) {
     return;
   }
-  const urls = prepareUrls(protocol, host, port, "/");
+  const urls = prepareUrls(protocol, host, port, pathname);
   const lanUrlForTerminal = getLanUrlForTerminal();
   console.log();
   console.log(`  App running at:`);
