@@ -16,28 +16,28 @@ export default function App() {
   const isLight = themeName !== "dark";
 
   return (
-    <AntdApp>
-      <ConfigProvider
-        locale={zhCN}
-        theme={{
-          token: {
-            borderRadius: 2,
-            // colorBgBase: isLight ? "#fff" : "#242525",
-            colorBgContainer: isLight ? "#ffffff" : "#242525",
-            colorBgLayout: isLight ? "#f0f2f5" : "#2A2C2C",
-            colorTextBase: isLight ? "#1E293B" : "#E2E8F0",
-            colorBorder: isLight ? "#e5e7eb" : "#454847",
-          },
-          algorithm: isLight ? theme.defaultAlgorithm : theme.darkAlgorithm,
-        }}
-      >
+    <ConfigProvider
+      locale={zhCN}
+      theme={{
+        token: {
+          borderRadius: 2,
+          // colorBgBase: isLight ? "#fff" : "#242525",
+          colorBgContainer: isLight ? "#ffffff" : "#242525",
+          colorBgLayout: isLight ? "#f0f2f5" : "#2A2C2C",
+          colorTextBase: isLight ? "#1E293B" : "#E2E8F0",
+          colorBorder: isLight ? "#e5e7eb" : "#454847",
+        },
+        algorithm: isLight ? theme.defaultAlgorithm : theme.darkAlgorithm,
+      }}
+    >
+      <AntdApp>
         <BrowserRouter basename={process.env.PUBLIC_PATH.slice(0, -1)}>
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/*" element={<Layout />} />
           </Routes>
         </BrowserRouter>
-      </ConfigProvider>
-    </AntdApp>
+      </AntdApp>
+    </ConfigProvider>
   );
 }
