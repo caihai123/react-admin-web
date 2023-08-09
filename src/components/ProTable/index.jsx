@@ -136,7 +136,7 @@ const ProTable = forwardRef(function (props, ref) {
 
       <Card
         style={{ marginTop: 16 }}
-        bodyStyle={{ paddingTop: 16, paddingBottom: paginationConfig ? 0 : 24 }}
+        bodyStyle={{ paddingTop: 16, paddingBottom: 24 }}
       >
         {
           <div
@@ -249,6 +249,7 @@ const ProTable = forwardRef(function (props, ref) {
                     showTotal: (total, range) =>
                       `第 ${range.join("-")} 条/共 ${total} 条`,
                     onChange: pagination.onChange,
+                    style: { marginBottom: -8 },
                     ...paginationConfig,
                   }
                 : false
