@@ -2,7 +2,7 @@ import { Button, message, Space, Switch, Tag } from "antd";
 import useAxios from "@/hooks/axios";
 import ProTable from "@/components/ProTable";
 import { PlusOutlined } from "@ant-design/icons";
-import dict from "@/utils/dict";
+import { gender as genderDict } from "@/utils/dict";
 
 export default function Page() {
   const axios = useAxios();
@@ -19,16 +19,11 @@ export default function Page() {
       title: "性别",
       dataIndex: "gender",
       render: (gender) => {
-        if (gender === 1) {
-          return <Tag color="#2db7f5">男</Tag>;
-        } else if (gender === 2) {
-          return <Tag color="magenta">女</Tag>;
-        } else {
-          return gender;
-        }
+        const map = genderDict.map[gender];
+        return <Tag color={map.color}>{map.label}</Tag>;
       },
       type: "select",
-      options: dict["gender"].options,
+      options: genderDict.options,
     },
     {
       title: "手机号",

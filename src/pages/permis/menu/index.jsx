@@ -2,6 +2,7 @@ import { Button, Space, Tag, message } from "antd";
 import useAxios from "@/hooks/axios";
 import ProTable from "@/components/ProTable";
 import { PlusOutlined } from "@ant-design/icons";
+import { menuType } from "@/utils/dict";
 
 export default function Page() {
   const axios = useAxios();
@@ -21,15 +22,13 @@ export default function Page() {
     },
     {
       title: "类型",
-      render: (type) => {
-        if (type === "1") {
-          return <Tag color="#87d068">菜单</Tag>;
-        } else if (type === "2") {
-          return <Tag color="#108ee9">目录</Tag>;
-        }
-      },
       dataIndex: "type",
-      hideInSearch: true,
+      render: (type) => {
+        const map = menuType.map[type];
+        return <Tag color={map.color}>{map.label}</Tag>;
+      },
+      type: "select",
+      options: menuType.options,
     },
     {
       title: "操作",
