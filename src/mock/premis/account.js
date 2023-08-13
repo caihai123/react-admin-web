@@ -15,7 +15,7 @@ const mock = [
               id: "@guid",
               account: /^[a-zA-Z0-9_-]{4,16}$/,
               name: "@cname",
-              "gender|1": [1, 2],
+              "gender|1": [1, 2, ""],
               phone: /^(?:(?:\+|00)86)?1[3-9]\d{9}$/,
               email: "@email",
               "status|1": [0, 1],

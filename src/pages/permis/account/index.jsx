@@ -20,7 +20,11 @@ export default function Page() {
       dataIndex: "gender",
       render: (gender) => {
         const map = genderDict.map[gender];
-        return <Tag color={map.color}>{map.label}</Tag>;
+        const tag = {
+          color: map?.color || "rgba(0,0,0,.25)",
+          label: map?.label || "未知",
+        };
+        return <Tag color={tag.color}>{tag.label}</Tag>;
       },
       type: "select",
       options: genderDict.options,
