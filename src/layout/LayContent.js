@@ -19,7 +19,7 @@ const PageLoading = function () {
         alignItems: "center",
       }}
     >
-      <Spin tip="Loading"></Spin>
+      <Spin />
     </div>
   );
 };
