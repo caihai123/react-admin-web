@@ -1,8 +1,7 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Layout from "@/layout";
-import Login from "@/pages/login";
+import { RouterProvider } from "react-router-dom";
 import { ConfigProvider, App as AntdApp, theme } from "antd";
 import zhCN from "antd/locale/zh_CN";
+import { appRouter } from "@/router";
 import { selectTheme } from "@/store//modules//system";
 import { useSelector } from "react-redux";
 
@@ -31,12 +30,7 @@ export default function App() {
       }}
     >
       <AntdApp>
-        <BrowserRouter basename={process.env.PUBLIC_PATH.slice(0, -1)}>
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/*" element={<Layout />} />
-          </Routes>
-        </BrowserRouter>
+        <RouterProvider router={appRouter} />
       </AntdApp>
     </ConfigProvider>
   );

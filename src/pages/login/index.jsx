@@ -14,7 +14,7 @@ import LoginBanner from "./components/LoginBanner";
 import { useSelector, useDispatch } from "react-redux";
 import { selectTheme, setTheme } from "@/store/modules/system";
 import styled from "styled-components";
-import useAxios from "@/hooks/axios";
+import axios from "@/utils/axios";
 import {
   UserOutlined,
   LockOutlined,
@@ -60,7 +60,6 @@ const BlogrollIcon = styled.span`
 `;
 
 const Login = function () {
-  const axios = useAxios();
   const { message } = App.useApp();
 
   // 换肤相关 start

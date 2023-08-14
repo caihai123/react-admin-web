@@ -1,4 +1,23 @@
 import { lazy } from "react";
+import { createBrowserRouter } from "react-router-dom";
+import Layout from "@/layout";
+import Login from "@/pages/login";
+
+export const appRouter = createBrowserRouter(
+  [
+    {
+      path: "/login",
+      element: <Login />,
+    },
+    {
+      path: "/*",
+      element: <Layout />,
+    },
+  ],
+  {
+    basename: process.env.PUBLIC_PATH.slice(0, -1),
+  }
+);
 
 const routes = [
   {

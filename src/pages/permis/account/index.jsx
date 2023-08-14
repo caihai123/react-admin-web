@@ -1,11 +1,10 @@
 import { Button, message, Space, Switch, Tag } from "antd";
-import useAxios from "@/hooks/axios";
+import axios from "@/utils/axios";
 import ProTable from "@/components/ProTable";
 import { PlusOutlined } from "@ant-design/icons";
 import { gender as genderDict } from "@/utils/dict";
 
 export default function Page() {
-  const axios = useAxios();
   const columns = [
     {
       title: "真实姓名",
