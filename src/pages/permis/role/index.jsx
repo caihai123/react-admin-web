@@ -1,10 +1,11 @@
 import { Button, Space, Switch, message } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import ProTable from "@/components/ProTable";
-import useAxios from "@/hooks/axios";
+import axios from "@/utils/axios";
+import { useGetDeptSelectQuery } from "@/store/modules/catch-api";
 
 export default function Page() {
-  const axios = useAxios();
+  const { data: depeOptions } = useGetDeptSelectQuery();
 
   const columns = [
     {
@@ -25,6 +26,12 @@ export default function Page() {
         { label: "启用", value: "1" },
         { label: "禁用", value: "0" },
       ],
+    },
+    {
+      title: "部门",
+      dataIndex: "deptId",
+      type: "treeSelect",
+      options: depeOptions,
     },
     {
       title: "操作",

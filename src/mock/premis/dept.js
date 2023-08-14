@@ -74,11 +74,53 @@ const mock = [
     type: "get",
     handler() {
       return {
-        result: [...Array(10)].map((_, index) => ({
-          value: `${index + 1}`,
-          label: `部门${index + 1}`,
-        })),
         status: "success",
+        result: [
+          {
+            value: "1",
+            title: "部门1",
+          },
+          {
+            value: "2",
+            title: "部门2",
+            children: [
+              {
+                value: "2-1",
+                title: "部门2-1",
+              },
+              {
+                value: "2-2",
+                title: "部门2-2",
+              },
+              {
+                value: "2-3",
+                title: "部门2-3",
+              },
+              {
+                value: "2-4",
+                title: "部门2-4",
+              },
+            ],
+          },
+          {
+            value: "3",
+            title: "部门3",
+          },
+          {
+            value: "4",
+            title: "部门4",
+            children: [
+              {
+                value: "4-1",
+                title: "部门4-1",
+              },
+              {
+                value: "4-2",
+                title: "部门4-2",
+              },
+            ],
+          },
+        ],
         msg: "成功！",
       };
     },

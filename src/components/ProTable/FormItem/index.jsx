@@ -4,6 +4,7 @@ import Checkbox from "./Checkbox";
 import Radio from "./Radio";
 import Date from "./Date";
 import DateRange from "./DateRange";
+import TreeSelect from "./TreeSelect";
 
 export default function FormItem({ item }) {
   if (item.renderFormItem) {
@@ -20,6 +21,8 @@ export default function FormItem({ item }) {
         return <Date item={item} />;
       case "dateRange":
         return <DateRange item={item} />;
+      case "treeSelect":
+        return <TreeSelect item={item} />;
       default:
         return <Input item={item} />;
     }
