@@ -10,10 +10,10 @@ export default function Page() {
 
   const { message, modal } = App.useApp();
   const [deleteDeptItem] = useDeleteDeptItemMutation();
-  const deleteItem = function (id) {
+  const deleteItem = function ({ id, deptName }) {
     modal.confirm({
       title: "提示",
-      content: "确定删除当前部门吗？",
+      content: `确定删除【${deptName}】吗？`,
       onOk: () =>
         deleteDeptItem({ id })
           .unwrap()
@@ -50,7 +50,7 @@ export default function Page() {
             type="primary"
             danger
             size="small"
-            onClick={() => deleteItem(row.id)}
+            onClick={() => deleteItem(row)}
           >
             删除
           </Button>
