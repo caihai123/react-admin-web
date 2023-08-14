@@ -3,8 +3,11 @@ import axios from "@/utils/axios";
 import ProTable from "@/components/ProTable";
 import { PlusOutlined } from "@ant-design/icons";
 import { gender as genderDict } from "@/utils/dict";
+import { useGetDeptSelectQuery } from "@/store/api/deptSlice";
 
 export default function Page() {
+  const { data: depeOptions } = useGetDeptSelectQuery();
+
   const columns = [
     {
       title: "真实姓名",
@@ -45,6 +48,13 @@ export default function Page() {
         { label: "启用", value: 1 },
         { label: "禁用", value: 0 },
       ],
+    },
+    {
+      title: "部门",
+      dataIndex: "deptId",
+      type: "treeSelect",
+      options: depeOptions,
+      render: (_, row) => row.deptName,
     },
     {
       title: "操作",

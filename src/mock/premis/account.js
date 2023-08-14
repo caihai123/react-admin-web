@@ -18,6 +18,8 @@ const mock = [
               "gender|1": [1, 2, ""],
               phone: /^(?:(?:\+|00)86)?1[3-9]\d{9}$/,
               email: "@email",
+              deptId: "@guid",
+              deptName: "部门名称",
               "status|1": [0, 1],
             })
           ),
