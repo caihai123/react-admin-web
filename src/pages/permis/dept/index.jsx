@@ -2,7 +2,7 @@ import { Button, Space, App } from "antd";
 import axios from "@/utils/axios";
 import ProTable from "@/components/ProTable";
 import { PlusOutlined } from "@ant-design/icons";
-import { useDeleteDeptItemMutation } from "@/store/modules/catch-api";
+import { useDeleteDeptItemMutation } from "@/store/api/deptSlice";
 import { useRef } from "react";
 
 export default function Page() {

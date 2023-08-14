@@ -12,7 +12,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import LoginBanner from "./components/LoginBanner";
 import { useSelector, useDispatch } from "react-redux";
-import { selectTheme, setTheme } from "@/store/modules/system";
+import { selectTheme, setTheme } from "@/store/system";
 import styled from "styled-components";
 import axios from "@/utils/axios";
 import {

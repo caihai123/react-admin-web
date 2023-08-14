@@ -2,7 +2,7 @@ import { createElement, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Menu, Skeleton, theme } from "antd";
 import { Scrollbars } from "react-custom-scrollbars";
-import { selectTheme } from "@/store//modules//system";
+import { selectTheme } from "@/store/system";
 import { useSelector } from "react-redux";
 
 // import * as Icon from "@ant-design/icons";

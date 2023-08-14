@@ -1,12 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
-import system from "./modules/system";
-import { catchApi } from "./modules/catch-api";
+import system from "./system";
+import apiSlice from "./apiSlice";
 
 export default configureStore({
   reducer: {
     system,
-    [catchApi.reducerPath]: catchApi.reducer,
+    [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(catchApi.middleware),
+    getDefaultMiddleware().concat(apiSlice.middleware),
 });

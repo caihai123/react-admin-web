@@ -2,7 +2,7 @@ import { Button, Space, Switch, message } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import ProTable from "@/components/ProTable";
 import axios from "@/utils/axios";
-import { useGetDeptSelectQuery } from "@/store/modules/catch-api";
+import { useGetDeptSelectQuery } from "@/store/api/deptSlice";
 
 export default function Page() {
   const { data: depeOptions } = useGetDeptSelectQuery();

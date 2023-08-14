@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import screenfull from "screenfull";
-import { selectTheme, setTheme } from "@/store/modules/system";
+import { selectTheme, setTheme } from "@/store/system";
 import Breadcrumb from "./Breadcrumb";
 import {
   MenuUnfoldOutlined,

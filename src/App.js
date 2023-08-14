@@ -2,7 +2,7 @@ import { RouterProvider } from "react-router-dom";
 import { ConfigProvider, App as AntdApp, theme } from "antd";
 import zhCN from "antd/locale/zh_CN";
 import { appRouter } from "@/router";
-import { selectTheme } from "@/store//modules//system";
+import { selectTheme } from "@/store/system";
 import { useSelector } from "react-redux";
 
 // antd 的 DatePicker 国际化失效，官网说是因为我项目中同时存在两个dayjs，也确实是这样，ahooks中也有dayjs
