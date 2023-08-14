@@ -37,6 +37,10 @@ const routes = [
     component: lazy(() => import("@/pages/permis/account")),
   },
   {
+    path: "/permis/dept",
+    component: lazy(() => import("@/pages/permis/dept")),
+  },
+  {
     path: "/pro-table",
     component: lazy(() => import("@/pages/pro-table")),
   },

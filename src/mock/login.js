@@ -61,6 +61,12 @@ const mock = [
                 path: "/permis/account",
                 type: "1",
               },
+              {
+                id: "2-4",
+                title: "部门管理",
+                path: "/permis/dept",
+                type: "1",
+              },
             ],
           },
           {
