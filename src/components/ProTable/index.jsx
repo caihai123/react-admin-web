@@ -26,6 +26,9 @@ const initialTableSize = "large"; // 表格尺寸默认值
 
 const ProTable = forwardRef(function (props, ref) {
   const {
+    // Table 的数据，protable 推荐使用 request 来加载
+    dataSource,
+
     // 表格列配置
     columns = [],
 
@@ -46,6 +49,18 @@ const ProTable = forwardRef(function (props, ref) {
 
     // 分页配置项，为对象时可能会覆盖掉默认值
     pagination: paginationConfig = true,
+
+    // 自定义表格loading
+    loading,
+
+    // 处理刷新表格刷新
+    onRefresh,
+
+    // 提交表单时触发
+    onSubmit,
+
+    // 重置表单时触发
+    onReset,
   } = props;
 
   // 表单的默认值
@@ -77,16 +92,17 @@ const ProTable = forwardRef(function (props, ref) {
     tableColumns.map((item) => getRowkey(item))
   );
 
+  // 查询表单参数缓存
   const [params, setParams] = useState(initialValues);
+
+  // 查询表单实例
   const searchFrom = useRef(null);
 
-  const {
-    data: tableData,
-    pagination,
-    loading,
-    refresh,
-  } = usePagination(
-    ({ current, pageSize }) => props.request(params, { current, pageSize }),
+  // request加载数据对象
+  const requestData = usePagination(
+    ({ current, pageSize }) =>
+      !Array.isArray(dataSource) &&
+      props.request?.(params, { current, pageSize }),
     {
       refreshDeps: [params],
       defaultCurrent: paginationConfig?.current || 1,
@@ -95,23 +111,67 @@ const ProTable = forwardRef(function (props, ref) {
     }
   );
 
+  // 表格的可变配置项
+  const tableConfig = useMemo(() => {
+    const isDataSource = Array.isArray(dataSource);
+    const paginationBaseConfig = {
+      showSizeChanger: true,
+      showQuickJumper: true,
+      showTotal: (total, range) => `第 ${range.join("-")} 条/共 ${total} 条`,
+      style: { marginBottom: -8 },
+      ...paginationConfig,
+    };
+    const { data, pagination, refresh } = requestData;
+    return {
+      list: isDataSource ? dataSource : data?.list,
+      // eslint-disable-next-line no-nested-ternary
+      pagination: paginationConfig
+        ? isDataSource
+          ? paginationBaseConfig
+          : {
+              current: pagination.current,
+              pageSize: pagination.pageSize,
+              total: pagination.total,
+              onChange: pagination.onChange,
+              ...paginationBaseConfig,
+            }
+        : false,
+      loading:
+        // eslint-disable-next-line no-nested-ternary
+        typeof loading === "boolean"
+          ? loading
+          : isDataSource
+          ? false
+          : requestData.loading,
+      refresh: () => {
+        !isDataSource && refresh();
+        onRefresh?.(params);
+      },
+    };
+  }, [dataSource, requestData, paginationConfig, loading, params, onRefresh]);
+
+  // 表格size
   const [tableSize, setTableSize] = useState(initialTableSize);
 
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]); // 当前选中的keys
+  // 当前选中的keys
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
+  // 暴露出去的函数
   useImperativeHandle(ref, () => ({
-    refresh,
+    refresh: tableConfig.refresh,
 
     // 触发搜索表单的搜索事件
     search: () => {
       const submit = searchFrom?.current?.submit;
       submit ? submit() : setParams(null);
+      onSubmit?.(params);
     },
 
     // 触发搜索表单的重置事件
     reset: () => {
       const reset = searchFrom?.current?.reset;
       reset ? reset() : setParams(null);
+      onReset?.(params);
     },
 
     // 清空选中项
@@ -160,7 +220,7 @@ const ProTable = forwardRef(function (props, ref) {
               <div className={styles["toolbar-setting"]}>
                 <div
                   className={styles["toolbar-setting-item"]}
-                  onClick={() => refresh()}
+                  onClick={tableConfig.refresh}
                 >
                   <Tooltip title="刷新">
                     <ReloadOutlined />
@@ -233,28 +293,13 @@ const ProTable = forwardRef(function (props, ref) {
         <div className={styles["main"]}>
           <Table
             rowKey={props.rowKey}
-            dataSource={tableData?.list}
+            dataSource={tableConfig.list}
             columns={tableColumns.filter((item) => {
               const key = getRowkey(item);
               return configkeys.includes(key);
             })}
-            pagination={
-              paginationConfig
-                ? {
-                    current: pagination.current,
-                    pageSize: pagination.pageSize,
-                    total: pagination.total,
-                    showSizeChanger: true,
-                    showQuickJumper: true,
-                    showTotal: (total, range) =>
-                      `第 ${range.join("-")} 条/共 ${total} 条`,
-                    onChange: pagination.onChange,
-                    style: { marginBottom: -8 },
-                    ...paginationConfig,
-                  }
-                : false
-            }
-            loading={loading}
+            pagination={tableConfig.pagination}
+            loading={tableConfig.loading}
             rowSelection={
               batchBarRender
                 ? {
@@ -278,9 +323,14 @@ const ProTable = forwardRef(function (props, ref) {
 
 ProTable.propTypes = {
   rowKey: PropTypes.string.isRequired,
-  request: PropTypes.func.isRequired,
+  dataSource: PropTypes.array,
+  request: PropTypes.func,
+  onRefresh: PropTypes.func,
+  onSubmit: PropTypes.func,
+  onReset: PropTypes.func,
   columns: PropTypes.array.isRequired,
   search: PropTypes.bool,
+  loading: PropTypes.bool,
   toolBarRender: PropTypes.oneOfType([
     PropTypes.element,
     PropTypes.array,
