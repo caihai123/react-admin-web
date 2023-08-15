@@ -3,7 +3,7 @@ import Mock from "mockjs";
 const mock = [
   {
     // 获取权限菜单
-    url: "/api/dept-all/get",
+    url: "/api/dept/list",
     type: "get",
     handler() {
       return {
@@ -62,6 +62,41 @@ const mock = [
                 description: "@csentence",
               },
             ],
+          },
+          {
+            id: "5",
+            deptName: "部门5",
+            description: "@csentence",
+          },
+          {
+            id: "6",
+            deptName: "部门6",
+            description: "@csentence",
+          },
+          {
+            id: "7",
+            deptName: "部门7",
+            description: "@csentence",
+          },
+          {
+            id: "8",
+            deptName: "部门8",
+            description: "@csentence",
+          },
+          {
+            id: "9",
+            deptName: "部门9",
+            description: "@csentence",
+          },
+          {
+            id: "10",
+            deptName: "部门10",
+            description: "@csentence",
+          },
+          {
+            id: "11",
+            deptName: "部门11",
+            description: "@csentence",
           },
         ]),
         msg: "成功！",

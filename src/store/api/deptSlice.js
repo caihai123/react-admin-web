@@ -2,6 +2,11 @@ import apiSlice from "../apiSlice";
 
 export const deptSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+    // 获取所有部门
+    getDeptAll: builder.query({
+      query: () => "/api/dept/list",
+      providesTags: ["deptList"],
+    }),
     // 获取部门选择器
     getDeptSelect: builder.query({
       query: () => "/api/dept/select",
@@ -14,7 +19,7 @@ export const deptSlice = apiSlice.injectEndpoints({
         method: "POST",
         body,
       }),
-      invalidatesTags: ["DeptSelect"],
+      invalidatesTags: ["deptList", "DeptSelect"],
     }),
     // 更新单个部门
     updateDeptItem: builder.mutation({
@@ -23,7 +28,7 @@ export const deptSlice = apiSlice.injectEndpoints({
         method: "POST",
         body,
       }),
-      invalidatesTags: ["DeptSelect"],
+      invalidatesTags: ["deptList", "DeptSelect"],
     }),
     // 删除单个部门
     deleteDeptItem: builder.mutation({
@@ -32,12 +37,13 @@ export const deptSlice = apiSlice.injectEndpoints({
         method: "POST",
         body,
       }),
-      invalidatesTags: ["DeptSelect"],
+      invalidatesTags: ["deptList", "DeptSelect"],
     }),
   }),
 });
 
 export const {
+  useGetDeptAllQuery,
   useGetDeptSelectQuery,
   useAddDeptItemMutation,
   useUpdateDeptItemMutation,

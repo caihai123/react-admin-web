@@ -1,12 +1,16 @@
 import { Button, Space, App } from "antd";
-import axios from "@/utils/axios";
 import ProTable from "@/components/ProTable";
 import { PlusOutlined } from "@ant-design/icons";
-import { useDeleteDeptItemMutation } from "@/store/api/deptSlice";
+import {
+  useGetDeptAllQuery,
+  useDeleteDeptItemMutation,
+} from "@/store/api/deptSlice";
 import { useRef } from "react";
 
 export default function Page() {
   const proTable = useRef(null);
+
+  const { data: tableData, isFetching, refetch } = useGetDeptAllQuery();
 
   const { message, modal } = App.useApp();
   const [deleteDeptItem] = useDeleteDeptItemMutation();
@@ -33,7 +37,6 @@ export default function Page() {
     {
       title: "描述",
       dataIndex: "description",
-      hideInSearch: true,
     },
     {
       title: "操作",
@@ -58,7 +61,6 @@ export default function Page() {
       ),
       width: 100,
       fixed: "right",
-      hideInSearch: true,
     },
   ];
 
@@ -67,15 +69,11 @@ export default function Page() {
       ref={proTable}
       rowKey="id"
       columns={columns}
+      dataSource={tableData}
       headerTitle="部门列表"
-      request={() => {
-        return axios.get("/api/dept-all/get").then((value) => {
-          const { result: data } = value;
-          return {
-            list: data,
-          };
-        });
-      }}
+      loading={isFetching}
+      search={false}
+      onRefresh={refetch}
       toolBarRender={
         <Button
           type="primary"
@@ -85,7 +83,23 @@ export default function Page() {
           新增
         </Button>
       }
-      pagination={false}
+      batchBarRender={[
+        <Button
+          type="primary"
+          key="del"
+          danger
+          onClick={() => message.warning("演示功能")}
+        >
+          批量删除
+        </Button>,
+        <Button
+          type="primary"
+          key="export"
+          onClick={() => message.warning("演示功能")}
+        >
+          导出数据
+        </Button>,
+      ]}
     ></ProTable>
   );
 }
