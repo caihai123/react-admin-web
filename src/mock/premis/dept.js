@@ -1,4 +1,4 @@
-// import Mock from "mockjs";
+import Mock from "mockjs";
 
 const mock = [
   {
@@ -8,62 +8,62 @@ const mock = [
     handler() {
       return {
         status: "success",
-        result: [
+        result: Mock.mock([
           {
             id: "1",
             deptName: "部门1",
-            description: "",
+            description: "@csentence",
           },
           {
             id: "2",
             deptName: "部门2",
-            description: "",
+            description: "@csentence",
             children: [
               {
                 id: "2-1",
                 deptName: "部门2-1",
-                description: "",
+                description: "@csentence",
               },
               {
                 id: "2-2",
                 deptName: "部门2-2",
-                description: "",
+                description: "@csentence",
               },
               {
                 id: "2-3",
                 deptName: "部门2-3",
-                description: "",
+                description: "@csentence",
               },
               {
                 id: "2-4",
                 deptName: "部门2-4",
-                description: "",
+                description: "@csentence",
               },
             ],
           },
           {
             id: "3",
             deptName: "部门3",
-            description: "",
+            description: "@csentence",
           },
           {
             id: "4",
             deptName: "部门4",
-            description: "",
+            description: "@csentence",
             children: [
               {
                 id: "4-1",
                 deptName: "部门4-1",
-                description: "",
+                description: "@csentence",
               },
               {
                 id: "4-2",
                 deptName: "部门4-2",
-                description: "",
+                description: "@csentence",
               },
             ],
           },
-        ],
+        ]),
         msg: "成功！",
       };
     },
