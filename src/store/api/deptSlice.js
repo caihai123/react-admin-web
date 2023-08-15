@@ -38,6 +38,18 @@ export const deptSlice = apiSlice.injectEndpoints({
         body,
       }),
       invalidatesTags: ["deptList", "DeptSelect"],
+      async onQueryStarted({ id }, { dispatch, queryFulfilled }) {
+        const patchResult = dispatch(
+          apiSlice.util.updateQueryData("getDeptAll", undefined, (draft) => {
+            return draft.filter((dept) => dept.id !== id);
+          })
+        );
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+        }
+      },
     }),
   }),
 });

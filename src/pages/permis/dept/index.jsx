@@ -1,4 +1,4 @@
-import { Button, Space, App } from "antd";
+import { Button, Space, App, Popconfirm } from "antd";
 import ProTable from "@/components/ProTable";
 import { PlusOutlined } from "@ant-design/icons";
 import {
@@ -8,25 +8,19 @@ import {
 import { useRef } from "react";
 
 export default function Page() {
+  const { message } = App.useApp();
+
   const proTable = useRef(null);
 
-  const { data: tableData, isFetching, refetch } = useGetDeptAllQuery();
+  const { data: tableData, isLoading, refetch } = useGetDeptAllQuery();
 
-  const { message, modal } = App.useApp();
   const [deleteDeptItem] = useDeleteDeptItemMutation();
-  const deleteItem = function ({ id, deptName }) {
-    modal.confirm({
-      title: "提示",
-      content: `确定删除【${deptName}】吗？`,
-      onOk: () =>
-        deleteDeptItem({ id })
-          .unwrap()
-          .then(() => {
-            message.success("删除成功！");
-            proTable.current.refresh();
-          }),
-      centered: true,
-    });
+  const deleteItem = function (id) {
+    deleteDeptItem({ id })
+      .unwrap()
+      .then(() => {
+        message.success("删除成功！");
+      });
   };
 
   const columns = [
@@ -49,14 +43,18 @@ export default function Page() {
           <Button type="primary" size="small">
             新增下级
           </Button>
-          <Button
-            type="primary"
-            danger
-            size="small"
-            onClick={() => deleteItem(row)}
+
+          <Popconfirm
+            title="提示"
+            description="您确定要删除此部门吗?"
+            onConfirm={() => deleteItem(row.id)}
+            okText="确定"
+            cancelText="取消"
           >
-            删除
-          </Button>
+            <Button type="primary" danger size="small">
+              删除
+            </Button>
+          </Popconfirm>
         </Space>
       ),
       width: 100,
@@ -71,7 +69,7 @@ export default function Page() {
       columns={columns}
       dataSource={tableData}
       headerTitle="部门列表"
-      loading={isFetching}
+      loading={isLoading}
       search={false}
       onRefresh={refetch}
       toolBarRender={
