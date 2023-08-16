@@ -1,9 +1,20 @@
-import { Button, Space, Switch, message } from "antd";
+import { Button, Space, App } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import ProTable from "@/components/ProTable";
 import axios from "@/utils/axios";
+import OptimisticSwitch from "@/components/OptimisticSwitch";
 
 export default function Page() {
+  const { message } = App.useApp();
+
+  // 更新角色状态
+  const updateStatus = function (id, status) {
+    return axios.post("/api/role/status/update", { id, status }).then(() => {
+      // 如果觉得需要，也可以在此刷新表格
+      message.success("切换成功！");
+    });
+  };
+
   const columns = [
     {
       title: "角色名称",
@@ -17,7 +28,12 @@ export default function Page() {
     {
       title: "状态",
       dataIndex: "status",
-      render: (status) => <Switch checked={status === 1} />,
+      render: (status, row) => (
+        <OptimisticSwitch
+          defaultChecked={status === 1}
+          onChange={(val) => updateStatus(row.id, val ? 1 : 0)}
+        />
+      ),
       type: "select",
       options: [
         { label: "启用", value: "1" },
