@@ -4,6 +4,7 @@ import {
   useImperativeHandle,
   useRef,
   useMemo,
+  useEffect,
 } from "react";
 import DropdownFrom from "@/components/DropdownFrom";
 import { Table, Space, Button, theme, Card, Tooltip, Dropdown } from "antd";
@@ -17,6 +18,7 @@ import {
 } from "@ant-design/icons";
 import ColumnSetting from "./ColumnSetting";
 import FormItem from "./FormItem";
+import useLoadingDelayAndKeep from "@/hooks/useLoadingDelayAndKeep";
 
 const getRowkey = function (row) {
   return row.key || row.dataIndex;
@@ -107,7 +109,7 @@ const ProTable = forwardRef(function (props, ref) {
       refreshDeps: [params],
       defaultCurrent: paginationConfig?.current || 1,
       defaultPageSize: paginationConfig?.pageSize || 10,
-      loadingDelay: 300,
+      loadingDelay: 0,
     }
   );
 
@@ -136,19 +138,28 @@ const ProTable = forwardRef(function (props, ref) {
               ...paginationBaseConfig,
             }
         : false,
-      loading:
-        // eslint-disable-next-line no-nested-ternary
-        typeof loading === "boolean"
-          ? loading
-          : isDataSource
-          ? false
-          : requestData.loading,
       refresh: () => {
         !isDataSource && refresh();
         onRefresh?.(params);
       },
     };
-  }, [dataSource, requestData, paginationConfig, loading, params, onRefresh]);
+  }, [dataSource, requestData, paginationConfig, params, onRefresh]);
+
+  // loadingDelay 和 loadingKeep，具体可参考：useLoadingDelayAndKeep
+  const [tableLoading, { setTrue, setFalse }] = useLoadingDelayAndKeep(
+    typeof loading === "boolean" ? loading : false
+  );
+  useEffect(() => {
+    const isDataSource = Array.isArray(dataSource);
+    const tableLoading =
+      // eslint-disable-next-line no-nested-ternary
+      loading === "boolean"
+        ? loading
+        : isDataSource
+        ? false
+        : requestData.loading;
+    tableLoading ? setTrue() : setFalse();
+  }, [dataSource, loading, requestData.loading, setTrue, setFalse]);
 
   // 表格size
   const [tableSize, setTableSize] = useState(initialTableSize);
@@ -299,7 +310,7 @@ const ProTable = forwardRef(function (props, ref) {
               return configkeys.includes(key);
             })}
             pagination={tableConfig.pagination}
-            loading={tableConfig.loading}
+            loading={tableLoading}
             rowSelection={
               batchBarRender
                 ? {
