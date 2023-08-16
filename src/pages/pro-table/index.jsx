@@ -7,7 +7,7 @@ export default function ProTableDemo() {
     {
       title: "text",
       dataIndex: "text",
-      initialValue: "1",
+      initialValue: "initial text",
     },
     {
       title: "select",
