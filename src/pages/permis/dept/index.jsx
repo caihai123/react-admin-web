@@ -1,4 +1,4 @@
-import { Button, Space, App, Popconfirm } from "antd";
+import { Button, Space, App, Popconfirm, Alert } from "antd";
 import ProTable from "@/components/ProTable";
 import { PlusOutlined } from "@ant-design/icons";
 import {
@@ -63,41 +63,49 @@ export default function Page() {
   ];
 
   return (
-    <ProTable
-      ref={proTable}
-      rowKey="id"
-      columns={columns}
-      dataSource={tableData}
-      headerTitle="部门列表"
-      loading={isLoading}
-      search={false}
-      onRefresh={refetch}
-      toolBarRender={
-        <Button
-          type="primary"
-          icon={<PlusOutlined />}
-          onClick={() => message.warning("演示功能")}
-        >
-          新增
-        </Button>
-      }
-      batchBarRender={[
-        <Button
-          type="primary"
-          key="del"
-          danger
-          onClick={() => message.warning("演示功能")}
-        >
-          批量删除
-        </Button>,
-        <Button
-          type="primary"
-          key="export"
-          onClick={() => message.warning("演示功能")}
-        >
-          导出数据
-        </Button>,
-      ]}
-    ></ProTable>
+    <>
+      <Alert
+        message="此页面用redux管理数据，主要用来演示和体验RTK查询的功能"
+        type="info"
+        showIcon
+        closable
+      />
+      <ProTable
+        ref={proTable}
+        rowKey="id"
+        columns={columns}
+        dataSource={tableData}
+        headerTitle="部门列表"
+        loading={isLoading}
+        search={false}
+        onRefresh={refetch}
+        toolBarRender={
+          <Button
+            type="primary"
+            icon={<PlusOutlined />}
+            onClick={() => message.warning("演示功能")}
+          >
+            新增
+          </Button>
+        }
+        batchBarRender={[
+          <Button
+            type="primary"
+            key="del"
+            danger
+            onClick={() => message.warning("演示功能")}
+          >
+            批量删除
+          </Button>,
+          <Button
+            type="primary"
+            key="export"
+            onClick={() => message.warning("演示功能")}
+          >
+            导出数据
+          </Button>,
+        ]}
+      ></ProTable>
+    </>
   );
 }
