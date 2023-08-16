@@ -1,3 +1,4 @@
+import Mock from "mockjs";
 import ProTable from "@/components/ProTable";
 import { Alert, Button, Form, Slider, message } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
@@ -125,6 +126,29 @@ export default function ProTableDemo() {
     },
   ];
 
+  const tableData = [...Array(15)].map(() =>
+    Mock.mock({
+      id: "@guid",
+      text: "@ctitle",
+      "select|1": [1, 2, 3],
+      "checkbox|1": [1, 2, 3],
+      "radio|1": [1, 2, 3],
+      date: "@date",
+      dateTime: "@datetime",
+      week: "2023-31周",
+      month: "2023-02",
+      "quarter|1": ["1季度", "2季度", "3季度", "4季度"],
+      year: "2023",
+      dateRange: "@date",
+      dateTimeRange: "@datetime",
+      weekRange: "2023-31周",
+      monthRange: "2023-02",
+      "quarterRange|1": ["1季度", "2季度", "3季度", "4季度"],
+      yearRange: "2023",
+      "custom|0-100": 1,
+    })
+  );
+
   return (
     <>
       <Alert
@@ -137,15 +161,7 @@ export default function ProTableDemo() {
         rowKey="id"
         headerTitle="数据列表"
         columns={columns}
-        request={() => ({
-          list: [
-            {
-              id: "1",
-              text: "text",
-              select: "select",
-            },
-          ],
-        })}
+        dataSource={tableData}
         batchBarRender={[
           <Button
             type="primary"
@@ -172,7 +188,6 @@ export default function ProTableDemo() {
             新增
           </Button>
         }
-        pagination={false}
       />
     </>
   );
