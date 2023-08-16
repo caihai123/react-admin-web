@@ -7,6 +7,7 @@ export default function Select({ item }) {
         placeholder={`请选择${item.title}`}
         options={item.options}
         style={{ width: 183 }}
+        allowClear
         {...item.fieldProps}
       />
     </Form.Item>
