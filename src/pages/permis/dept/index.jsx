@@ -5,12 +5,9 @@ import {
   useGetDeptAllQuery,
   useDeleteDeptItemMutation,
 } from "@/store/api/deptSlice";
-import { useRef } from "react";
 
 export default function Page() {
   const { message } = App.useApp();
-
-  const proTable = useRef(null);
 
   const { data: tableData, isLoading, refetch } = useGetDeptAllQuery();
 
@@ -71,7 +68,6 @@ export default function Page() {
         closable
       />
       <ProTable
-        ref={proTable}
         rowKey="id"
         columns={columns}
         dataSource={tableData}
