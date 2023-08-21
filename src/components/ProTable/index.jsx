@@ -224,7 +224,7 @@ const ProTable = forwardRef(function (props, ref) {
               {toolBarRender && (
                 <Space>
                   {typeof toolBarRender === "function"
-                    ? toolBarRender()
+                    ? toolBarRender(params)
                     : toolBarRender}
                 </Space>
               )}
