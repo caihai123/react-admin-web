@@ -1,6 +1,6 @@
 import Mock from "mockjs";
 import ProTable from "@/components/ProTable";
-import { Alert, Button, Form, Slider, message } from "antd";
+import { Alert, Button, Form, Slider, message, Space } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 
 export default function ProTableDemo() {
@@ -123,6 +123,22 @@ export default function ProTableDemo() {
           </Form.Item>
         );
       },
+    },
+    {
+      title: "操作",
+      key: "action",
+      render: (row) => (
+        <Space>
+          <Button type="primary" ghost size="small">
+            编辑
+          </Button>
+          <Button type="primary" danger size="small">
+            删除
+          </Button>
+        </Space>
+      ),
+      fixed: "right",
+      hideInSearch: true,
     },
   ];
 
