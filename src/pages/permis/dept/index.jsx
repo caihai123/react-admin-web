@@ -75,15 +75,19 @@ export default function Page() {
         loading={isLoading}
         search={false}
         onRefresh={refetch}
-        toolBarRender={
+        toolBarRender={[
           <Button
+            key="add"
             type="primary"
             icon={<PlusOutlined />}
             onClick={() => message.warning("演示功能")}
           >
             新增
-          </Button>
-        }
+          </Button>,
+          <Button key="export" onClick={() => message.warning("演示功能")}>
+            导出
+          </Button>,
+        ]}
         batchBarRender={[
           <Button
             type="primary"
@@ -93,11 +97,7 @@ export default function Page() {
           >
             批量删除
           </Button>,
-          <Button
-            type="primary"
-            key="export"
-            onClick={() => message.warning("演示功能")}
-          >
+          <Button key="export" onClick={() => message.warning("演示功能")}>
             导出数据
           </Button>,
         ]}
