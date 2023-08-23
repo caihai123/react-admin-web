@@ -154,6 +154,7 @@ const Login = function () {
               userAccount: "admin",
               userPassword: "password",
             }}
+            autoComplete="off"
           >
             <h1 style={{ marginBottom: 24, fontSize: 24 }}>欢迎登录</h1>
             <Form.Item
