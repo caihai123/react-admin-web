@@ -1,8 +1,10 @@
+import { useRef } from "react";
 import { Button, Space, App } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import ProTable from "@/components/ProTable";
 import axios from "@/utils/axios";
 import OptimisticSwitch from "@/components/OptimisticSwitch";
+import AddOrEdit from "./AddOrEdit";
 
 export default function Page() {
   const { message } = App.useApp();
@@ -14,6 +16,9 @@ export default function Page() {
       message.success("切换成功！");
     });
   };
+
+  const tableRef = useRef();
+  const addOrEditRef = useRef();
 
   const columns = [
     {
@@ -45,7 +50,12 @@ export default function Page() {
       key: "action",
       render: (row) => (
         <Space>
-          <Button type="primary" ghost size="small">
+          <Button
+            type="primary"
+            ghost
+            size="small"
+            onClick={() => addOrEditRef.current.editStart(row)}
+          >
             编辑
           </Button>
           <Button type="primary" size="small">
@@ -63,31 +73,39 @@ export default function Page() {
   ];
 
   return (
-    <ProTable
-      columns={columns}
-      rowKey="id"
-      headerTitle="角色列表"
-      request={(params, { current, pageSize }) =>
-        axios
-          .post("/api/role/page", { params, pageIndex: current, pageSize })
-          .then((value) => {
-            const { result: data } = value;
-            return {
-              list: data.records,
-              total: data.total,
-            };
-          })
-      }
-      toolBarRender={() => [
-        <Button
-          key="add"
-          type="primary"
-          icon={<PlusOutlined />}
-          onClick={() => message.warning("演示功能")}
-        >
-          新增
-        </Button>,
-      ]}
-    />
+    <>
+      <ProTable
+        ref={tableRef}
+        columns={columns}
+        rowKey="id"
+        headerTitle="角色列表"
+        request={(params, { current, pageSize }) =>
+          axios
+            .post("/api/role/page", { params, pageIndex: current, pageSize })
+            .then((value) => {
+              const { result: data } = value;
+              return {
+                list: data.records,
+                total: data.total,
+              };
+            })
+        }
+        toolBarRender={() => [
+          <Button
+            key="add"
+            type="primary"
+            icon={<PlusOutlined />}
+            onClick={() => addOrEditRef.current.addStart()}
+          >
+            新增
+          </Button>,
+        ]}
+      />
+
+      <AddOrEdit
+        ref={addOrEditRef}
+        callback={(pageIndex) => tableRef.current.refresh(pageIndex)}
+      />
+    </>
   );
 }
