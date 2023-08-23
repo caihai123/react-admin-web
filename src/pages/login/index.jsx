@@ -135,7 +135,7 @@ const Login = function () {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            background: colorBgLayout,
+            backgroundColor: colorBgLayout,
             backgroundImage: `url(${FormBg})`,
           }}
         >
