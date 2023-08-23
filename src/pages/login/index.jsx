@@ -49,7 +49,6 @@ const Title = styled.div`
 
 const BlogrollIcon = styled.span`
   margin-left: 8px;
-  color: rgba(0, 0, 0, 0.2);
   font-size: 24px;
   vertical-align: middle;
   cursor: pointer;
@@ -87,7 +86,7 @@ const Login = function () {
   };
 
   const {
-    token: { colorBgLayout, colorBgContainer },
+    token: { colorBgLayout, colorBgContainer, colorTextTertiary },
   } = theme.useToken();
 
   return (
@@ -192,7 +191,7 @@ const Login = function () {
               </Button>
             </Form.Item>
 
-            <div>
+            <div style={{ color: colorTextTertiary }}>
               其他登录方式：
               <BlogrollIcon>
                 <AlipayCircleOutlined />
