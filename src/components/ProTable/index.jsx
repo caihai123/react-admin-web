@@ -138,8 +138,12 @@ const ProTable = forwardRef(function (props, ref) {
               ...paginationBaseConfig,
             }
         : false,
-      refresh: () => {
-        !isDataSource && refresh();
+      refresh: (pageIndex) => {
+        if (!isDataSource) {
+          pageIndex && pageIndex !== pagination.current
+            ? pagination.changeCurrent(pageIndex)
+            : refresh();
+        }
         onRefresh?.(params);
       },
     };
