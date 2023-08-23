@@ -29,7 +29,6 @@ const Header = styled(Layout.Header)`
   display: flex;
   justify-content: space-between;
   justify-items: center;
-  background: ${(props) => props.background};
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   position: relative;
   z-index: 9;
@@ -91,7 +90,7 @@ const Login = function () {
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
-      <Header background={colorBgContainer}>
+      <Header style={{ background: colorBgContainer }}>
         <Title>
           <img src={LogoSvg} alt="logo" className="logo" />
           <h1 style={{ fontSize: 24 }}>{process.env.REACT_APP_WEBSITE_NAME}</h1>
