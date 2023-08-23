@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   App,
   Layout,
@@ -24,6 +23,7 @@ import {
 } from "@ant-design/icons";
 import LogoSvg from "@/assets/logo.svg";
 import FormBg from "@/assets/login-bg.svg";
+import useLoadingDelayAndKeep from "@/hooks/useLoadingDelayAndKeep";
 
 const Header = styled(Layout.Header)`
   display: flex;
@@ -65,11 +65,11 @@ const Login = function () {
   const themeName = useSelector(selectTheme);
   // 换肤相关 end
 
-  const [loading, setLoading] = useState(false);
+  const [loading, { setTrue, setFalse }] = useLoadingDelayAndKeep(false);
 
   const navigate = useNavigate();
   const submitForm = (values) => {
-    setLoading(true);
+    setTrue();
 
     axios
       .post("/api/login", values)
@@ -80,7 +80,7 @@ const Login = function () {
         message.success("登录成功！");
       })
       .finally(() => {
-        setLoading(false);
+        setFalse();
       });
   };
 
