@@ -4,12 +4,13 @@ import login from "./login";
 import role from "./premis/role";
 import account from "./premis/account";
 import dept from "./premis/dept";
+import issues from "./issues";
 
 Mock.setup({
   timeout: "50-1000",
 });
 
-const mock = [...login, ...role, ...account, ...dept];
+const mock = [...login, ...role, ...account, ...dept, ...issues];
 
 mock.forEach(({ url, type, handler }) => {
   Mock.mock(url, type, function (...params) {

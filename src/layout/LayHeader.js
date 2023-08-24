@@ -15,6 +15,8 @@ import {
   SettingOutlined,
   LoginOutlined,
   FullscreenExitOutlined,
+  IssuesCloseOutlined,
+  BellOutlined,
 } from "@ant-design/icons";
 
 const Header = styled(Layout.Header)`
@@ -102,9 +104,15 @@ export default function LayHeader(props) {
         <div className="header-actions-item">
           <LockOutlined />
         </div>
+
         <div className="header-actions-item" onClick={fullscreenToggle}>
           {isFullscreen ? <FullscreenExitOutlined /> : <FullscreenOutlined />}
         </div>
+
+        <div className="header-actions-item">
+          <BellOutlined />
+        </div>
+
         <div
           className="header-actions-item"
           onClick={() => dispatch(setTheme())}
@@ -128,6 +136,12 @@ export default function LayHeader(props) {
                 key: 2,
                 label: "个人设置",
                 icon: <SettingOutlined />,
+              },
+              {
+                key: 4,
+                label: "意见反馈",
+                icon: <IssuesCloseOutlined />,
+                onClick: () => navigate("/issues"),
               },
               {
                 type: "divider",
