@@ -58,7 +58,7 @@ export default function Comment() {
       });
   };
 
-  const { data, pagination } = usePagination(getListData);
+  const { data, pagination, loading } = usePagination(getListData);
 
   return (
     <Card>
@@ -100,6 +100,7 @@ export default function Comment() {
             </Radio.Group>
           </div>
         }
+        loading={loading}
         itemLayout="vertical"
         dataSource={data?.list}
         renderItem={(item) => (
