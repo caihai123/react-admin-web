@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { usePagination } from "ahooks";
 import axios from "@/utils/axios";
 import dayjs from "dayjs";
+import "dayjs/locale/zh-cn";
 const relativeTime = require("dayjs/plugin/relativeTime");
 
 dayjs.extend(relativeTime);
