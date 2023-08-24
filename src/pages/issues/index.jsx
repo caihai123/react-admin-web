@@ -1,4 +1,4 @@
-import { Card, List, Select, Radio, Input, Space, Button } from "antd";
+import { Card, List, Select, Radio, Input, Space, Button, Tag } from "antd";
 import {
   PlusOutlined,
   UserOutlined,
@@ -29,6 +29,17 @@ const StatusIcon = function ({ status }) {
       return <CheckCircleFilled style={{ color: "#52c41a" }} />;
     default:
       return <div>未知状态</div>;
+  }
+};
+
+const TypeTag = function ({ type }) {
+  switch (type) {
+    case 1:
+      return <Tag color="error">缺陷</Tag>;
+    case 2:
+      return <Tag color="processing">需求</Tag>;
+    default:
+      return undefined;
   }
 };
 
@@ -106,7 +117,14 @@ export default function Comment() {
             ]}
             extra={dayjs(item.createTime).fromNow()}
           >
-            <List.Item.Meta title={item.title} description={item.describe} />
+            <List.Item.Meta
+              title={
+                <div>
+                  <TypeTag type={item.type}></TypeTag> {item.title}
+                </div>
+              }
+              description={item.describe}
+            />
           </List.Item>
         )}
         bordered
