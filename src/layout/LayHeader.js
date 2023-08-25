@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import screenfull from "screenfull";
 import { selectTheme, setTheme } from "@/store/system";
-import Breadcrumb from "./Breadcrumb";
+// import Breadcrumb from "./Breadcrumb";
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -96,7 +96,7 @@ export default function LayHeader(props) {
           onClick={() => props.setCollapsed(!props.collapsed)}
         />
         <div style={{ height: 36, display: "flex", alignItems: "center" }}>
-          <Breadcrumb menuList={props.menuList} />
+          {/* <Breadcrumb /> */}
         </div>
       </div>
 

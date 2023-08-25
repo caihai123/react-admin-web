@@ -1,7 +1,7 @@
 import { RouterProvider } from "react-router-dom";
 import { ConfigProvider, App as AntdApp, theme } from "antd";
 import zhCN from "antd/locale/zh_CN";
-import { appRouter } from "@/router";
+import router from "@/router";
 import { selectTheme } from "@/store/system";
 import { useSelector } from "react-redux";
 
@@ -30,7 +30,7 @@ export default function App() {
       }}
     >
       <AntdApp>
-        <RouterProvider router={appRouter} />
+        <RouterProvider router={router} />
       </AntdApp>
     </ConfigProvider>
   );

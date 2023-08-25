@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import { Layout } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 import LayMenu from "./LayMenu";
-import axios from "@/utils/axios";
 import LayContent from "./LayContent";
 import LayHeader from "./LayHeader";
 import LogoSvg from "@/assets/logo.svg";
 import styled, { keyframes } from "styled-components";
-import { useMount } from "ahooks";
 
 const Sider = styled(Layout.Sider)`
   position: fixed !important ;
@@ -66,23 +64,9 @@ const Logo = styled.div`
 `;
 
 export default function LayoutViwe() {
-  const [collapsed, setCollapsed] = useState(false); // 控制侧边栏展开收起
+  const menu = useLoaderData();
 
-  const [initialMenuList, setInitialMenuList] = useState([]); // 后端返回的路由表
-  const [menuLoading, setMenuLoading] = useState(true);
-  useMount(() => {
-    // 获取权限路由列表
-    setMenuLoading(true);
-    axios
-      .get("/api/get-menu-all")
-      .then((value) => {
-        const userMenus = value.result || [];
-        setInitialMenuList(userMenus);
-      })
-      .finally(() => {
-        setMenuLoading(false);
-      });
-  });
+  const [collapsed, setCollapsed] = useState(false); // 控制侧边栏展开收起
 
   const siderConfig = {
     width: 210,
@@ -101,16 +85,12 @@ export default function LayoutViwe() {
             <h1>{process.env.REACT_APP_WEBSITE_NAME}</h1>
           </Link>
         </Logo>
-        <LayMenu initialMenuList={initialMenuList} loading={menuLoading} />
+        <LayMenu menu={menu} />
       </Sider>
 
       <Layout>
-        <LayHeader
-          collapsed={collapsed}
-          menuList={initialMenuList}
-          setCollapsed={setCollapsed}
-        />
-        <LayContent initialMenuList={initialMenuList} loading={menuLoading} />
+        <LayHeader collapsed={collapsed} setCollapsed={setCollapsed} />
+        <LayContent />
       </Layout>
     </Layout>
   );
