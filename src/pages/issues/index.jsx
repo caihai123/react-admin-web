@@ -6,12 +6,16 @@ import {
   CheckCircleFilled,
   CloseCircleFilled,
   MehFilled,
+  CaretDownOutlined,
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { usePagination } from "ahooks";
 import axios from "@/utils/axios";
 import dayjs from "dayjs";
 import "dayjs/locale/zh-cn";
+import IssuePriority from "./components/IssuePriority";
+import IssueType from "./components/IssueType";
+
 const relativeTime = require("dayjs/plugin/relativeTime");
 
 dayjs.extend(relativeTime);
@@ -63,6 +67,7 @@ export default function Comment() {
 
   return (
     <Card>
+      <h1>Issues 列表</h1>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <Space>
           <Select
@@ -92,13 +97,34 @@ export default function Comment() {
 
       <List
         header={
-          <div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
             <Radio.Group defaultValue="1" buttonStyle="solid">
               <Radio.Button value="">全部</Radio.Button>
               <Radio.Button value="1">开启的</Radio.Button>
               <Radio.Button value="2">已完成</Radio.Button>
               <Radio.Button value="0">已关闭</Radio.Button>
             </Radio.Group>
+
+            <div style={{ display: "flex" }}>
+              <IssueType
+                suffixIcon={<CaretDownOutlined />}
+                bordered={false}
+                placeholder="标签"
+                popupMatchSelectWidth={false}
+              ></IssueType>
+              <IssuePriority
+                suffixIcon={<CaretDownOutlined />}
+                bordered={false}
+                placeholder="优先级"
+                popupMatchSelectWidth={false}
+              ></IssuePriority>
+            </div>
           </div>
         }
         loading={loading}

@@ -1,4 +1,7 @@
-import { Card, Button, Form, Input, Row, Col, Space, Select } from "antd";
+import { Card, Button, Form, Input, Row, Col, Space } from "antd";
+import IssuePinned from "./components/IssuePinned";
+import IssuePriority from "./components/IssuePriority";
+import IssueType from "./components/IssueType";
 
 export default function IssuesAdd() {
   return (
@@ -18,40 +21,17 @@ export default function IssuesAdd() {
           </Col>
           <Col span={6}>
             <Form.Item label="标签">
-              <Select
-                placeholder="未设置"
-                options={[
-                  { label: "缺陷", value: "1" },
-                  { label: "需求", value: "2" },
-                ]}
-              />
+              <IssueType placeholder="未设置" />
             </Form.Item>
           </Col>
           <Col span={6}>
             <Form.Item label="优先级">
-              <Select
-                defaultValue="0"
-                options={[
-                  { label: "不指定", value: "0" },
-                  { label: "严重", value: "1" },
-                  { label: "主要", value: "2" },
-                  { label: "次要", value: "3" },
-                  { label: "不重要", value: "4" },
-                ]}
-              />
+              <IssuePriority defaultValue={0} />
             </Form.Item>
           </Col>
           <Col span={6}>
             <Form.Item label="置顶">
-              <Select
-                defaultValue="0"
-                options={[
-                  { label: "不置顶", value: "0" },
-                  { label: "置顶等级：高", value: "1" },
-                  { label: "置顶等级：中", value: "2" },
-                  { label: "置顶等级：低", value: "3" },
-                ]}
-              />
+              <IssuePinned defaultValue={0} />
             </Form.Item>
           </Col>
           <Col span={24}>
