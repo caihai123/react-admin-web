@@ -1,20 +1,20 @@
+import { lazy } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import axios from "@/utils/axios";
-import Layout from "@/layout";
 import Redirect from "@/layout/redirect";
 
-import Login from "@/pages/login";
-import Issues from "@/pages/issues";
-import IssuesAdd from "@/pages/issues/add";
-import Err401 from "@/pages/401";
-import Err404 from "@/pages/404";
-
-import Index from "@/pages/index";
-import Menu from "@/pages/permis/menu";
-import Role from "@/pages/permis/role";
-import Account from "@/pages/permis/account";
-import Dept from "@/pages/permis/dept";
-import ProTable from "@/pages/pro-table";
+const Login = lazy(() => import("@/pages/login"));
+const Layout = lazy(() => import("@/Layout"));
+const Issues = lazy(() => import("@/pages/issues"));
+const IssuesAdd = lazy(() => import("@/pages/issues/add"));
+const Err401 = lazy(() => import("@/pages/401"));
+const Err404 = lazy(() => import("@/pages/404"));
+const Index = lazy(() => import("@/pages/index"));
+const Menu = lazy(() => import("@/pages/permis/menu"));
+const Role = lazy(() => import("@/pages/permis/role"));
+const Account = lazy(() => import("@/pages/permis/account"));
+const Dept = lazy(() => import("@/pages/permis/dept"));
+const ProTable = lazy(() => import("@/pages/pro-table"));
 
 const authLoader = function () {
   return null;
@@ -86,13 +86,11 @@ export const router = createBrowserRouter(
               path: "",
               element: <Issues />,
               meta: { title: "用户反馈" },
-              loader: authLoader,
             },
             {
               path: "/issues/add",
               element: <IssuesAdd />,
               meta: { title: "新增Issues" },
-              loader: authLoader,
             },
           ],
         },
