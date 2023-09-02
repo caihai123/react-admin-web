@@ -1,6 +1,6 @@
 import axios from "axios";
 import { message } from "antd";
-import { appRouter } from "@/router";
+import router from "@/router";
 
 const instance = axios.create({
   timeout: 5000,
@@ -44,7 +44,7 @@ instance.interceptors.response.use(
     // 对响应错误做点什么
     switch (error.status) {
       case 401:
-        appRouter.navigate(`${appRouter.basename}/login`);
+        router.navigate(`${router.basename}/login`);
         message.error("未登录或登录过期，请重新登录！");
         break;
       default:

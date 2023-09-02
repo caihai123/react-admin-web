@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { Layout } from "antd";
-import { Link, useLoaderData } from "react-router-dom";
+import { Link } from "react-router-dom";
+import styled, { keyframes } from "styled-components";
+import { useMount } from "ahooks";
+import { useDispatch } from "react-redux";
+import { initMenu } from "@/store/menu";
 import LayMenu from "./LayMenu";
 import LayContent from "./LayContent";
 import LayHeader from "./LayHeader";
 import LogoSvg from "@/assets/logo.svg";
-import styled, { keyframes } from "styled-components";
 
 const Sider = styled(Layout.Sider)`
   position: fixed !important ;
@@ -64,8 +67,6 @@ const Logo = styled.div`
 `;
 
 export default function LayoutViwe() {
-  const menu = useLoaderData();
-
   const [collapsed, setCollapsed] = useState(false); // 控制侧边栏展开收起
 
   const siderConfig = {
@@ -74,6 +75,10 @@ export default function LayoutViwe() {
     collapsed,
     theme: "light",
   };
+
+  // 初始化菜单列表
+  const dispatch = useDispatch();
+  useMount(() => dispatch(initMenu()));
 
   return (
     <Layout style={{ minHeight: "100vh", flexDirection: "row" }}>
@@ -85,7 +90,7 @@ export default function LayoutViwe() {
             <h1>{process.env.REACT_APP_WEBSITE_NAME}</h1>
           </Link>
         </Logo>
-        <LayMenu menu={menu} />
+        <LayMenu />
       </Sider>
 
       <Layout>

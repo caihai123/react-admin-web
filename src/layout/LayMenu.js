@@ -1,9 +1,10 @@
 import { createElement, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Menu, theme } from "antd";
+import { Menu, theme, Skeleton } from "antd";
 import { Scrollbars } from "react-custom-scrollbars";
 import { selectTheme } from "@/store/system";
 import { useSelector } from "react-redux";
+import { selectMenu } from "@/store/menu";
 
 // import * as Icon from "@ant-design/icons";
 import * as Icon from "@ant-design/icons";
@@ -23,7 +24,9 @@ const getItem = function ({ id, type, title, path, children, icon }) {
   };
 };
 
-export default function LayMenu({ menu = [] }) {
+export default function LayMenu() {
+  const { list: menu, status } = useSelector(selectMenu);
+
   const navigate = useNavigate();
 
   const location = useLocation();
@@ -36,15 +39,23 @@ export default function LayMenu({ menu = [] }) {
   } = theme.useToken();
 
   return (
-    <Scrollbars style={{ height: "calc(100% - 64px)" }} autoHide>
-      <Menu
-        mode="inline"
-        selectedKeys={[location.pathname]}
-        items={menuList}
-        onClick={({ key }) => navigate(key)}
-        style={{ border: "none", background: colorBgContainer }}
-        theme={themeName === "dark" ? "dark" : "light"}
-      ></Menu>
-    </Scrollbars>
+    <Skeleton
+      active
+      loading={status === "loading"}
+      paragraph={{ rows: 6 }}
+      title={false}
+      style={{ padding: 20 }}
+    >
+      <Scrollbars style={{ height: "calc(100% - 64px)" }} autoHide>
+        <Menu
+          mode="inline"
+          selectedKeys={[location.pathname]}
+          items={menuList}
+          onClick={({ key }) => navigate(key)}
+          style={{ border: "none", background: colorBgContainer }}
+          theme={themeName === "dark" ? "dark" : "light"}
+        ></Menu>
+      </Scrollbars>
+    </Skeleton>
   );
 }
