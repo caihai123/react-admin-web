@@ -7,7 +7,7 @@ import dept from "./premis/dept";
 import issues from "./issues";
 
 Mock.setup({
-  timeout: "50-1000",
+  timeout: "4000",
 });
 
 const mock = [...login, ...role, ...account, ...dept, ...issues];
