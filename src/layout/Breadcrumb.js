@@ -2,6 +2,8 @@ import { useEffect, useMemo } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { Breadcrumb } from "antd";
 import { treeFilter } from "./utils";
+import { useSelector } from "react-redux";
+import { selectMenuAll } from "@/store/menu";
 
 // 将一条枝干的树转成一维数组
 const treeTOList = function (treeList) {
@@ -22,8 +24,10 @@ const treeTOList = function (treeList) {
   return list;
 };
 
-export default function Component({ menuList }) {
+export default function Component() {
   const location = useLocation();
+
+  const menuList = useSelector(selectMenuAll);
 
   const levelList = useMemo(() => {
     const path = location.pathname;
