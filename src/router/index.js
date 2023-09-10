@@ -1,16 +1,77 @@
 import { lazy } from "react";
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
+import Auth from "./RouteAuth";
+import Err404 from "@/pages/404";
 
-// 在此定义的一个重要原因是在axios中我需要此对象来跳转
-const rootRouter = createBrowserRouter(
+const router = createBrowserRouter(
   [
     {
       path: "/login",
       Component: lazy(() => import("@/pages/login")),
     },
     {
-      path: "/*",
+      path: "/",
       Component: lazy(() => import("@/layout")),
+      children: [
+        { path: "", element: <Navigate to="/index" replace /> },
+        {
+          path: "/index",
+          element: <Auth Component={lazy(() => import("@/pages/index"))} />,
+        },
+        {
+          path: "/permis/menu",
+          element: (
+            <Auth Component={lazy(() => import("@/pages/permis/menu"))} />
+          ),
+        },
+        {
+          path: "/permis/role",
+          element: (
+            <Auth Component={lazy(() => import("@/pages/permis/role"))} />
+          ),
+        },
+        {
+          path: "/permis/account",
+          element: (
+            <Auth Component={lazy(() => import("@/pages/permis/account"))} />
+          ),
+        },
+        {
+          path: "/permis/dept",
+          element: (
+            <Auth Component={lazy(() => import("@/pages/permis/dept"))} />
+          ),
+        },
+        {
+          path: "/pro-table",
+          element: <Auth Component={lazy(() => import("@/pages/pro-table"))} />,
+        },
+        {
+          path: "/error/404",
+          element: <Auth Component={lazy(() => import("@/pages/404"))} />,
+        },
+        {
+          path: "/error/401",
+          element: <Auth Component={lazy(() => import("@/pages/401"))} />,
+        },
+        {
+          path: "/issues",
+          children: [
+            {
+              path: "",
+              Component: lazy(() => import("@/pages/issues/index")),
+            },
+            {
+              path: "add",
+              Component: lazy(() => import("@/pages/issues/add")),
+            },
+          ],
+        },
+        {
+          path: "/*",
+          element: <Err404 />,
+        },
+      ],
     },
   ],
   {
@@ -18,40 +79,4 @@ const rootRouter = createBrowserRouter(
   }
 );
 
-// 需要动态判断权限的路由，由后端提供title
-export const asyncRoutes = [
-  {
-    path: "/index",
-    Component: lazy(() => import("@/pages/index")),
-  },
-  {
-    path: "/permis/menu",
-    Component: lazy(() => import("@/pages/permis/menu")),
-  },
-  {
-    path: "/permis/role",
-    Component: lazy(() => import("@/pages/permis/role")),
-  },
-  {
-    path: "/permis/account",
-    Component: lazy(() => import("@/pages/permis/account")),
-  },
-  {
-    path: "/permis/dept",
-    Component: lazy(() => import("@/pages/permis/dept")),
-  },
-  {
-    path: "/pro-table",
-    Component: lazy(() => import("@/pages/pro-table")),
-  },
-  {
-    path: "/error/404",
-    Component: lazy(() => import("@/pages/404")),
-  },
-  {
-    path: "/error/401",
-    Component: lazy(() => import("@/pages/401")),
-  },
-];
-
-export default rootRouter;
+export default router;
