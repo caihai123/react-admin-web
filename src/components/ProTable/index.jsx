@@ -235,7 +235,7 @@ const ProTable = forwardRef(function (props, ref) {
               <div className={styles["toolbar-setting"]}>
                 <div
                   className={styles["toolbar-setting-item"]}
-                  onClick={tableConfig.refresh}
+                  onClick={() => tableConfig.refresh()}
                 >
                   <Tooltip title="刷新">
                     <ReloadOutlined />
