@@ -32,7 +32,7 @@ const mock = [
         result: [
           {
             id: "1",
-            title: "首页",
+            title: "Dashboard",
             path: "/index",
             type: "1",
             icon: "HomeFilled",

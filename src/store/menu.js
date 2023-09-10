@@ -5,19 +5,6 @@ import {
 } from "@reduxjs/toolkit";
 import axios from "@/utils/axios";
 
-const localMenu = [
-  {
-    path: "/issues",
-    title: "意见反馈",
-    children: [
-      {
-        path: "/issues/add",
-        title: "新增Issues",
-      },
-    ],
-  },
-];
-
 export const menu = createSlice({
   name: "menu",
   initialState: {
@@ -48,8 +35,6 @@ export const initMenu = createAsyncThunk("menu/initMenu", async () => {
 });
 
 export const selectMenu = (state) => state.menu;
-
-export const selectMenuAll = (state) => [...state.menu.list, ...localMenu];
 
 // 扁平化的菜单
 export const selectMenuFlatten = createSelector(

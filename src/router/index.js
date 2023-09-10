@@ -11,6 +11,7 @@ const router = createBrowserRouter(
     },
     {
       path: "/",
+      handle: { title: "首页" },
       Component: lazy(() => import("@/layout")),
       children: [
         { path: "", element: <Navigate to="/index" replace /> },
@@ -56,6 +57,7 @@ const router = createBrowserRouter(
         },
         {
           path: "/issues",
+          handle: { title: "意见反馈" },
           children: [
             {
               path: "",
@@ -64,6 +66,7 @@ const router = createBrowserRouter(
             {
               path: "add",
               Component: lazy(() => import("@/pages/issues/add")),
+              handle: { title: "新增Issues" },
             },
           ],
         },
