@@ -60,6 +60,14 @@ const mock = [
                 title: "用户管理",
                 path: "/permis/account",
                 type: "1",
+                children: [
+                  {
+                    id: "2-3-1",
+                    title: "人员详情",
+                    path: "/permis/account/detail",
+                    type: "1",
+                  },
+                ],
               },
               {
                 id: "2-4",

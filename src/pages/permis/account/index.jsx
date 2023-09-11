@@ -1,4 +1,5 @@
 import { Button, message, Space, Switch, Tag } from "antd";
+import { useNavigate } from "react-router-dom";
 import axios from "@/utils/axios";
 import ProTable from "@/components/ProTable";
 import { PlusOutlined } from "@ant-design/icons";
@@ -7,6 +8,7 @@ import { useGetDeptSelectQuery } from "@/store/api/deptSlice";
 
 export default function Page() {
   const { data: depeOptions } = useGetDeptSelectQuery();
+  const navigate = useNavigate();
 
   const columns = [
     {
@@ -61,10 +63,17 @@ export default function Page() {
       key: "action",
       render: (row) => (
         <Space>
+          <Button
+            type="primary"
+            size="small"
+            onClick={() => navigate("/permis/account/detail")}
+          >
+            详情
+          </Button>
           <Button type="primary" ghost size="small">
             编辑
           </Button>
-          <Button type="primary" size="small">
+          <Button type="primary" size="small" style={{ background: "#e6a23c" }}>
             授权
           </Button>
           <Button type="primary" danger size="small">

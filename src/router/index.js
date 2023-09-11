@@ -33,9 +33,26 @@ const router = createBrowserRouter(
         },
         {
           path: "/permis/account",
-          element: (
-            <Auth Component={lazy(() => import("@/pages/permis/account"))} />
-          ),
+          children: [
+            {
+              path: "",
+              element: (
+                <Auth
+                  Component={lazy(() => import("@/pages/permis/account"))}
+                />
+              ),
+            },
+            {
+              path: "detail",
+              element: (
+                <Auth
+                  Component={lazy(() =>
+                    import("@/pages/permis/account/detail")
+                  )}
+                />
+              ),
+            },
+          ],
         },
         {
           path: "/permis/dept",
