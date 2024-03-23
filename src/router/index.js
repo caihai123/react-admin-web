@@ -65,6 +65,16 @@ const router = createBrowserRouter(
           element: <Auth Component={lazy(() => import("@/pages/pro-table"))} />,
         },
         {
+          path: "/use-loading-delay-and-keep",
+          element: (
+            <Auth
+              Component={lazy(() =>
+                import("@/pages/hooks/use-loading-delay-and-keep")
+              )}
+            />
+          ),
+        },
+        {
           path: "/error/404",
           element: <Auth Component={lazy(() => import("@/pages/404"))} />,
         },

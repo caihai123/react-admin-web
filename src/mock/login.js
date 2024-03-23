@@ -82,7 +82,21 @@ const mock = [
             title: "Pro Table",
             type: "1",
             path: "/pro-table",
-            icon: "AppstoreFilled",
+            icon: "DatabaseFilled",
+          },
+          {
+            id: "6",
+            title: "hooks",
+            type: "2",
+            icon: "GoldFilled",
+            children: [
+              {
+                id: "6-1",
+                title: "useLoadingDelayAndKeep",
+                type: "1",
+                path: "/use-loading-delay-and-keep",
+              },
+            ],
           },
           {
             id: "3",
