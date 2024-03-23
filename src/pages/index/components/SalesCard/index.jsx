@@ -63,7 +63,7 @@ const formatNumber = (num) => parseFloat(num).toLocaleString("en-US");
 
 const SalesCard = function () {
   return (
-    <Card bordered={false} bodyStyle={{ padding: 0 }}>
+    <Card bordered={false} styles={{ body: { padding: 0 } }}>
       <Tabs
         tabBarExtraContent={
           <Space style={{ paddingRight: 16 }}>

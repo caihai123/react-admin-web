@@ -211,7 +211,7 @@ const ProTable = forwardRef(function (props, ref) {
 
       <Card
         style={{ marginTop: search ? 16 : 0 }}
-        bodyStyle={{ paddingTop: 16, paddingBottom: 24 }}
+        styles={{ body: { paddingTop: 16, paddingBottom: 24 } }}
       >
         {
           <div

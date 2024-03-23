@@ -51,9 +51,8 @@ const ProportionSales = function () {
   return (
     <Card
       title="销售额类别占比"
-      headStyle={{
-        fontWeight: 400,
-        fontSize: 16,
+      styles={{
+        header: { fontWeight: 400, fontSize: 16 },
       }}
       extra={
         <Space>

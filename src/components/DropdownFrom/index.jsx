@@ -48,7 +48,7 @@ const DropdownForm = forwardRef(function (props, ref) {
 
   return (
     <Card
-      bodyStyle={{ paddingTop: 0, paddingBottom: 0 }}
+      styles={{ body: { paddingTop: 0, paddingBottom: 0 } }}
       style={style}
       className={className}
     >

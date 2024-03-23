@@ -404,11 +404,10 @@ const TopSearch = function () {
   return (
     <Card
       title="线上热门搜索"
-      headStyle={{
-        fontWeight: 400,
-        fontSize: 16,
+      styles={{
+        header: { fontWeight: 400, fontSize: 16 },
+        body: { height: 448 },
       }}
-      bodyStyle={{ height: 448 }}
     >
       <Row gutter={[20, 20]}>
         <Col sm={12} xs={24}>

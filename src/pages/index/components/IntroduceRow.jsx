@@ -56,7 +56,7 @@ const IntroduceRow = function () {
   return (
     <Row gutter={[20, 20]}>
       <Col {...topColResponsiveProps}>
-        <Card bodyStyle={cardBodyStyle}>
+        <Card styles={{ body: cardBodyStyle }}>
           <MetaWrap textColor={colorTextTertiary}>
             <div>总销售额</div>
             <div className="action--icon">
@@ -81,7 +81,7 @@ const IntroduceRow = function () {
       </Col>
 
       <Col {...topColResponsiveProps}>
-        <Card bodyStyle={cardBodyStyle}>
+        <Card styles={{ body: cardBodyStyle }}>
           <MetaWrap textColor={colorTextTertiary}>
             <div>访问量</div>
             <div className="action--icon">
@@ -107,7 +107,7 @@ const IntroduceRow = function () {
       </Col>
 
       <Col {...topColResponsiveProps}>
-        <Card bodyStyle={cardBodyStyle}>
+        <Card styles={{ body: cardBodyStyle }}>
           <MetaWrap textColor={colorTextTertiary}>
             <div>支付笔数</div>
             <div className="action--icon">
@@ -131,7 +131,7 @@ const IntroduceRow = function () {
       </Col>
 
       <Col {...topColResponsiveProps}>
-        <Card bodyStyle={cardBodyStyle}>
+        <Card styles={{ body: cardBodyStyle }}>
           <MetaWrap textColor={colorTextTertiary}>
             <div>运营活动效果</div>
             <div className="action--icon">
