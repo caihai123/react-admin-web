@@ -150,7 +150,7 @@ const DelayAndKeepLoading = function ({ duration }) {
 
 export default function Index() {
   const {
-    token: { colorBgBase },
+    token: { colorBgContainer },
   } = theme.useToken();
   const [apiDuration, setApiDuration] = useState(50);
 
@@ -158,7 +158,13 @@ export default function Index() {
     <div style={{ height: "100%" }}>
       <Alert message="使用场景：有些时候，当请求返回足够快的情况下，loading 可能会在短时间内完成 false -> true -> false 状态的切换，这时候，加载动画可能会出现闪烁的情况（特别是占满一整屏的动画），这给会用户带来糟糕的体验。" />
 
-      <div style={{ marginTop: 20, padding: 16, backgroundColor: colorBgBase }}>
+      <div
+        style={{
+          marginTop: 20,
+          padding: 16,
+          backgroundColor: colorBgContainer,
+        }}
+      >
         <InputNumber
           min={0}
           value={apiDuration}
