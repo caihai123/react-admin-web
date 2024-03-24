@@ -30,7 +30,11 @@ module.exports = {
     "import/no-mutable-exports": "error",
     "import/prefer-default-export": "error",
     "import/first": "error",
-    "import/extensions": ["error", "never", { css: "always", svg: "always" }],
+    "import/extensions": [
+      "error",
+      "never",
+      { css: "always", svg: "always", md: "always" },
+    ],
     "import/no-duplicates": "error",
     "no-console": process.env.NODE_ENV === "production" ? "error" : "warn",
     "no-debugger": process.env.NODE_ENV === "production" ? "error" : "warn",
