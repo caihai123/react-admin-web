@@ -1,13 +1,12 @@
 import React from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import rehypeHighlight from "rehype-highlight"; // 代码块高亮插件
-import "@/assets/github-markdown.css"; // GitHub Markdown 样式
-import "@/assets/github-highlight.css"; // github highlight 样式
 import { selectTheme } from "@/store/system";
 import { useSelector } from "react-redux";
 import { useBoolean } from "ahooks";
 import copy from "clipboard-copy";
+import rehypeStarryNight from "./rehype-starry-night";
+import "./github-markdown.css"; // GitHub Markdown 样式
 
 const CopyCodeContainer = function () {
   const [copied, { setTrue, setFalse }] = useBoolean(false);
@@ -16,8 +15,7 @@ const CopyCodeContainer = function () {
       <div
         className={`copy-code-btn ${copied && "copied"}`}
         onClick={(event) => {
-          const codeContainerNode =
-            event.currentTarget.closest(".code-container");
+          const codeContainerNode = event.currentTarget.closest(".highlight");
           const text =
             codeContainerNode.getElementsByTagName("pre")[0].innerText;
           copy(text).then(() => {
@@ -62,10 +60,10 @@ const Markdown = ({ markdown }) => {
 
   const Pre = ({ children }) => {
     return (
-      <div className="highlight code-container">
+      <>
         <pre>{children}</pre>
         <CopyCodeContainer />
-      </div>
+      </>
     );
   };
 
@@ -77,11 +75,9 @@ const Markdown = ({ markdown }) => {
     >
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
-        rehypePlugins={[rehypeHighlight]}
+        rehypePlugins={[rehypeStarryNight]}
         skipHtml={true} // 禁止 react-markdown 将 HTML 标签包裹在 <p> 元素内部
-        components={{
-          pre: Pre,
-        }}
+        components={{ pre: Pre }}
       >
         {markdown}
       </ReactMarkdown>

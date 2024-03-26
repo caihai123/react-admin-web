@@ -209,5 +209,8 @@ module.exports = function (webpackEnv) {
         ],
       }),
     ].filter(Boolean),
+    experiments: {
+      topLevelAwait: true,
+    },
   };
 };
