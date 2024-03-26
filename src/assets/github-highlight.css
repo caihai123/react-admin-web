@@ -55,9 +55,6 @@ pre code.hljs {
   overflow-x: auto;
   padding: 1em;
 }
-code.hljs {
-  padding: 3px 5px;
-}
 
 .hljs {
   color: var(--color-prettylights-1);

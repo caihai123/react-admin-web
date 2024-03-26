@@ -53,6 +53,8 @@
   --color-danger-emphasis: #da3633;
   --color-done-fg: #a371f7;
   --color-done-emphasis: #8957e5;
+  --fgColor-accent: #3d444e;
+  --button-default-bgColor-hover: #444c56;
 }
 
 .markdown-body[data-theme="light"] {
@@ -107,6 +109,8 @@
   --color-danger-emphasis: #cf222e;
   --color-done-fg: #8250df;
   --color-done-emphasis: #8250df;
+  --fgColor-accent: #eef1f4;
+  --button-default-bgColor-hover: #eef1f4;
 }
 
 .markdown-body {
@@ -844,7 +848,10 @@
 }
 
 .markdown-body .highlight {
+  display: flex;
+  justify-content: space-between;
   margin-bottom: 16px;
+  background-color: var(--color-canvas-subtle);
 }
 
 .markdown-body .highlight pre {
@@ -859,7 +866,6 @@
   font-size: 85%;
   line-height: 1.45;
   color: var(--color-fg-default);
-  background-color: var(--color-canvas-subtle);
   border-radius: 6px;
 }
 
@@ -1152,7 +1158,7 @@
 
 .markdown-body .markdown-alert .markdown-alert-title {
   display: flex;
-  font-weight: var(--base-text-weight-medium, 500);
+  font-weight: 500;
   align-items: center;
   line-height: 1;
 }
@@ -1195,4 +1201,58 @@
 
 .markdown-body .markdown-alert.markdown-alert-caution .markdown-alert-title {
   color: var(--color-danger-fg);
+}
+
+/* 代码区复制按钮样式 */
+.markdown-body .copy-code-btn {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 28px;
+  height: 28px;
+  margin: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  border-radius: 6px;
+  transition-duration: .1s;
+}
+.markdown-body .copy-code-btn.copied {
+  background-color: var(--fgColor-accent);
+}
+.markdown-body .copy-code-btn.copied::after {
+  content: "copied!";
+  position: absolute;
+  right: 100%;
+  bottom: 50%;
+  margin-right: 6px;
+  transform: translateY(50%);
+  padding: 0.25rem 0.5rem;
+  color: #cdd9e5;
+  text-align: center;
+  font-weight: 400;
+  border-radius: 0.375rem;
+  background: #636e7b;
+  z-index: 1000000;
+}
+
+.markdown-body .copy-code-btn:hover {
+  background-color: var(--fgColor-accent);
+  border-color: var(--button-default-bgColor-hover);
+  outline: none;
+  box-shadow: none;
+}
+
+.markdown-body .copy-code-btn .octicon {
+  color: #636c76;
+  border: 0;
+  border-radius: 6px;
+  box-shadow: none;
+}
+.markdown-body .copy-code-btn .color-fg-success {
+  color: #1a7f37;
 }
