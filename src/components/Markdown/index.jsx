@@ -15,7 +15,8 @@ const CopyCodeContainer = function () {
       <div
         className={`copy-code-btn ${copied && "copied"}`}
         onClick={(event) => {
-          const codeContainerNode = event.currentTarget.closest(".highlight");
+          const codeContainerNode =
+            event.currentTarget.closest(".code-container");
           const text =
             codeContainerNode.getElementsByTagName("pre")[0].innerText;
           copy(text).then(() => {
@@ -58,12 +59,13 @@ const CopyCodeContainer = function () {
 const Markdown = ({ markdown }) => {
   const themeName = useSelector(selectTheme);
 
+  // eslint-disable-next-line no-unused-vars
   const Pre = ({ children }) => {
     return (
-      <>
+      <div className="highlight code-container">
         <pre>{children}</pre>
         <CopyCodeContainer />
-      </>
+      </div>
     );
   };
 

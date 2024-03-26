@@ -80,7 +80,6 @@ export default function rehypeStarryNight() {
         tagName: "div",
         properties: {
           className: [
-            "highlight",
             `highlight-${scope.replace(/^source\./, "").replace(/\./g, "-")}`,
           ],
         },
