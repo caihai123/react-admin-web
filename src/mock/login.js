@@ -85,6 +85,20 @@ const mock = [
             icon: "DatabaseFilled",
           },
           {
+            id: "5",
+            title: "components",
+            type: "2",
+            icon: "ProductFilled",
+            children: [
+              {
+                id: "5-1",
+                title: "mackdown",
+                type: "1",
+                path: "/mackdown",
+              },
+            ],
+          },
+          {
             id: "6",
             title: "hooks",
             type: "2",
