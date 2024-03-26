@@ -2,6 +2,9 @@
 
 使用 [react-markdown](https://github.com/remarkjs/react-markdown) 组件渲染。
 
+## 这用来做什么？
+未来我可能在本项目中编写很多文档页面，就想本页面一样，我希望可以用markdown文件来编写，而不是使用常规的页面开发方式。
+
 ## Github 风格的 markdown 主题
 
 `react-markdown` 组件只会帮助你将 markdown 字符转为 html 展示，并不会控制样式。我这里使用了[github-markdown-css](https://github.com/sindresorhus/github-markdown-css)，用最少的 CSS 复制 GitHub Markdown 风格。
