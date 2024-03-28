@@ -1,4 +1,5 @@
 import Mock from "mockjs";
+import { roleEnabledState } from "@/utils/dict";
 
 const mock = [
   {
@@ -14,7 +15,7 @@ const mock = [
               id: "@guid",
               roleName: `角色名称-${pageIndex * pageSize - pageSize + i + 1}`,
               description: "@csentence",
-              "status|1": [0, 1],
+              "status|1": roleEnabledState.options.map((item) => item.value),
             })
           ),
           total: 100,
