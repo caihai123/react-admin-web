@@ -4,7 +4,7 @@ export const systemSlice = createSlice({
   name: "system",
   initialState: {
     // 当前主题
-    theme: localStorage.getItem("theme"), // or dark
+    theme: localStorage.getItem("theme") || "light", // or dark
 
     // 后端返回的菜单列表
     menu: [],
