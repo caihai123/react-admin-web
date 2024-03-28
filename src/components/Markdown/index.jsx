@@ -5,8 +5,9 @@ import { selectTheme } from "@/store/system";
 import { useSelector } from "react-redux";
 import { useBoolean } from "ahooks";
 import copy from "clipboard-copy";
-import rehypeStarryNight from "./rehype-starry-night";
+import rehypeHighlight from "rehype-highlight"; // 代码块高亮插件
 import "./github-markdown.css"; // GitHub Markdown 样式
+import "./github-highlight.css"; // github hightlight 样式
 
 const CopyCodeContainer = function () {
   const [copied, { setTrue, setFalse }] = useBoolean(false);
@@ -59,7 +60,6 @@ const CopyCodeContainer = function () {
 const Markdown = ({ markdown }) => {
   const themeName = useSelector(selectTheme);
 
-  // eslint-disable-next-line no-unused-vars
   const Pre = ({ children }) => {
     return (
       <div className="highlight code-container">
@@ -77,7 +77,7 @@ const Markdown = ({ markdown }) => {
     >
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
-        rehypePlugins={[rehypeStarryNight]}
+        rehypePlugins={[rehypeHighlight]}
         skipHtml={true} // 禁止 react-markdown 将 HTML 标签包裹在 <p> 元素内部
         components={{ pre: Pre }}
       >

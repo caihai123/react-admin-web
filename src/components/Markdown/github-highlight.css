@@ -1,0 +1,136 @@
+:root {
+    /*!
+    Theme: GitHub
+    Description: Light theme as seen on github.com
+    Author: github.com
+    Maintainer: @Hirse
+    Updated: 2021-05-15
+  
+    Outdated base version: https://github.com/primer/github-syntax-light
+    Current colors taken from GitHub's CSS
+  */
+    --color-prettylights-1: #24292e;
+    --color-prettylights-2: #fff;
+    --color-prettylights-3: #d73a49;
+    --color-prettylights-4: #6f42c1;
+    --color-prettylights-5: #005cc5;
+    --color-prettylights-6: #032f62;
+    --color-prettylights-7: #e36209;
+    --color-prettylights-8: #6a737d;
+    --color-prettylights-9: #22863a;
+    --color-prettylights-10: #735c0f;
+    --color-prettylights-11: #f0fff4;
+    --color-prettylights-12: #b31d28;
+    --color-prettylights-13: #ffeef0;
+  }
+  
+  .markdown-body[data-theme="dark"] {
+    /*!
+    Theme: GitHub Dark
+    Description: Dark theme as seen on github.com
+    Author: github.com
+    Maintainer: @Hirse
+    Updated: 2021-05-15
+  
+    Outdated base version: https://github.com/primer/github-syntax-dark
+    Current colors taken from GitHub's CSS
+  */
+    --color-prettylights-1: #c9d1d9;
+    --color-prettylights-2: #0d1117;
+    --color-prettylights-3: #ff7b72;
+    --color-prettylights-4: #d2a8ff;
+    --color-prettylights-5: #79c0ff;
+    --color-prettylights-6: #a5d6ff;
+    --color-prettylights-7: #ffa657;
+    --color-prettylights-8: #8b949e;
+    --color-prettylights-9: #7ee787;
+    --color-prettylights-10: #f2cc60;
+    --color-prettylights-11: #033a16;
+    --color-prettylights-12: #ffdcd7;
+    --color-prettylights-13: #67060c;
+  }
+  
+  pre code.hljs {
+    display: block;
+    overflow-x: auto;
+    /* padding: 1em; */
+  }
+  
+  .hljs {
+    color: var(--color-prettylights-1);
+    background: var(--color-prettylights-2);
+  }
+  .hljs-doctag,
+  .hljs-keyword,
+  .hljs-meta .hljs-keyword,
+  .hljs-template-tag,
+  .hljs-template-variable,
+  .hljs-type,
+  .hljs-variable.language_ {
+    color: var(--color-prettylights-3);
+  }
+  .hljs-title,
+  .hljs-title.class_,
+  .hljs-title.class_.inherited__,
+  .hljs-title.function_ {
+    color: var(--color-prettylights-4);
+  }
+  .hljs-attr,
+  .hljs-attribute,
+  .hljs-literal,
+  .hljs-meta,
+  .hljs-number,
+  .hljs-operator,
+  .hljs-selector-attr,
+  .hljs-selector-class,
+  .hljs-selector-id,
+  .hljs-variable {
+    color: var(--color-prettylights-5);
+  }
+  .hljs-meta .hljs-string,
+  .hljs-regexp,
+  .hljs-string {
+    color: var(--color-prettylights-6);
+  }
+  .hljs-built_in,
+  .hljs-symbol {
+    color: var(--color-prettylights-7);
+  }
+  .hljs-code,
+  .hljs-comment,
+  .hljs-formula {
+    color: var(--color-prettylights-8);
+  }
+  .hljs-name,
+  .hljs-quote,
+  .hljs-selector-pseudo,
+  .hljs-selector-tag {
+    color: var(--color-prettylights-9);
+  }
+  .hljs-subst {
+    color: var(--color-prettylights-1);
+  }
+  .hljs-section {
+    color: var(--color-prettylights-5);
+    font-weight: 700;
+  }
+  .hljs-bullet {
+    color: var(--color-prettylights-10);
+  }
+  .hljs-emphasis {
+    color: var(--color-prettylights-1);
+    font-style: italic;
+  }
+  .hljs-strong {
+    color: var(--color-prettylights-1);
+    font-weight: 700;
+  }
+  .hljs-addition {
+    color: var(--color-prettylights-9);
+    background-color: var(--color-prettylights-11);
+  }
+  .hljs-deletion {
+    color: var(--color-prettylights-12);
+    background-color: var(--color-prettylights-13);
+  }
+  
