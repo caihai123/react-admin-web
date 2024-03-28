@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "@/utils/axios";
 import ProTable from "@/components/ProTable";
 import { PlusOutlined } from "@ant-design/icons";
-import { gender as genderDict } from "@/utils/dict";
+import { gender as genderDict, accountEnabledState } from "@/utils/dict";
 import { useGetDeptSelectQuery } from "@/store/api/deptSlice";
 
 export default function Page() {
@@ -44,12 +44,11 @@ export default function Page() {
     {
       title: "状态",
       dataIndex: "status",
-      render: (status) => <Switch checked={status === 1} />,
+      render: (status) => (
+        <Switch checked={status === accountEnabledState.enum.enabled} />
+      ),
       type: "select",
-      options: [
-        { label: "启用", value: 1 },
-        { label: "禁用", value: 0 },
-      ],
+      options: accountEnabledState.options,
     },
     {
       title: "部门",

@@ -1,7 +1,7 @@
 const createDict = function (dict) {
   return {
     enum: Object.fromEntries(dict.map(({ alias, value }) => [alias, value])),
-    options: dict.map(({ label, value }) => ({ label, value })),
+    options: dict.map(({ label, value, color }) => ({ label, value, color })),
     map: Object.fromEntries(dict.map((item) => [item.value, item])),
   };
 };
@@ -18,9 +18,32 @@ export const gender = createDict([
   { label: "女", value: "2", alias: "woman", color: "#f179b4" },
 ]);
 
+// 用户启用状态
+export const accountEnabledState = createDict([
+  { label: "启用", value: "1", alias: "enabled", color: "#52c41a" },
+  {
+    label: "禁用",
+    value: "0",
+    alias: "disabled",
+    color: "rgba(30, 41, 59, 0.25)",
+  },
+]);
+
+// 角色启用状态
+export const roleEnabledState = createDict([
+  { label: "启用", value: "1", alias: "enabled", color: "#52c41a" },
+  {
+    label: "禁用",
+    value: "0",
+    alias: "disabled",
+    color: "rgba(30, 41, 59, 0.25)",
+  },
+]);
+
 const dict = {
   menuType,
   gender,
+  accountEnabledState,
 };
 
 export default dict;

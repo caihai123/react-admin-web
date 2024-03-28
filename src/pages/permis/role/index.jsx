@@ -5,6 +5,7 @@ import ProTable from "@/components/ProTable";
 import axios from "@/utils/axios";
 import OptimisticSwitch from "@/components/OptimisticSwitch";
 import AddOrEdit from "./AddOrEdit";
+import { roleEnabledState } from "@/utils/dict";
 
 export default function Page() {
   const { message } = App.useApp();
@@ -33,17 +34,17 @@ export default function Page() {
     {
       title: "状态",
       dataIndex: "status",
-      render: (status, row) => (
-        <OptimisticSwitch
-          defaultChecked={status === 1}
-          onChange={(val) => updateStatus(row.id, val ? 1 : 0)}
-        />
-      ),
+      render: (status, row) => {
+        const { enabled, disabled } = roleEnabledState.enum;
+        return (
+          <OptimisticSwitch
+            defaultChecked={status === enabled}
+            onChange={(val) => updateStatus(row.id, val ? enabled : disabled)}
+          />
+        );
+      },
       type: "select",
-      options: [
-        { label: "启用", value: "1" },
-        { label: "禁用", value: "0" },
-      ],
+      options: roleEnabledState.options,
     },
     {
       title: "操作",
