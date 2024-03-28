@@ -1,17 +1,6 @@
-import {
-  App,
-  Layout,
-  Button,
-  Form,
-  Input,
-  theme,
-  Switch,
-  Checkbox,
-} from "antd";
+import { App, Layout, Button, Form, Input, theme, Checkbox } from "antd";
 import { useNavigate } from "react-router-dom";
 import LoginBanner from "./components/LoginBanner";
-import { useSelector, useDispatch } from "react-redux";
-import { selectTheme, setTheme } from "@/store/system";
 import styled from "styled-components";
 import axios from "@/utils/axios";
 import {
@@ -24,6 +13,7 @@ import {
 import LogoSvg from "@/assets/logo.svg";
 import FormBg from "@/assets/login-bg.svg";
 import useLoadingDelayAndKeep from "@/hooks/useLoadingDelayAndKeep";
+import ThremSwitch from "@/layout/ThremSwitch";
 
 const Header = styled(Layout.Header)`
   display: flex;
@@ -60,11 +50,6 @@ const BlogrollIcon = styled.span`
 const Login = function () {
   const { message } = App.useApp();
 
-  // 换肤相关 start
-  const dispatch = useDispatch();
-  const themeName = useSelector(selectTheme);
-  // 换肤相关 end
-
   const [loading, { setTrue, setFalse }] = useLoadingDelayAndKeep(false);
 
   const navigate = useNavigate();
@@ -96,12 +81,7 @@ const Login = function () {
           <h1 style={{ fontSize: 24 }}>{process.env.REACT_APP_WEBSITE_NAME}</h1>
         </Title>
         <div className="tools">
-          <Switch
-            checked={themeName === "dark"}
-            checkedChildren="🌜"
-            unCheckedChildren="🌞"
-            onClick={() => dispatch(setTheme())}
-          />
+          <ThremSwitch />
         </div>
       </Header>
       <Layout>

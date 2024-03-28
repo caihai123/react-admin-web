@@ -1,10 +1,8 @@
-import { Layout, theme, Avatar, Switch, Dropdown, message } from "antd";
+import { Layout, theme, Avatar, Dropdown, message } from "antd";
 import { useMount, useBoolean, useUnmount } from "ahooks";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
 import screenfull from "screenfull";
-import { selectTheme, setTheme } from "@/store/system";
 import Breadcrumb from "./Breadcrumb";
 import {
   MenuUnfoldOutlined,
@@ -18,6 +16,7 @@ import {
   IssuesCloseOutlined,
   BellOutlined,
 } from "@ant-design/icons";
+import ThremSwitch from "@/layout/ThremSwitch";
 
 const Header = styled(Layout.Header)`
   height: 48px;
@@ -65,9 +64,6 @@ export default function LayHeader(props) {
   } = theme.useToken();
   const navigate = useNavigate();
 
-  const dispatch = useDispatch();
-  const themeName = useSelector(selectTheme);
-
   // 全屏相关 start
   const [isFullscreen, { set: setIsFullscreen }] = useBoolean(false);
   const fullscreenChange = () => setIsFullscreen(screenfull.isFullscreen);
@@ -113,15 +109,8 @@ export default function LayHeader(props) {
           <BellOutlined />
         </div>
 
-        <div
-          className="header-actions-item"
-          onClick={() => dispatch(setTheme())}
-        >
-          <Switch
-            checked={themeName === "dark"}
-            checkedChildren="🌜"
-            unCheckedChildren="🌞"
-          />
+        <div className="header-actions-item">
+          <ThremSwitch />
         </div>
 
         <Dropdown
