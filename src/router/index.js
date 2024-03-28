@@ -2,10 +2,7 @@ import { lazy } from "react";
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import Auth from "./RouteAuth";
 import Err404 from "@/pages/404";
-import markdownPage from "@/pages/components/mackdown.md";
-
-// markdown 显示组件
-const Markdown = lazy(() => import("@/components/Markdown"));
+import { lazyMarkdown } from "@/components/Markdown";
 
 const router = createBrowserRouter(
   [
@@ -81,7 +78,11 @@ const router = createBrowserRouter(
         {
           path: "mackdown",
           element: (
-            <Auth Component={() => <Markdown markdown={markdownPage} />} />
+            <Auth
+              Component={lazyMarkdown(() =>
+                import("@/pages/components/markdown.md")
+              )}
+            />
           ),
         },
         {

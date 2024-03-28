@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
+import { useMount, useBoolean } from "ahooks";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { selectTheme } from "@/store/system";
 import { useSelector } from "react-redux";
-import { useBoolean } from "ahooks";
 import copy from "clipboard-copy";
 import rehypeHighlight from "rehype-highlight"; // 代码块高亮插件
 import "./github-markdown.css"; // GitHub Markdown 样式
@@ -85,6 +85,23 @@ const Markdown = ({ markdown }) => {
       </ReactMarkdown>
     </div>
   );
+};
+
+// 用于在给.md文件配置路由懒加载时使用
+export const lazyMarkdown = (ctor) => {
+  const MarkdownPage = function () {
+    const [content, setContent] = useState("");
+
+    useMount(() => {
+      ctor().then((module) => {
+        setContent(module.default);
+      });
+    });
+
+    return <Markdown markdown={content} />;
+  };
+
+  return MarkdownPage;
 };
 
 export default Markdown;
