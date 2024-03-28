@@ -160,7 +160,7 @@ export default function LayHeader(props) {
         >
           <div className="header-actions-item">
             <Avatar
-              src="https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png"
+              src="https://avatars.githubusercontent.com/u/47770861?v=4"
               size="small"
               style={{ marginRight: 8 }}
             />
