@@ -2,7 +2,7 @@ import { lazy } from "react";
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import Auth from "./RouteAuth";
 import Err404 from "@/pages/404";
-import { lazyMarkdown } from "@/components/Markdown";
+import lazyMarkdown from "@/components/Markdown/lazyMarkdown";
 
 const router = createBrowserRouter(
   [

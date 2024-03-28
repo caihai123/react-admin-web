@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useMount, useBoolean } from "ahooks";
+import React from "react";
+import { useBoolean } from "ahooks";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { selectTheme } from "@/store/system";
@@ -85,23 +85,6 @@ const Markdown = ({ markdown }) => {
       </ReactMarkdown>
     </div>
   );
-};
-
-// 用于在给.md文件配置路由懒加载时使用
-export const lazyMarkdown = (ctor) => {
-  const MarkdownPage = function () {
-    const [content, setContent] = useState("");
-
-    useMount(() => {
-      ctor().then((module) => {
-        setContent(module.default);
-      });
-    });
-
-    return <Markdown markdown={content} />;
-  };
-
-  return MarkdownPage;
 };
 
 export default Markdown;
