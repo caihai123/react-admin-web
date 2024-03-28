@@ -27,6 +27,71 @@ const router = createBrowserRouter([
 export default router;
 ```
 
+
+## 路由懒加载
+上面的代码中，我没有实现懒加载功能。对于`react`组件，我们可以很轻易的使用`React.lazy`函数实现懒加载的功能。但是却不能对`md`文件这样做。
+
+当然，我们也可以在代码中为每个`md`文件都使用`Markdown`文件都包装一次，然后像配置普通路由组件一样配置它，就像下面这样，但是这样又让我们每次新建页面时都必须得创建一个相同`jsx`文件。
+``` text
+├── pages                       
+│   ├── markdown1   
+|   |   ├── index.jsx  
+|   |   ├── markdown.md    
+|   ├── markdown2      
+|   |   ├── index.jsx  
+|   |   ├── markdown.md             
+```
+``` jsx
+// index.jsx
+import Markdown from '@/components/Markdown'
+import markdown from './markdown.md'
+
+export default function MarkdownPage() {
+  return <Markdown markdown={markdown}/>
+}
+```
+
+为了解决这个问题，我写了一个函数 `lazyMarkdown`
+```js
+import React, { useState } from "react";
+import { useMount } from "ahooks";
+
+const Markdown = React.lazy(() => import("./index.jsx"));
+
+export default function lazyMarkdown(ctor) {
+  const MarkdownPage = function () {
+    const [content, setContent] = useState("");
+
+    useMount(() => {
+      ctor().then((module) => {
+        setContent(module.default);
+      });
+    });
+
+    return <Markdown markdown={content} />;
+  };
+
+  return MarkdownPage;
+}
+
+```
+依赖于 `lazyMarkdown`，我们可以轻易的对markdown页面实现懒加载，就像使用 `React.lazy` 一样。
+```js
+import { createBrowserRouter } from "react-router-dom";
+import lazyMarkdown from "@/components/Markdown/lazyMarkdown";
+
+const router = createBrowserRouter([
+  //...
+  {
+    path: "/markdown",
+    Component: lazyMarkdown(() => import("@/pages/components/markdown.md")),
+  },
+  //...
+]);
+
+export default router;
+```
+
 ## Github 风格的 markdown 主题
 
 [react-markdown](https://github.com/remarkjs/react-markdown) 组件只会帮助你将 markdown 字符转为 html 展示，并不会控制样式。我这里使用了[github-markdown-css](https://github.com/sindresorhus/github-markdown-css)，我做了一点简单的改动，以适应本系统的主题切换功能。
