@@ -7,7 +7,6 @@ import Breadcrumb from "./Breadcrumb";
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
-  LockOutlined,
   FullscreenOutlined,
   UserOutlined,
   SettingOutlined,
@@ -97,10 +96,6 @@ export default function LayHeader(props) {
       </div>
 
       <div style={{ display: "flex", paddingRight: 16 }}>
-        <div className="header-actions-item">
-          <LockOutlined />
-        </div>
-
         <div className="header-actions-item" onClick={fullscreenToggle}>
           {isFullscreen ? <FullscreenExitOutlined /> : <FullscreenOutlined />}
         </div>
