@@ -17,7 +17,7 @@ export default function lazyMarkdown(ctor) {
       });
     });
 
-    return <Markdown markdown={content} />;
+    return content ? <Markdown markdown={content} /> : undefined;
   };
 
   return MarkdownPage;
