@@ -28,6 +28,7 @@ export default function App() {
           colorBorder: isLight ? "#e5e7eb" : "#454847",
         },
         algorithm: isLight ? theme.defaultAlgorithm : theme.darkAlgorithm,
+        cssVar: true,
       }}
     >
       <AntdApp>
