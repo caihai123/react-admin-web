@@ -1,33 +1,25 @@
 import { Link, useMatches } from "react-router-dom";
 import { Breadcrumb } from "antd";
-import { useSelector } from "react-redux";
-import { selectMenuFlatten } from "@/store/menu";
 
 export default function Component() {
   const matches = useMatches();
 
-  const menuFlatten = useSelector(selectMenuFlatten);
-
   const levelList = matches
-    .map((match) => {
-      const found = menuFlatten.find((i) => i.path === match.pathname);
-      if (found) {
-        return { title: found.title, path: found.path };
-      } else if (match.handle?.title) {
-        return {
-          title: match.handle.title,
-          path: match.pathname,
-        };
-      } else {
-        return undefined;
-      }
+    .map((match, index) => {
+      return {
+        title: match.handle?.title,
+        path: match.pathname === "/" && index !== 0 ? null : match.pathname, // 只允许首页使用'/'
+      };
     })
-    .filter(Boolean);
-
+    .filter((item) => item.title);
   return (
     <Breadcrumb
       items={levelList.map((item) => ({
-        title: <Link to={item.path}>{item.title}</Link>,
+        title: item.path ? (
+          <Link to={item.path}>{item.title}</Link>
+        ) : (
+          <span>{item.title}</span>
+        ),
       }))}
     ></Breadcrumb>
   );
