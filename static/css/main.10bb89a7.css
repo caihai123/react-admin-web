@@ -249,6 +249,16 @@ mark {
   background-color: #feffe6;
 }
 
+html{
+  /* 设置最小宽度，防止页面变形 */
+  min-width: 992px;
+}
+
+html[data-theme="dark"] {
+  scrollbar-color: rgba(226, 232, 240, 0.25) rgba(236, 220, 220, 0.06);
+  background: #2a2c2c;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -259,4 +269,4 @@ body {
 }
 
 
-/*# sourceMappingURL=main.f6f85828.css.map*/
+/*# sourceMappingURL=main.10bb89a7.css.map*/
