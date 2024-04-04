@@ -114,13 +114,13 @@ export default function Comment() {
             <div style={{ display: "flex" }}>
               <IssueType
                 suffixIcon={<CaretDownOutlined />}
-                bordered={false}
+                variant="borderless"
                 placeholder="标签"
                 popupMatchSelectWidth={false}
               ></IssueType>
               <IssuePriority
                 suffixIcon={<CaretDownOutlined />}
-                bordered={false}
+                variant="borderless"
                 placeholder="优先级"
                 popupMatchSelectWidth={false}
               ></IssuePriority>
