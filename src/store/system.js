@@ -1,10 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const currentTheme = localStorage.getItem("theme") || "light"; // or dark
+document.documentElement.setAttribute("data-theme", currentTheme);
+
 export const systemSlice = createSlice({
   name: "system",
   initialState: {
     // 当前主题
-    theme: localStorage.getItem("theme") || "light", // or dark
+    theme: currentTheme,
 
     // 后端返回的菜单列表
     menu: [],
@@ -22,6 +25,7 @@ export const systemSlice = createSlice({
           }
         })();
       state.theme = theme;
+      document.documentElement.setAttribute("data-theme", theme);
       localStorage.setItem("theme", theme);
     },
     setMenu: (state, action) => {
