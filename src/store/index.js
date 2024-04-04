@@ -1,12 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import system from "./system";
-import userinfo from "./userinfo";
+import menu from "./menu";
 import apiSlice from "./apiSlice";
 
 export default configureStore({
   reducer: {
     system,
-    userinfo,
+    menu,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>

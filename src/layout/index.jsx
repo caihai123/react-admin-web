@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Layout } from "antd";
 import { useMount } from "ahooks";
 import { useDispatch } from "react-redux";
-import { init } from "@/store/userinfo";
+import { initMenu } from "@/store/menu";
 import LayContent from "./Content";
 import Header from "./Header";
 import Sider from "./Sider";
@@ -12,7 +12,7 @@ export default function LayoutViwe() {
 
   // 初始化菜单列表
   const dispatch = useDispatch();
-  useMount(() => dispatch(init()));
+  useMount(() => dispatch(initMenu()));
 
   return (
     <Layout style={{ minHeight: "100vh", flexDirection: "row" }}>

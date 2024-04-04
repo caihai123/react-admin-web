@@ -1,19 +1,20 @@
 import { Result } from "antd";
 import { useSelector } from "react-redux";
-import { selectUserinfo } from "@/store/userinfo";
+import { selectMenu, selectMenuFlatten } from "@/store/menu";
+import { useLocation } from "react-router-dom";
 import Error401 from "@/pages/401";
 import PageLoading from "./PageLoading";
 
 // 权限路由包装组件
 // 根据后端返回的菜单列表显示视图
 export default function Auth(props) {
-  const { status, role = [] } = useSelector(selectUserinfo);
-
-  const routeRole = props.role || [];
+  const { pathname } = useLocation();
+  const { status } = useSelector(selectMenu);
+  const menuFlatten = useSelector(selectMenuFlatten);
 
   const component = {
     loading: <PageLoading />,
-    succeeded: role.some((item) => routeRole.includes(item)) ? (
+    succeeded: menuFlatten.some((item) => item.path === pathname) ? (
       <props.Component />
     ) : (
       <Error401 />

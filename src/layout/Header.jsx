@@ -4,8 +4,6 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import screenfull from "screenfull";
 import Breadcrumb from "./Breadcrumb";
-import { useSelector } from "react-redux";
-import { selectUserinfo } from "@/store/userinfo";
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -85,8 +83,6 @@ export default function LayHeader(props) {
   });
   // 全屏相关 end
 
-  const { userName, avatar } = useSelector(selectUserinfo);
-
   return (
     <Header background={colorBgContainer}>
       <div style={{ display: "flex", alignItems: "center" }}>
@@ -148,12 +144,11 @@ export default function LayHeader(props) {
         >
           <div className="header-actions-item">
             <Avatar
-              src={avatar}
+              src="https://avatars.githubusercontent.com/u/47770861?v=4"
               size="small"
-              alt="用户头像"
               style={{ marginRight: 8 }}
             />
-            <span style={{ fontSize: 14 }}>{userName}</span>
+            <span style={{ fontSize: 14 }}>Cai Hai</span>
           </div>
         </Dropdown>
       </div>
