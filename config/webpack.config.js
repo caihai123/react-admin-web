@@ -24,7 +24,7 @@ module.exports = function (webpackEnv) {
 
   return {
     mode: webpackEnv,
-    entry: resolveApp("src/index.js"),
+    entry: resolveApp("src/index.tsx"),
     // eslint-disable-next-line no-nested-ternary
     devtool: isEnvProduction
       ? shouldUseSourceMap

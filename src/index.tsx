@@ -11,7 +11,9 @@ if (process.env.REACT_APP_MOCK) {
   require("@/mock");
 }
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(
+  document.getElementById("root") as HTMLElement
+);
 
 root.render(
   <Provider store={store}>
