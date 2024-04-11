@@ -2,10 +2,14 @@ import axios from "axios";
 import { message } from "antd";
 import router from "@/router";
 
+declare module "axios" {
+  interface AxiosResponse {
+    result: any;
+  }
+}
+
 /**
- * 封装后的 `axios` 实例
- *
- * 添加合理的
+ * 添加了请求拦截和响应拦截的 `axios` 实例。
  */
 const instance = axios.create({
   timeout: 5000,
@@ -17,24 +21,24 @@ const instance = axios.create({
 
 // 请求拦截器
 instance.interceptors.request.use(
+  // 在发送请求之前做些什么
   function (config) {
-    // 在发送请求之前做些什么
     const token = localStorage.getItem("token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
+  // 对请求错误做些什么
   function (error) {
-    // 对请求错误做些什么
     return Promise.reject(error);
   }
 );
 
 // 响应拦截器
 instance.interceptors.response.use(
+  // 对响应数据做点什么
   function (response) {
-    // 对响应数据做点什么
     const { status, msg } = response.data;
     // 请求成功时进行响应处理
     switch (status) {
@@ -45,8 +49,8 @@ instance.interceptors.response.use(
         return Promise.reject(response);
     }
   },
+  // 对响应错误做点什么
   function (error) {
-    // 对响应错误做点什么
     switch (error.status) {
       case 401:
         router.navigate(`${router.basename}/login`);
