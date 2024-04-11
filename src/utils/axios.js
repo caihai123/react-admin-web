@@ -2,6 +2,11 @@ import axios from "axios";
 import { message } from "antd";
 import router from "@/router";
 
+/**
+ * 封装后的 `axios` 实例
+ *
+ * 添加合理的
+ */
 const instance = axios.create({
   timeout: 5000,
   validateStatus(status) {

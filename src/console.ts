@@ -2,7 +2,7 @@ import { version as reactV } from "react";
 import { version as antdV } from "antd";
 const { REACT_APP_Commit_Hash, REACT_APP_Build_Date } = process.env;
 
-const consoleFn = function (label, val) {
+const consoleFn = function (label?: string, val?: string) {
   const style1 =
     "padding:1px; border-radius:3px 0 0 3px; color:#fff; background:#35495e;";
   const style2 =

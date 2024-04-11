@@ -1,4 +1,11 @@
-const createDict = function (dict) {
+const createDict = function (
+  dict: Array<{
+    label: string;
+    value: string | number;
+    alias: string;
+    color?: string;
+  }>
+) {
   return {
     enum: Object.fromEntries(dict.map(({ alias, value }) => [alias, value])),
     options: dict.map(({ label, value, color }) => ({ label, value, color })),

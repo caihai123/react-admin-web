@@ -1,7 +1,12 @@
+import { FC, ReactNode } from "react";
 import { CaretUpOutlined, CaretDownOutlined } from "@ant-design/icons";
 import styles from "./styles.module.css";
 
-const Trend = function ({ children, flag, ...rest }) {
+const Trend: FC<{ children: ReactNode; flag: "up" | "down" }> = function ({
+  children,
+  flag,
+  ...rest
+}) {
   return (
     <div className={styles.trendItem} {...rest}>
       {children}

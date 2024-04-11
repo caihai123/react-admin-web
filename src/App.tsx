@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+import { FC, Suspense } from "react";
 import { RouterProvider } from "react-router-dom";
 import { ConfigProvider, App as AntdApp, theme } from "antd";
 import zhCN from "antd/locale/zh_CN";
@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 // 我这样加载中文包之后就好了，我猜测应该是antd设置dayjs.locale的时候没有找到正确的中文包
 import "dayjs/locale/zh-cn";
 
-export default function App() {
+const App: FC = function () {
   const themeName = useSelector(selectTheme);
 
   const isLight = themeName !== "dark";
@@ -38,4 +38,6 @@ export default function App() {
       </AntdApp>
     </ConfigProvider>
   );
-}
+};
+
+export default App;

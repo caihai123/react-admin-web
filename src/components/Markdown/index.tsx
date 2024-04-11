@@ -19,8 +19,8 @@ const CopyCodeContainer = function () {
           const codeContainerNode =
             event.currentTarget.closest(".code-container");
           const text =
-            codeContainerNode.getElementsByTagName("pre")[0].innerText;
-          copy(text).then(() => {
+            codeContainerNode?.getElementsByTagName("pre")[0].innerText;
+          copy(text || "").then(() => {
             setTrue();
             setTimeout(setFalse, 1500);
           });
@@ -57,17 +57,8 @@ const CopyCodeContainer = function () {
   );
 };
 
-const Markdown = ({ markdown }) => {
+const Markdown: React.FC<{ markdown: string }> = ({ markdown }) => {
   const themeName = useSelector(selectTheme);
-
-  const Pre = ({ children }) => {
-    return (
-      <div className="highlight code-container">
-        <pre>{children}</pre>
-        <CopyCodeContainer />
-      </div>
-    );
-  };
 
   return (
     <div
@@ -79,7 +70,14 @@ const Markdown = ({ markdown }) => {
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[rehypeHighlight]}
         skipHtml={true} // 禁止 react-markdown 将 HTML 标签包裹在 <p> 元素内部
-        components={{ pre: Pre }}
+        components={{
+          pre: ({ children }) => (
+            <div className="highlight code-container">
+              <pre>{children}</pre>
+              <CopyCodeContainer />
+            </div>
+          ),
+        }}
       >
         {markdown}
       </ReactMarkdown>

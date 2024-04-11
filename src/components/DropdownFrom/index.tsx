@@ -1,4 +1,9 @@
-import { forwardRef, useImperativeHandle } from "react";
+import {
+  forwardRef,
+  useImperativeHandle,
+  ReactNode,
+  CSSProperties,
+} from "react";
 import { Card, Form, Button, Space } from "antd";
 import { CaretUpOutlined, CaretDownOutlined } from "@ant-design/icons";
 import styled from "styled-components";
@@ -30,7 +35,10 @@ const ToolsItem = styled(Form.Item)`
   z-index: 10;
 `;
 
-const DropdownForm = forwardRef(function (props, ref) {
+const DropdownForm = forwardRef(function (
+  props: { children: ReactNode; style?: CSSProperties; className?: string },
+  ref
+) {
   const [form] = Form.useForm();
   const [visible, { setTrue, setFalse }] = useBoolean(false);
 

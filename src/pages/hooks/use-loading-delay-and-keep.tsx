@@ -1,3 +1,4 @@
+import { useState, ReactNode, FC } from "react";
 import {
   Alert,
   Button,
@@ -13,9 +14,18 @@ import useLoadingDelayAndKeep, {
   useLoadingDelay,
   useLoadingKeep,
 } from "@/hooks/useLoadingDelayAndKeep";
-import { useState } from "react";
 
-const LoadingDemo = function ({ options }) {
+const LoadingDemo: FC<{
+  options: {
+    title: string;
+    loading: boolean;
+    setTrue: () => void;
+    setFalse: () => void;
+    duration: number;
+    describe: string;
+    extra?: ReactNode;
+  };
+}> = ({ options }) => {
   const { title, loading, setTrue, setFalse, duration, describe, extra } =
     options;
   return (
@@ -48,7 +58,7 @@ const LoadingDemo = function ({ options }) {
   );
 };
 
-const OrdinaryLoading = function ({ duration }) {
+const OrdinaryLoading = function ({ duration }: { duration: number }) {
   const [loading, { setTrue, setFalse }] = useBoolean(false);
   return (
     <LoadingDemo
@@ -64,9 +74,8 @@ const OrdinaryLoading = function ({ duration }) {
   );
 };
 
-const DelayLoading = function ({ duration }) {
+const DelayLoading: FC<{ duration: number }> = function ({ duration }) {
   const [loading, { setTrue, setFalse }] = useLoadingDelay(false);
-
   return (
     <LoadingDemo
       options={{
@@ -90,8 +99,9 @@ const DelayLoading = function ({ duration }) {
   );
 };
 
-const KeepLoading = function ({ duration }) {
+const KeepLoading = function (props: { duration: number }) {
   const [loading, { setTrue, setFalse }] = useLoadingKeep(false);
+  const { duration } = props;
   return (
     <LoadingDemo
       options={{
@@ -115,8 +125,9 @@ const KeepLoading = function ({ duration }) {
   );
 };
 
-const DelayAndKeepLoading = function ({ duration }) {
+const DelayAndKeepLoading = function (props: { duration: number }) {
   const [loading, { setTrue, setFalse }] = useLoadingDelayAndKeep(false);
+  const { duration } = props;
   return (
     <LoadingDemo
       options={{
@@ -148,11 +159,11 @@ const DelayAndKeepLoading = function ({ duration }) {
   );
 };
 
-export default function Index() {
+const Index: FC = function () {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
-  const [apiDuration, setApiDuration] = useState(50);
+  const [apiDuration, setApiDuration] = useState<number>(50);
 
   return (
     <div style={{ height: "100%" }}>
@@ -168,7 +179,7 @@ export default function Index() {
         <InputNumber
           min={0}
           value={apiDuration}
-          onChange={(val) => setApiDuration(val)}
+          onChange={(val) => setApiDuration(val || 0)}
           addonBefore="加载时长"
           addonAfter="单位：ms"
         />
@@ -186,4 +197,6 @@ export default function Index() {
       <DelayAndKeepLoading duration={apiDuration} />
     </div>
   );
-}
+};
+
+export default Index;
