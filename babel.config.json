@@ -1,10 +1,11 @@
 {
-    "presets": [
-        [
-            "@babel/preset-react",
-            {
-                "runtime": "automatic" // 自动引入react
-            }
-        ]
-    ]
+  "presets": [
+    [
+      "@babel/preset-react",
+      {
+        "runtime": "automatic" // 自动引入react
+      }
+    ],
+    ["@babel/preset-typescript"]
+  ]
 }

@@ -53,7 +53,7 @@ module.exports = function (webpackEnv) {
           loader: require.resolve("source-map-loader"),
         },
         {
-          test: /\.(js|jsx)$/,
+          test: /\.(js|jsx|ts|tsx)$/,
           loader: "babel-loader",
           exclude: /node_modules/,
           options: {
@@ -119,7 +119,7 @@ module.exports = function (webpackEnv) {
       alias: {
         "@": resolveApp("src"),
       },
-      extensions: [".js", ".jsx", ".css"],
+      extensions: [".js", ".jsx", ".ts", ".tsx", ".css"],
     },
     performance: { hints: false },
     infrastructureLogging: {
@@ -175,7 +175,7 @@ module.exports = function (webpackEnv) {
 
       // 执行eslint校验
       new ESLintPlugin({
-        extensions: ["js", "jsx", "json"],
+        extensions: ["js", "jsx", "ts", "tsx", "json"],
       }),
 
       // 打印编译进度
