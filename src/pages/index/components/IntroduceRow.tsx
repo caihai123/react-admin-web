@@ -4,14 +4,15 @@ import styled from "styled-components";
 import { TinyArea, TinyColumn, Progress } from "@ant-design/plots";
 import Trend from "@/components/Trend";
 
-const formatNumber = (num) => parseFloat(num).toLocaleString("en-US");
+const formatNumber = (num: number | string) =>
+  parseFloat(`${num}`).toLocaleString("en-US");
 
 const MetaWrap = styled.div`
   display: flex;
   justify-content: space-between;
   line-height: 22px;
   font-size: 14px;
-  color: ${(props) => props.textColor};
+  color: ${({ textColor }: { textColor: string }) => textColor};
   & .action--icon {
     cursor: pointer;
   }
@@ -33,7 +34,8 @@ const ContentFixed = styled.div`
 const CardFoot = styled.div`
   margin-top: 8px;
   padding-top: 9px;
-  border-top: 1px solid ${(props) => props.borderColor};
+  border-top: 1px solid
+    ${({ borderColor }: { borderColor: string }) => borderColor};
 `;
 
 const topColResponsiveProps = {
@@ -96,7 +98,6 @@ const IntroduceRow = function () {
               <TinyArea
                 color="#975FE4"
                 height={46}
-                forceFit
                 smooth
                 data={[7, 5, 4, 2, 4, 7, 5, 6, 5, 9, 6, 3, 1, 5, 3, 6, 5]}
               />
@@ -121,7 +122,6 @@ const IntroduceRow = function () {
             <ContentFixed>
               <TinyColumn
                 height={46}
-                forceFit
                 data={[7, 5, 4, 2, 4, 7, 5, 6, 5, 9, 6, 3, 1, 5, 3, 6, 5]}
               />
             </ContentFixed>

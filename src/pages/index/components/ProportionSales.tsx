@@ -2,7 +2,9 @@ import { Button, Card, Radio, Dropdown, Space } from "antd";
 import { Pie } from "@ant-design/plots";
 import { EllipsisOutlined } from "@ant-design/icons";
 
-const config = {
+import type { PieConfig } from "@ant-design/plots";
+
+const config: PieConfig = {
   height: 400,
   appendPadding: 10,
   data: [

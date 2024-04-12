@@ -59,7 +59,8 @@ const rankingListData = [...Array(7)].map((_, i) => ({
   total: 323234,
 }));
 
-const formatNumber = (num) => parseFloat(num).toLocaleString("en-US");
+const formatNumber = (num: string | number) =>
+  parseFloat(`${num}`).toLocaleString("en-US");
 
 const SalesCard = function () {
   return (

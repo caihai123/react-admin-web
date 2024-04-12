@@ -1,9 +1,20 @@
+import React from "react";
 import { Card, Row, Col, Table, Statistic, Tooltip, theme } from "antd";
 import Trend from "@/components/Trend";
 import { TinyArea } from "@ant-design/plots";
 import { InfoCircleOutlined } from "@ant-design/icons";
 
-const columns = [
+import type { TableColumnsType } from "antd";
+
+type DataType = {
+  index: number;
+  keyword: string;
+  count: number;
+  range: number;
+  status: 0 | 1;
+};
+
+const columns: TableColumnsType<DataType> = [
   {
     title: "排名",
     dataIndex: "index",
@@ -34,7 +45,7 @@ const columns = [
   },
 ];
 
-const searchData = [
+const searchData: Array<DataType> = [
   {
     index: 1,
     keyword: "搜索关键词-0",
@@ -391,7 +402,8 @@ const TopSearch = function () {
   const {
     token: { colorTextSecondary },
   } = theme.useToken();
-  const labelStyles = {
+
+  const labelStyles: React.CSSProperties = {
     height: 22,
     overflow: "hidden",
     color: colorTextSecondary,
@@ -430,7 +442,6 @@ const TopSearch = function () {
           </div>
           <TinyArea
             height={46}
-            forceFit
             smooth
             data={[7, 5, 4, 2, 4, 7, 5, 6, 5, 9, 6, 3, 1, 5, 3, 6, 5]}
           />
@@ -457,7 +468,6 @@ const TopSearch = function () {
 
           <TinyArea
             height={46}
-            forceFit
             smooth
             data={[7, 5, 4, 2, 4, 7, 5, 6, 5, 9, 6, 3, 1, 5, 3, 6, 5]}
           />
