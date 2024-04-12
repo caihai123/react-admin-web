@@ -1,11 +1,25 @@
-const createDict = function (
-  dict: Array<{
+export type DictType = {
+  enum: {
+    [alias: string]: string | number;
+  };
+  options: Array<{
     label: string;
     value: string | number;
-    alias: string;
     color?: string;
-  }>
-) {
+  }>;
+  map: {
+    [value: string | number]: {
+      label: string;
+      value: string | number;
+      alias: string;
+      color?: string;
+    };
+  };
+};
+
+const createDict = function (
+  dict: { label: string; value: string; alias: string; color?: string }[]
+): DictType {
   return {
     enum: Object.fromEntries(dict.map(({ alias, value }) => [alias, value])),
     options: dict.map(({ label, value, color }) => ({ label, value, color })),
@@ -47,7 +61,7 @@ export const roleEnabledState = createDict([
   },
 ]);
 
-const dict = {
+const dict: { [dictName: string]: DictType } = {
   menuType,
   gender,
   accountEnabledState,
