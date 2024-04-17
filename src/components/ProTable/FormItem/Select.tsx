@@ -1,6 +1,16 @@
 import { Select as ASelect, Form, Badge } from "antd";
 
-export default function Select({ item }) {
+import type { GetProps, GetProp } from "antd";
+
+type Item = {
+  title: string;
+  dataIndex: string;
+  options: GetProp<typeof ASelect, "options">;
+  formItemProps: Omit<GetProps<typeof Form.Item>, "label" | "name">;
+  fieldProps: Omit<GetProps<typeof ASelect>, "options">;
+};
+
+export default function Select({ item }: { item: Item }) {
   return (
     <Form.Item label={item.title} name={item.dataIndex} {...item.formItemProps}>
       <ASelect

@@ -1,7 +1,23 @@
-import { useState } from "react";
+import { useState, ReactNode } from "react";
 import { Popover, Checkbox, Divider, Button } from "antd";
 
-const ColumnSetting = function (props) {
+import type { GetProp } from "antd";
+
+type Key = number | string;
+type Keys = Array<Key>;
+
+type Props = {
+  /** 指定选中的选项 */
+  value: Keys;
+  /** 指定可选项 */
+  options: Array<{ label: string; value: Key }>;
+  /** 显示的内容 */
+  children: ReactNode;
+  /** 变化时的回调函数 */
+  onChange: (keys: Keys) => void;
+};
+
+const ColumnSetting = function (props: Props) {
   const { children, value, onChange, options } = props;
 
   const plainOptions = options.map((item) => item.value);
@@ -9,13 +25,13 @@ const ColumnSetting = function (props) {
   const [indeterminate, setIndeterminate] = useState(false);
   const [checkAll, setCheckAll] = useState(true);
 
-  const onCheckAllChange = (e) => {
+  const onCheckAllChange: GetProp<typeof Checkbox, "onChange"> = (e) => {
     onChange(e.target.checked ? plainOptions : []);
     setIndeterminate(false);
     setCheckAll(e.target.checked);
   };
 
-  const onCheckChange = (list) => {
+  const onCheckChange = (list: Keys) => {
     onChange(list);
     setIndeterminate(!!list.length && list.length < plainOptions.length);
     setCheckAll(list.length === plainOptions.length);

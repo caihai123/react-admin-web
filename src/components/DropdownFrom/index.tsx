@@ -1,13 +1,10 @@
-import {
-  forwardRef,
-  useImperativeHandle,
-  ReactNode,
-  CSSProperties,
-} from "react";
+import { ReactNode, forwardRef, useImperativeHandle } from "react";
 import { Card, Form, Button, Space } from "antd";
 import { CaretUpOutlined, CaretDownOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import { useBoolean } from "ahooks";
+
+import type { FormProps } from "antd";
 
 const toolsWidth = "188px";
 
@@ -28,7 +25,7 @@ const DropdownBox = styled(Form)`
   }
 `;
 
-const ToolsItem = styled(Form.Item)`
+const Tools = styled(Form.Item)`
   position: absolute;
   right: -16px;
   bottom: 0;
@@ -36,7 +33,7 @@ const ToolsItem = styled(Form.Item)`
 `;
 
 const DropdownForm = forwardRef(function (
-  props: { children: ReactNode; style?: CSSProperties; className?: string },
+  props: FormProps & { children: ReactNode },
   ref
 ) {
   const [form] = Form.useForm();
@@ -70,7 +67,7 @@ const DropdownForm = forwardRef(function (
         {...rest}
       >
         {children}
-        <ToolsItem>
+        <Tools>
           <Space>
             <Button type="primary" htmlType="submit">
               查询
@@ -96,7 +93,7 @@ const DropdownForm = forwardRef(function (
               </Button>
             )}
           </Space>
-        </ToolsItem>
+        </Tools>
       </DropdownBox>
     </Card>
   );
