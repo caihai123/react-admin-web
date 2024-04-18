@@ -15,7 +15,7 @@ import FormBg from "@/assets/login-bg.svg";
 import useLoadingDelayAndKeep from "@/hooks/useLoadingDelayAndKeep";
 import ThremSwitch from "@/layout/ThremSwitch";
 
-import type { Params as LoginParams } from "@/api/login";
+import type { LoginParams } from "@/api/login";
 
 const Header = styled(Layout.Header)`
   display: flex;
