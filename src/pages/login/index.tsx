@@ -2,7 +2,7 @@ import { App, Layout, Button, Form, Input, theme, Checkbox } from "antd";
 import { useNavigate } from "react-router-dom";
 import LoginBanner from "./components/LoginBanner";
 import styled from "styled-components";
-import axios from "@/utils/axios";
+import { login } from "@/api/login";
 import {
   UserOutlined,
   LockOutlined,
@@ -14,6 +14,8 @@ import LogoSvg from "@/assets/logo.svg";
 import FormBg from "@/assets/login-bg.svg";
 import useLoadingDelayAndKeep from "@/hooks/useLoadingDelayAndKeep";
 import ThremSwitch from "@/layout/ThremSwitch";
+
+import type { Params as LoginParams } from "@/api/login";
 
 const Header = styled(Layout.Header)`
   display: flex;
@@ -53,11 +55,9 @@ const Login = function () {
   const [loading, { setTrue, setFalse }] = useLoadingDelayAndKeep(false);
 
   const navigate = useNavigate();
-  const submitForm = (values) => {
+  const submitForm = (values: LoginParams) => {
     setTrue();
-
-    axios
-      .post("/api/login", values)
+    login(values)
       .then((value) => {
         const { token } = value.result;
         localStorage.setItem("token", token);
