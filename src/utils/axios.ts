@@ -2,6 +2,12 @@ import axios from "axios";
 import { message } from "antd";
 import router from "@/router";
 
+export type AxiosResultPromise<Result extends any> = Promise<{
+  result: Result;
+  success: "success" | "failure";
+  msg?: string;
+}>;
+
 declare module "axios" {
   interface AxiosResponse {
     result: any;
