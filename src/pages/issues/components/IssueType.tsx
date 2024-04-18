@@ -1,7 +1,11 @@
 import { Select, Badge } from "antd";
+import type { GetProps } from "antd";
+
+export type Props = Omit<GetProps<typeof Select>, "options">;
 
 const { Option } = Select;
-export default function IssuePinned(props) {
+
+export default function IssuePinned(props: Props) {
   return (
     <Select {...props}>
       <Option value={1}>

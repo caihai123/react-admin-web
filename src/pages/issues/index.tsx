@@ -10,18 +10,24 @@ import {
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { usePagination } from "ahooks";
-import axios from "@/utils/axios";
 import dayjs from "dayjs";
 import "dayjs/locale/zh-cn";
 import IssuePriority from "./components/IssuePriority";
 import IssueType from "./components/IssueType";
+import { getIssuseList } from "@/api/issuse";
+import type { IssuseStatus, IssuseType } from "@/api/issuse";
 
 const relativeTime = require("dayjs/plugin/relativeTime");
 
 dayjs.extend(relativeTime);
+declare module "dayjs" {
+  interface Dayjs {
+    fromNow(): string;
+  }
+}
 dayjs.locale("zh-cn");
 
-const StatusIcon = function ({ status }) {
+const StatusIcon = function ({ status }: { status: IssuseStatus }) {
   switch (status) {
     case 0:
       // 已关闭
@@ -37,7 +43,7 @@ const StatusIcon = function ({ status }) {
   }
 };
 
-const TypeTag = function ({ type }) {
+const TypeTag = function ({ type }: { type: IssuseType }) {
   switch (type) {
     case 1:
       return <Tag color="error">缺陷</Tag>;
@@ -51,19 +57,15 @@ const TypeTag = function ({ type }) {
 export default function Comment() {
   const navigate = useNavigate();
 
-  const getListData = ({ current, pageSize }) => {
-    return axios
-      .post("/api/issues/page", { pageIndex: current, pageSize })
-      .then((value) => {
-        const { result: data } = value;
-        return {
-          list: data.records,
-          total: data.total,
-        };
-      });
-  };
-
-  const { data, pagination, loading } = usePagination(getListData);
+  const { data, pagination, loading } = usePagination(
+    async ({ current, pageSize }) => {
+      const { result: data } = await getIssuseList(current, pageSize);
+      return {
+        list: data.records,
+        total: data.total,
+      };
+    }
+  );
 
   return (
     <Card>

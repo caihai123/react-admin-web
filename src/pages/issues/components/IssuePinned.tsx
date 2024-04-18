@@ -1,6 +1,9 @@
 import { Select } from "antd";
+import type { GetProps } from "antd";
 
-export default function IssuePinned(props) {
+export type Props = Omit<GetProps<typeof Select>, "options">;
+
+export default function IssuePinned(props: Props) {
   return (
     <Select
       options={[

@@ -1,8 +1,11 @@
 import { Select, Badge, theme } from "antd";
+import type { GetProps } from "antd";
+
+export type Props = Omit<GetProps<typeof Select>, "options">;
 
 const { Option } = Select;
 
-export default function IssuePinned(props) {
+export default function IssuePinned(props: Props) {
   const {
     token: { colorPrimary },
   } = theme.useToken();
