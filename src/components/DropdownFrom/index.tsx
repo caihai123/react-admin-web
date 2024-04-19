@@ -32,10 +32,10 @@ const Tools = styled(Form.Item)`
   z-index: 10;
 `;
 
-const DropdownForm = forwardRef(function (
-  props: FormProps & { children: ReactNode },
-  ref
-) {
+export type Props = FormProps & { children: ReactNode };
+export type Ref = { submit: () => void; reset: () => void };
+
+const DropdownForm = forwardRef<Ref, Props>(function (props, ref) {
   const [form] = Form.useForm();
   const [visible, { setTrue, setFalse }] = useBoolean(false);
 
