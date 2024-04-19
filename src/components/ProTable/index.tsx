@@ -72,13 +72,14 @@ export type ProTableProps<RecordType = any> = {
   toolBarRender?: ReactNode | ((params: any) => ReactNode);
   /** table 标题 */
   headerTitle?: ReactNode | (() => ReactNode);
+  /** Table rowSelection 配置 */
+  tableRowSelection?: TableProps<RecordType>["rowSelection"];
   /** 刷新页面时触发 */
   onRefresh?: (params: any) => void;
   /** 提交表单时触发 */
   onSubmit?: (params: any) => void;
   /** 重置表单时触发 */
   onReset?: (params: any) => void;
-  tableRowSelection: TableProps<RecordType>["rowSelection"];
 };
 
 export type TableSize = TableProps["size"];
