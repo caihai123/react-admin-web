@@ -3,14 +3,13 @@ import { Popover, Checkbox, Divider, Button } from "antd";
 
 import type { GetProp } from "antd";
 
-type Key = number | string;
-type Keys = Array<Key>;
+type Keys = Array<any>;
 
 type Props = {
   /** 指定选中的选项 */
   value: Keys;
   /** 指定可选项 */
-  options: Array<{ label: string; value: Key }>;
+  options: Array<{ label: string; value: any }>;
   /** 显示的内容 */
   children: ReactNode;
   /** 变化时的回调函数 */

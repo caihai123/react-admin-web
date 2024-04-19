@@ -4,9 +4,9 @@ import type { GetProps } from "antd";
 
 type Item = {
   title: string;
-  dataIndex: string;
-  formItemProps: Omit<GetProps<typeof Form.Item>, "label" | "name">;
-  fieldProps: GetProps<typeof AInput>;
+  dataIndex?: string;
+  formItemProps?: Omit<GetProps<typeof Form.Item>, "label" | "name">;
+  fieldProps?: GetProps<typeof AInput>;
 };
 
 export default function Input({ item }: { item: Item }) {

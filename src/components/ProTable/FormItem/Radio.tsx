@@ -4,10 +4,10 @@ import type { GetProps, GetProp } from "antd";
 
 type Item = {
   title: string;
-  dataIndex: string;
+  dataIndex?: string;
   options: GetProp<typeof ARadio.Group, "options">;
-  formItemProps: Omit<GetProps<typeof Form.Item>, "label" | "name">;
-  fieldProps: Omit<GetProps<typeof ARadio.Group>, "options">;
+  formItemProps?: Omit<GetProps<typeof Form.Item>, "label" | "name">;
+  fieldProps?: Omit<GetProps<typeof ARadio.Group>, "options">;
 };
 
 export default function Radio({ item }: { item: Item }) {

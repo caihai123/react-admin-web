@@ -4,10 +4,10 @@ import type { GetProp, GetProps } from "antd";
 
 type Item = {
   title: string;
-  dataIndex: string;
+  dataIndex?: string;
   options: GetProp<typeof ACheckbox.Group, "options">;
-  formItemProps: Omit<GetProps<typeof Form.Item>, "label" | "name">;
-  fieldProps: Omit<GetProps<typeof ACheckbox.Group>, "options">;
+  formItemProps?: Omit<GetProps<typeof Form.Item>, "label" | "name">;
+  fieldProps?: Omit<GetProps<typeof ACheckbox.Group>, "options">;
 };
 
 export default function Checkbox({ item }: { item: Item }) {

@@ -6,9 +6,9 @@ const { RangePicker } = DatePicker;
 
 type Item = {
   title: string;
-  dataIndex: string;
-  formItemProps: Omit<GetProps<typeof Form.Item>, "label" | "name">;
-  fieldProps: GetProps<typeof RangePicker>;
+  dataIndex?: string;
+  formItemProps?: Omit<GetProps<typeof Form.Item>, "label" | "name">;
+  fieldProps?: GetProps<typeof RangePicker>;
 };
 
 export default function Date({ item }: { item: Item }) {

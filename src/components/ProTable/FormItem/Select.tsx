@@ -4,10 +4,10 @@ import type { GetProps, GetProp } from "antd";
 
 type Item = {
   title: string;
-  dataIndex: string;
+  dataIndex?: string;
   options: GetProp<typeof ASelect, "options">;
-  formItemProps: Omit<GetProps<typeof Form.Item>, "label" | "name">;
-  fieldProps: Omit<GetProps<typeof ASelect>, "options">;
+  formItemProps?: Omit<GetProps<typeof Form.Item>, "label" | "name">;
+  fieldProps?: Omit<GetProps<typeof ASelect>, "options">;
 };
 
 export default function Select({ item }: { item: Item }) {

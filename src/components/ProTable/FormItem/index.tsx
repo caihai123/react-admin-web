@@ -9,7 +9,7 @@ import TreeSelect from "./TreeSelect";
 
 import type { GetProp } from "antd";
 
-type BaseItem = {
+export type BaseItem = {
   type?:
     | "input"
     | "select"
@@ -29,7 +29,7 @@ type DateRangeItem = BaseItem & GetProp<typeof DateRange, "item">;
 type TreeSelectItem = BaseItem & GetProp<typeof TreeSelect, "item">;
 type InputItem = BaseItem & GetProp<typeof Input, "item">;
 
-type Item =
+export type Item =
   | (BaseItem & SelectItem)
   | (BaseItem & CheckboxItem)
   | (BaseItem & RadioItem)

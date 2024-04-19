@@ -1,69 +1,110 @@
 import {
-  useState,
   forwardRef,
-  useImperativeHandle,
-  useRef,
+  useState,
   useMemo,
+  useRef,
   useEffect,
+  useImperativeHandle,
+  ReactNode,
 } from "react";
-import DropdownFrom from "@/components/DropdownFrom";
-import { Table, Space, Button, theme, Card, Tooltip, Dropdown } from "antd";
-import styles from "./style.module.css";
+import { Card, Table, theme, Space, Tooltip, Dropdown, Button } from "antd";
 import { usePagination } from "ahooks";
-import PropTypes from "prop-types";
+import styles from "./style.module.css";
+import useLoadingDelayAndKeep from "@/hooks/useLoadingDelayAndKeep";
+import FormItem from "./FormItem";
+import DropdownFrom from "@/components/DropdownFrom";
+import ColumnSetting from "./ColumnSetting";
 import {
   ReloadOutlined,
   ColumnHeightOutlined,
   SettingOutlined,
 } from "@ant-design/icons";
-import ColumnSetting from "./ColumnSetting";
-import FormItem from "./FormItem";
-import useLoadingDelayAndKeep from "@/hooks/useLoadingDelayAndKeep";
 
-const getRowkey = function (row) {
-  return row.key || row.dataIndex;
+import type { TableProps, TableColumnType } from "antd";
+import type { Item as FormItemType } from "./FormItem/index";
+import type { Ref as DropdownFromRefType } from "@/components/DropdownFrom";
+
+export type Ref = {
+  /** 手动触发刷新，可传入页码刷新到指定页 */
+  refresh: (pageIndex?: number) => void;
+  /** 手动触发查询操作 */
+  search: () => void;
+  /** 手动触发重置操作 */
+  reset: () => void;
+  /** 手动清空多选 */
+  clearSelected: () => void;
 };
+
+export type ProTableColumnType = TableColumnType<any> & {
+  /** 查询表单初始值 */
+  initialValue?: any;
+  /** 是否在筛选表单中隐藏该项 默认：false */
+  hideInSearch?: boolean;
+  /** 是否在表格中隐藏该项 默认：false */
+  hideInTable?: boolean;
+} & FormItemType;
+
+export type ProTableProps = {
+  /** 表格行 key 的取值，可以是字符串或一个函数 */
+  rowKey: TableProps["rowKey"];
+  /** Table 的数据，protable 推荐使用 request 来加载 */
+  dataSource?: TableProps["dataSource"];
+  /** 获取 dataSource 的方法 */
+  request?: (
+    /** 查询表单的 params */
+    params: any,
+    /** 分页参数 */
+    pagination: { current: number; pageSize: number }
+  ) => Promise<{ list: any[]; total?: number }>;
+  /** 表格列及查询表单的配置描述 */
+  columns: ProTableColumnType[];
+  /** 表格分页配置项 为 false 时不显示*/
+  pagination?: TableProps["pagination"];
+  /** 自定义表格 loading 默认：不显示 */
+  loading?: TableProps["loading"];
+  /** 是否显示搜索表单 默认：true */
+  search?: boolean;
+  /** 批量操作节点 */
+  batchBarRender?: ReactNode | ((keys: any[]) => ReactNode);
+  /** 工具栏节点 */
+  toolBarRender?: ReactNode | ((params: any) => ReactNode);
+  /** table 标题 */
+  headerTitle?: ReactNode | (() => ReactNode);
+  /** 刷新页面时触发 */
+  onRefresh?: (params: any) => void;
+  /** 提交表单时触发 */
+  onSubmit?: (params: any) => void;
+  /** 重置表单时触发 */
+  onReset?: (params: any) => void;
+};
+
+export type TableSize = TableProps["size"];
 
 const initialTableSize = "large"; // 表格尺寸默认值
 
-const ProTable = forwardRef(function (props, ref) {
+const getRowkey = function (row: ProTableColumnType) {
+  return row.key || row.dataIndex;
+};
+
+const ProTable = forwardRef<Ref, ProTableProps>(function (props, ref) {
   const {
-    // Table 的数据，protable 推荐使用 request 来加载
-    dataSource,
-
-    // 表格列配置
-    columns = [],
-
-    // 是否显示搜索表单
-    search = true,
-
-    // 工具栏渲染函数
-    toolBarRender = null,
-
-    // 列表标题区渲染函数
-    headerTitle,
-
-    // 批量操作功能的渲染函数，不为空时会自动配置checkbox
-    batchBarRender = null,
-
-    // 表格的rowSelection配置项，优先级最高，可能会覆盖掉默认配置
-    tableRowSelection = {},
-
-    // 分页配置项，为对象时可能会覆盖掉默认值
-    pagination: paginationConfig = true,
-
-    // 自定义表格loading
     loading,
-
-    // 处理刷新表格刷新
+    columns,
+    dataSource,
+    pagination: propPagination = true,
     onRefresh,
-
-    // 提交表单时触发
-    onSubmit,
-
-    // 重置表单时触发
-    onReset,
+    search: showSearch = true,
+    batchBarRender,
+    toolBarRender,
+    headerTitle,
   } = props;
+
+  // 搜索表单项
+  const formItems = useMemo(() => {
+    return columns
+      .filter((item) => item.hideInSearch !== true)
+      .map((item) => <FormItem item={item} key={getRowkey(item)} />);
+  }, [columns]);
 
   // 表单的默认值
   const initialValues = useMemo(
@@ -76,12 +117,11 @@ const ProTable = forwardRef(function (props, ref) {
     [columns]
   );
 
-  // 搜索表单项
-  const formItems = useMemo(() => {
-    return columns
-      .filter((item) => item.hideInSearch !== true)
-      .map((item) => <FormItem item={item} key={getRowkey(item)} />);
-  }, [columns]);
+  // 查询表单参数缓存
+  const [params, setParams] = useState(initialValues);
+
+  // 查询表单实例
+  const searchFrom = useRef<DropdownFromRefType>(null);
 
   // 表格上使用的columns
   const tableColumns = useMemo(
@@ -89,26 +129,18 @@ const ProTable = forwardRef(function (props, ref) {
     [columns]
   );
 
-  // 表格设置栏
-  const [configkeys, setConfigkeys] = useState(
-    tableColumns.map((item) => getRowkey(item))
-  );
-
-  // 查询表单参数缓存
-  const [params, setParams] = useState(initialValues);
-
-  // 查询表单实例
-  const searchFrom = useRef(null);
-
   // request加载数据对象
   const requestData = usePagination(
     ({ current, pageSize }) =>
+      // @ts-ignore
       !Array.isArray(dataSource) &&
       props.request?.(params, { current, pageSize }),
     {
       refreshDeps: [params],
-      defaultCurrent: paginationConfig?.current || 1,
-      defaultPageSize: paginationConfig?.pageSize || 10,
+      // @ts-ignore
+      defaultCurrent: propPagination?.current || 1,
+      // @ts-ignore
+      defaultPageSize: propPagination?.pageSize || 10,
       loadingDelay: 0,
     }
   );
@@ -116,29 +148,31 @@ const ProTable = forwardRef(function (props, ref) {
   // 表格的可变配置项
   const tableConfig = useMemo(() => {
     const isDataSource = Array.isArray(dataSource);
-    const paginationBaseConfig = {
+    const { data, pagination, refresh } = requestData;
+    const paginationConfig: TableProps["pagination"] = {
+      // table pagination 的默认配置，允许props.pagination 覆盖它
       showSizeChanger: true,
       showQuickJumper: true,
       showTotal: (total, range) => `第 ${range.join("-")} 条/共 ${total} 条`,
       style: { marginBottom: -8 },
-      ...paginationConfig,
+      // @ts-ignore 我知道它可能为 boolean ,就算放进去也不会出现错误
+      ...propPagination,
     };
-    const { data, pagination, refresh } = requestData;
     return {
       list: isDataSource ? dataSource : data?.list,
       // eslint-disable-next-line no-nested-ternary
-      pagination: paginationConfig
+      pagination: propPagination
         ? isDataSource
-          ? paginationBaseConfig
+          ? paginationConfig
           : {
               current: pagination.current,
               pageSize: pagination.pageSize,
               total: pagination.total,
               onChange: pagination.onChange,
-              ...paginationBaseConfig,
+              ...paginationConfig,
             }
         : false,
-      refresh: (pageIndex) => {
+      refresh(pageIndex?: number) {
         if (!isDataSource) {
           pageIndex && pageIndex !== pagination.current
             ? pagination.changeCurrent(pageIndex)
@@ -147,29 +181,32 @@ const ProTable = forwardRef(function (props, ref) {
         onRefresh?.(params);
       },
     };
-  }, [dataSource, requestData, paginationConfig, params, onRefresh]);
+  }, [dataSource, requestData, propPagination, params, onRefresh]);
+
+  // 表格设置栏
+  const [configkeys, setConfigkeys] = useState(
+    tableColumns.map((item) => getRowkey(item))
+  );
 
   // loadingDelay 和 loadingKeep，具体可参考：useLoadingDelayAndKeep
   const [tableLoading, { setTrue, setFalse }] = useLoadingDelayAndKeep(
     typeof loading === "boolean" ? loading : false
   );
   useEffect(() => {
-    const isDataSource = Array.isArray(dataSource);
     const tableLoading =
-      // eslint-disable-next-line no-nested-ternary
-      loading === "boolean"
-        ? loading
-        : isDataSource
-        ? false
-        : requestData.loading;
+      typeof loading === "boolean" ? loading : requestData.loading;
     tableLoading ? setTrue() : setFalse();
-  }, [dataSource, loading, requestData.loading, setTrue, setFalse]);
+  }, [loading, requestData.loading, setTrue, setFalse]);
 
   // 表格size
-  const [tableSize, setTableSize] = useState(initialTableSize);
+  const [tableSize, setTableSize] = useState<TableSize>(initialTableSize);
 
   // 当前选中的keys
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+
+  const {
+    token: { borderRadius, controlItemBgActive, colorText },
+  } = theme.useToken();
 
   // 暴露出去的函数
   useImperativeHandle(ref, () => ({
@@ -177,29 +214,25 @@ const ProTable = forwardRef(function (props, ref) {
 
     // 触发搜索表单的搜索事件
     search: () => {
-      const submit = searchFrom?.current?.submit;
+      const submit = searchFrom.current?.submit;
       submit ? submit() : setParams(null);
-      onSubmit?.(params);
+      props.onSubmit?.(params);
     },
 
     // 触发搜索表单的重置事件
     reset: () => {
-      const reset = searchFrom?.current?.reset;
+      const reset = searchFrom.current?.reset;
       reset ? reset() : setParams(null);
-      onReset?.(params);
+      props.onReset?.(params);
     },
 
     // 清空选中项
     clearSelected: () => setSelectedRowKeys([]),
   }));
 
-  const {
-    token: { borderRadius, controlItemBgActive, colorText },
-  } = theme.useToken();
-
   return (
     <>
-      {search && (
+      {showSearch && (
         <DropdownFrom
           ref={searchFrom}
           onFinish={(values) => setParams(values)}
@@ -210,8 +243,10 @@ const ProTable = forwardRef(function (props, ref) {
       )}
 
       <Card
-        style={{ marginTop: search ? 16 : 0 }}
-        styles={{ body: { paddingTop: 16, paddingBottom: 24 } }}
+        style={{ marginTop: showSearch ? 16 : 0 }}
+        styles={{
+          body: { paddingTop: 16, paddingBottom: 24 },
+        }}
       >
         {
           <div
@@ -251,7 +286,7 @@ const ProTable = forwardRef(function (props, ref) {
                     ],
                     selectable: true,
                     defaultSelectedKeys: [initialTableSize],
-                    onClick: ({ key }) => setTableSize(key),
+                    onClick: ({ key }) => setTableSize(key as TableSize),
                   }}
                   trigger={["click"]}
                 >
@@ -304,66 +339,20 @@ const ProTable = forwardRef(function (props, ref) {
             </Space>
           </div>
         )}
-
         <div className={styles["main"]}>
           <Table
             rowKey={props.rowKey}
             dataSource={tableConfig.list}
-            columns={tableColumns.filter((item) => {
-              const key = getRowkey(item);
-              return configkeys.includes(key);
-            })}
-            pagination={tableConfig.pagination}
+            columns={tableColumns}
             loading={tableLoading}
-            rowSelection={
-              batchBarRender
-                ? {
-                    type: "checkbox",
-                    selectedRowKeys,
-                    onChange: (keys) => setSelectedRowKeys(keys),
-                    preserveSelectedRowKeys: true,
-                    ...tableRowSelection,
-                  }
-                : undefined
-            }
-            bordered
             size={tableSize}
+            bordered
             scroll={{ x: "max-content" }}
-          />
+          ></Table>
         </div>
       </Card>
     </>
   );
 });
-
-ProTable.propTypes = {
-  rowKey: PropTypes.string.isRequired,
-  dataSource: PropTypes.array,
-  request: PropTypes.func,
-  onRefresh: PropTypes.func,
-  onSubmit: PropTypes.func,
-  onReset: PropTypes.func,
-  columns: PropTypes.array.isRequired,
-  search: PropTypes.bool,
-  loading: PropTypes.bool,
-  toolBarRender: PropTypes.oneOfType([
-    PropTypes.element,
-    PropTypes.array,
-    PropTypes.func,
-  ]),
-  headerTitle: PropTypes.oneOfType([
-    PropTypes.element,
-    PropTypes.array,
-    PropTypes.func,
-    PropTypes.string,
-  ]),
-  batchBarRender: PropTypes.oneOfType([
-    PropTypes.element,
-    PropTypes.array,
-    PropTypes.func,
-  ]),
-  tableRowSelection: PropTypes.object,
-  pagination: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
-};
 
 export default ProTable;
