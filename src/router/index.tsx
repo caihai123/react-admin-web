@@ -47,8 +47,8 @@ const router = createBrowserRouter(
               path: "detail",
               element: (
                 <Auth
-                  Component={lazy(() =>
-                    import("@/pages/permis/account/detail")
+                  Component={lazy(
+                    () => import("@/pages/permis/account/detail")
                   )}
                 />
               ),
@@ -69,8 +69,8 @@ const router = createBrowserRouter(
           path: "/use-loading-delay-and-keep",
           element: (
             <Auth
-              Component={lazy(() =>
-                import("@/pages/hooks/use-loading-delay-and-keep")
+              Component={lazy(
+                () => import("@/pages/hooks/use-loading-delay-and-keep")
               )}
             />
           ),
@@ -79,8 +79,8 @@ const router = createBrowserRouter(
           path: "mackdown",
           element: (
             <Auth
-              Component={lazyMarkdown(() =>
-                import("@/pages/components/markdown.md")
+              Component={lazyMarkdown(
+                () => import("@/pages/components/markdown.md")
               )}
             />
           ),

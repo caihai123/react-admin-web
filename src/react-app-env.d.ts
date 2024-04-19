@@ -6,6 +6,7 @@ declare namespace NodeJS {
   interface ProcessEnv {
     readonly NODE_ENV: "development" | "production" | "test";
     readonly PUBLIC_URL: string;
+    readonly PUBLIC_PATH: string;
   }
 }
 
@@ -51,6 +52,11 @@ declare module "*.svg" {
     React.SVGProps<SVGSVGElement> & { title?: string }
   >;
 
+  const src: string;
+  export default src;
+}
+
+declare module "*.md" {
   const src: string;
   export default src;
 }
