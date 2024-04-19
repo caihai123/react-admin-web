@@ -1,11 +1,14 @@
 import { Button, Space, Tag, message } from "antd";
-import axios from "@/utils/axios";
 import ProTable from "@/components/ProTable";
 import { PlusOutlined } from "@ant-design/icons";
 import { menuType } from "@/utils/dict";
+import { getMenuAll } from "@/api/menu";
+
+import type { ProTableProps } from "@/components/ProTable";
+import type { Menu } from "@/api/menu";
 
 export default function Page() {
-  const columns = [
+  const columns: ProTableProps<Menu>["columns"] = [
     {
       title: "名称",
       dataIndex: "title",
@@ -56,13 +59,10 @@ export default function Page() {
       rowKey="id"
       columns={columns}
       headerTitle="菜单列表"
-      request={() => {
-        return axios.get("/api/get-menu-all").then((value) => {
-          const { result: data } = value;
-          return {
-            list: data,
-          };
-        });
+      request={async () => {
+        const value = await getMenuAll();
+        const { result: data } = value;
+        return { list: data };
       }}
       toolBarRender={
         <Button
