@@ -6,6 +6,7 @@ import {
   useEffect,
   useImperativeHandle,
   ReactNode,
+  Key as ReactKey,
 } from "react";
 import { Card, Table, theme, Space, Tooltip, Dropdown, Button } from "antd";
 import { usePagination } from "ahooks";
@@ -77,6 +78,7 @@ export type ProTableProps<RecordType = any> = {
   onSubmit?: (params: any) => void;
   /** 重置表单时触发 */
   onReset?: (params: any) => void;
+  tableRowSelection: TableProps<RecordType>["rowSelection"];
 };
 
 export type TableSize = TableProps["size"];
@@ -98,6 +100,7 @@ const ProTable = forwardRef<Ref, ProTableProps>(function (props, ref) {
     batchBarRender,
     toolBarRender,
     headerTitle,
+    tableRowSelection,
   } = props;
 
   // 搜索表单项
@@ -203,7 +206,7 @@ const ProTable = forwardRef<Ref, ProTableProps>(function (props, ref) {
   const [tableSize, setTableSize] = useState<TableSize>(initialTableSize);
 
   // 当前选中的keys
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [selectedRowKeys, setSelectedRowKeys] = useState<ReactKey[]>([]);
 
   const {
     token: { borderRadius, controlItemBgActive, colorText },
@@ -344,8 +347,22 @@ const ProTable = forwardRef<Ref, ProTableProps>(function (props, ref) {
           <Table
             rowKey={props.rowKey}
             dataSource={tableConfig.list}
-            columns={tableColumns}
+            columns={tableColumns.filter((item) => {
+              const key = getRowkey(item);
+              return configkeys.includes(key);
+            })}
             loading={tableLoading}
+            rowSelection={
+              batchBarRender
+                ? {
+                    type: "checkbox",
+                    selectedRowKeys,
+                    onChange: (keys) => setSelectedRowKeys(keys),
+                    preserveSelectedRowKeys: true,
+                    ...tableRowSelection,
+                  }
+                : undefined
+            }
             size={tableSize}
             bordered
             scroll={{ x: "max-content" }}
