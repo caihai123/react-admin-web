@@ -35,20 +35,21 @@ export type Ref = {
   clearSelected: () => void;
 };
 
-export type ProTableColumnType = TableColumnType<any> & {
-  /** 查询表单初始值 */
-  initialValue?: any;
-  /** 是否在筛选表单中隐藏该项 默认：false */
-  hideInSearch?: boolean;
-  /** 是否在表格中隐藏该项 默认：false */
-  hideInTable?: boolean;
-} & FormItemType;
+export type ProTableColumnType<RecordType = any> =
+  TableColumnType<RecordType> & {
+    /** 查询表单初始值 */
+    initialValue?: any;
+    /** 是否在筛选表单中隐藏该项 默认：false */
+    hideInSearch?: boolean;
+    /** 是否在表格中隐藏该项 默认：false */
+    hideInTable?: boolean;
+  } & FormItemType;
 
-export type ProTableProps = {
+export type ProTableProps<RecordType = any> = {
   /** 表格行 key 的取值，可以是字符串或一个函数 */
-  rowKey: TableProps["rowKey"];
+  rowKey: TableProps<RecordType>["rowKey"];
   /** Table 的数据，protable 推荐使用 request 来加载 */
-  dataSource?: TableProps["dataSource"];
+  dataSource?: TableProps<RecordType>["dataSource"];
   /** 获取 dataSource 的方法 */
   request?: (
     /** 查询表单的 params */
@@ -57,11 +58,11 @@ export type ProTableProps = {
     pagination: { current: number; pageSize: number }
   ) => Promise<{ list: any[]; total?: number }>;
   /** 表格列及查询表单的配置描述 */
-  columns: ProTableColumnType[];
+  columns: ProTableColumnType<RecordType>[];
   /** 表格分页配置项 为 false 时不显示*/
-  pagination?: TableProps["pagination"];
+  pagination?: TableProps<RecordType>["pagination"];
   /** 自定义表格 loading 默认：不显示 */
-  loading?: TableProps["loading"];
+  loading?: TableProps<RecordType>["loading"];
   /** 是否显示搜索表单 默认：true */
   search?: boolean;
   /** 批量操作节点 */
