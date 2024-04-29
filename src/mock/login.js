@@ -21,7 +21,6 @@ const mock = [
       }
     },
   },
-
   {
     // 获取权限菜单
     url: "/api/get-menu-all",
@@ -134,6 +133,21 @@ const mock = [
           },
         ],
         msg: "成功！",
+      };
+    },
+  },
+  {
+    // 获取用户信息
+    url: "/api/get-userinfo",
+    type: "get",
+    handler() {
+      return {
+        status: "success",
+        result: {
+          userName: "Cai Hai",
+          avatar: "https://avatars.githubusercontent.com/u/47770861?v=4",
+          role: [],
+        },
       };
     },
   },
