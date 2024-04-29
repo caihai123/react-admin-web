@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const currentTheme = localStorage.getItem("theme") || "light"; // or dark
-document.documentElement.setAttribute("data-theme", currentTheme);
 
 export const systemSlice = createSlice({
   name: "system",

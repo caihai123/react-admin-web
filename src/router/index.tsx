@@ -4,16 +4,23 @@ import Auth from "./RouteAuth";
 import Err404 from "@/pages/404";
 import lazyMarkdown from "@/components/Markdown/lazyMarkdown";
 
+/**
+ * 一级路由数量有限，建议就别做懒加载了。
+ * 具体原因就是我在index.html中添加了系统级的loading，如果是懒加载的话在loading过后还是可能出现一段时间白屏。显得这个loading没有意义。
+ */
+import Layout from "@/layout";
+import Login from "@/pages/login";
+
 const router = createBrowserRouter(
   [
     {
       path: "/login",
-      Component: lazy(() => import("@/pages/login")),
+      Component: Login,
     },
     {
       path: "/",
       handle: { title: "首页" },
-      Component: lazy(() => import("@/layout")),
+      Component: Layout,
       children: [
         { path: "", element: <Navigate to="/index" replace /> },
         {
