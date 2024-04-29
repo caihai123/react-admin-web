@@ -1,22 +1,21 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="本项目是一个后台前端开发模板，他是基于 React18 和 Ant Design 5 实现，使用了最新的技术栈，内置了动态路由，权限验证，动态换肤等功能，可以帮助你快速搭建企业级中后台产品原型。"
-    />
-    <!--[if lt IE 11]><script>window.location.href='%PUBLIC_URL%/ie.html';</script><![endif]-->
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="description"
+    content="本项目是一个后台前端开发模板，他是基于 React18 和 Ant Design 5 实现，使用了最新的技术栈，内置了动态路由，权限验证，动态换肤等功能，可以帮助你快速搭建企业级中后台产品原型。" />
+  <!--[if lt IE 11]><script>window.location.href='%PUBLIC_URL%/ie.html';</script><![endif]-->
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+  <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
       Only files inside the `public` folder can be referenced from the HTML.
@@ -25,21 +24,80 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <script>
-      var _hmt = _hmt || [];
-      (function() {
-        var hm = document.createElement("script");
-        hm.src = "https://hm.baidu.com/hm.js?9b5ec7fc68f4f2c50f75e0ebe9ddb3cf";
-        var s = document.getElementsByTagName("script")[0]; 
-        s.parentNode.insertBefore(hm, s);
-      })();
-      </script>
-    <title>%REACT_APP_WEBSITE_NAME%</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
+  <title>%REACT_APP_WEBSITE_NAME%</title>
+  <script>
+    // 设置当前主题
+    const currentTheme = localStorage.getItem("theme") || "light"; // or dark
+    document.documentElement.setAttribute("data-theme", currentTheme);
+  </script>
+  <style>
+    :root {
+      ---page-loading-bg: #fff;
+    }
+
+    :root[data-theme="dark"] {
+      ---page-loading-bg: #2a2c2c;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+    }
+
+    .---page-loading {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: var(---page-loading-bg);
+    }
+
+    @keyframes bouncing-loader {
+      to {
+        opacity: 0.1;
+        transform: translate3d(0, -1rem, 0);
+      }
+    }
+
+    .---bouncing-loader {
+      display: flex;
+      justify-content: center;
+    }
+
+    .---bouncing-loader>div {
+      width: 1rem;
+      height: 1rem;
+      margin: 3rem 0.2rem;
+      background: #8385aa;
+      border-radius: 50%;
+      animation: bouncing-loader 0.6s infinite alternate;
+    }
+
+    .---bouncing-loader>div:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .---bouncing-loader>div:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+  </style>
+</head>
+
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root">
+    <div class="---page-loading">
+      <div class="---bouncing-loader">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+  </div>
+  <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
 
@@ -49,5 +107,16 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-  </body>
+  <script>
+    // 百度统计代码，你应该不需要它
+    var _hmt = _hmt || [];
+    (function () {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9b5ec7fc68f4f2c50f75e0ebe9ddb3cf";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+</body>
+
 </html>
