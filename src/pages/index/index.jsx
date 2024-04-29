@@ -13,7 +13,7 @@ export default function Index() {
     <div style={{ height: "100%", background: colorBgLayout }}>
       <Alert
         message="提示"
-        description="本页面只是在样式上完全照抄 Ant Design Pro，但却不是 Ant Design Pro，只是因为我不知道怎么设计一个好看的首页。"
+        description="本页面只是在样式上完全照抄 Ant Design Pro，并不是使用了 Ant Design Pro，只是因为我不知道怎么设计一个好看的首页。"
         type="info"
         closable
         showIcon
