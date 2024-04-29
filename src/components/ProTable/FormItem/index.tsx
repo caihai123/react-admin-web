@@ -18,7 +18,7 @@ export type BaseItem = {
     | "date"
     | "dateRange"
     | "treeSelect";
-  renderFormItem?: ReactNode;
+  renderFormItem?: ReactNode | (() => ReactNode);
 };
 
 type SelectItem = BaseItem & GetProp<typeof Select, "item">;
@@ -41,7 +41,9 @@ export type Item =
 export default function FormItem({ item }: { item: Item }) {
   const { type = "input", renderFormItem, ...rest } = item;
   if (renderFormItem) {
-    return renderFormItem;
+    return typeof renderFormItem === "function"
+      ? renderFormItem()
+      : renderFormItem;
   } else {
     switch (type) {
       case "select":
