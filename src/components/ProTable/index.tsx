@@ -353,6 +353,7 @@ const ProTable = forwardRef<Ref, ProTableProps>(function (props, ref) {
               return configkeys.includes(key);
             })}
             loading={tableLoading}
+            pagination={tableConfig.pagination}
             rowSelection={
               batchBarRender
                 ? {
