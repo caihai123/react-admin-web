@@ -83,6 +83,12 @@ const router = createBrowserRouter(
           ),
         },
         {
+          path: "/dict",
+          element: (
+            <Auth Component={lazyMarkdown(() => import("@/pages/dict.md"))} />
+          ),
+        },
+        {
           path: "mackdown",
           element: (
             <Auth

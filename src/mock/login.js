@@ -150,6 +150,13 @@ const mock = [
             ],
           },
           {
+            id: "7",
+            title: "字典管理",
+            path: "/dict",
+            type: "1",
+            icon: "ProfileFilled",
+          },
+          {
             id: "3",
             title: "错误页面",
             type: "2",
