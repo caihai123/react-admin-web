@@ -123,6 +123,12 @@ const mock = [
             children: [
               {
                 id: "5-1",
+                title: "按钮权限",
+                type: "1",
+                path: "/permission-control",
+              },
+              {
+                id: "5-2",
                 title: "mackdown",
                 type: "1",
                 path: "/mackdown",

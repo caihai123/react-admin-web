@@ -93,6 +93,16 @@ const router = createBrowserRouter(
           ),
         },
         {
+          path: "permission-control",
+          element: (
+            <Auth
+              Component={lazyMarkdown(() =>
+                import("@/pages/components/permission-control.md")
+              )}
+            />
+          ),
+        },
+        {
           path: "/error/404",
           element: <Auth Component={lazy(() => import("@/pages/404"))} />,
         },
