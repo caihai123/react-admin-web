@@ -7,7 +7,7 @@ const DictSelect = function (props) {
   const { options } = dict[dictName];
 
   return (
-    <Select {...rest} options={options} placeholder={placeholder}>
+    <Select {...rest} placeholder={placeholder}>
       {options.map((item) => (
         <Select.Option key={item.value} value={item.value}>
           {item.color ? (
