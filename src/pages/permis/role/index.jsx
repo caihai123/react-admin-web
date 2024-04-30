@@ -6,6 +6,9 @@ import axios from "@/utils/axios";
 import OptimisticSwitch from "@/components/OptimisticSwitch";
 import AddOrEdit from "./AddOrEdit";
 import { roleEnabledState } from "@/utils/dict";
+import PermissionControl, {
+  useFilterElementPermission,
+} from "@/components/PermissionControl";
 
 export default function Page() {
   const { message } = App.useApp();
@@ -20,6 +23,34 @@ export default function Page() {
 
   const tableRef = useRef();
   const addOrEditRef = useRef();
+
+  // 表格的操作栏
+  const [actionRender, isShowAction] = useFilterElementPermission(
+    {
+      render: (row) => (
+        <Button type="primary" ghost size="small">
+          编辑
+        </Button>
+      ),
+      permission: "edit",
+    },
+    {
+      render: (row) => (
+        <Button type="primary" size="small">
+          授权
+        </Button>
+      ),
+      permission: "accredit",
+    },
+    {
+      render: (row) => (
+        <Button type="primary" danger size="small">
+          删除
+        </Button>
+      ),
+      permission: "del",
+    }
+  );
 
   const columns = [
     {
@@ -49,27 +80,11 @@ export default function Page() {
     {
       title: "操作",
       key: "action",
-      render: (row) => (
-        <Space>
-          <Button
-            type="primary"
-            ghost
-            size="small"
-            onClick={() => addOrEditRef.current.editStart(row)}
-          >
-            编辑
-          </Button>
-          <Button type="primary" size="small">
-            授权
-          </Button>
-          <Button type="primary" danger size="small">
-            删除
-          </Button>
-        </Space>
-      ),
+      render: (row) => <Space>{actionRender(row)}</Space>,
       width: 100,
       fixed: "right",
       hideInSearch: true,
+      hideInTable: !isShowAction,
     },
   ];
 
@@ -91,16 +106,17 @@ export default function Page() {
               };
             })
         }
-        toolBarRender={() => [
-          <Button
-            key="add"
-            type="primary"
-            icon={<PlusOutlined />}
-            onClick={() => addOrEditRef.current.addStart()}
-          >
-            新增
-          </Button>,
-        ]}
+        toolBarRender={() => (
+          <PermissionControl permission="add">
+            <Button
+              type="primary"
+              icon={<PlusOutlined />}
+              onClick={() => addOrEditRef.current.addStart()}
+            >
+              新增
+            </Button>
+          </PermissionControl>
+        )}
       />
 
       <AddOrEdit

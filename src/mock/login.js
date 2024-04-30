@@ -48,18 +48,37 @@ const mock = [
                 title: "菜单管理",
                 path: "/permis/menu",
                 type: "1",
+                buttonList: [
+                  { name: "新增", id: "add" },
+                  { name: "编辑", id: "edit" },
+                  { name: "删除", id: "del" },
+                ],
               },
               {
                 id: "2-2",
                 title: "角色管理",
                 path: "/permis/role",
                 type: "1",
+                buttonList: [
+                  { name: "新增", id: "add" },
+                  { name: "编辑", id: "edit" },
+                  { name: "删除", id: "del" },
+                  { name: "授权", id: "accredit" },
+                ],
               },
               {
                 id: "2-3",
                 title: "用户管理",
                 path: "/permis/account",
                 type: "1",
+                buttonList: [
+                  { name: "新增", id: "add" },
+                  { name: "编辑", id: "edit" },
+                  { name: "删除", id: "del" },
+                  { name: "授权", id: "accredit" },
+                  { name: "详情", id: "details" },
+                  { name: "导出", id: "export" },
+                ],
                 children: [
                   {
                     id: "2-3-1",
@@ -74,6 +93,12 @@ const mock = [
                 title: "部门管理",
                 path: "/permis/dept",
                 type: "1",
+                buttonList: [
+                  { name: "新增", id: "add" },
+                  { name: "编辑", id: "edit" },
+                  { name: "删除", id: "del" },
+                  { name: "导出", id: "export" },
+                ],
               },
             ],
           },
@@ -83,6 +108,12 @@ const mock = [
             type: "1",
             path: "/pro-table",
             icon: "DatabaseFilled",
+            buttonList: [
+              { name: "新增", id: "add" },
+              { name: "编辑", id: "edit" },
+              { name: "删除", id: "del" },
+              { name: "导出", id: "export" },
+            ],
           },
           {
             id: "5",
