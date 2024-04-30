@@ -127,6 +127,80 @@ export default function Auth(props) {
 
 > 在上面的方案中，我们非常依赖后端同事的配合，有时候后端同事并不是很愿意，甚至我们前端也可能不希望将菜单交于后端管理，所以还有另一种方案：后端只需要告诉我当前用户是哪类（角色），然后前端直接就能判断对应的菜单列表和权限。这种在操作上比较简单，也不需要后端人员太多配合，但是它必须在编码的时候就定下所有的角色类型和每个角色的权限，后续的可配置性太低，如果需要，请切换到 `Client-Auth` 分支（其实我觉得这样才是对的，任何一个系统，在设计之初就应该预想出可能的角色类型，不应该需要这么灵活的配置）
 
+## 按钮权限
+按钮权限和菜单类似，我们需要在菜单目录下添加按钮标识，获取菜单时按钮和菜单一起返回，在编码时只需要判断是否显示就行，详情参考下面代码：
+```jsx
+import { Fragment } from "react";
+import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectMenuFlatten } from "@/store/menu";
+
+/**
+ * 返回针对当前页的权限判断函数
+ * @returns function
+ */
+export const useButtonAuthorization = function () {
+  const { pathname } = useLocation();
+  const menuFlatten = useSelector(selectMenuFlatten);
+
+  const currentRoute = menuFlatten.find((item) => item.path === pathname);
+
+  return (butId) => currentRoute.buttonList?.some((item) => item.id === butId);
+};
+
+/**
+ * 判断是否至少拥有一个权限
+ * @param  {...string} permissions 按钮标识
+ * @returns Boolean
+ */
+export const useAnyButtonPermission = function (...permissions) {
+  const hasButtonPermission = useButtonAuthorization();
+  return permissions.some((permission) => hasButtonPermission(permission));
+};
+
+/**
+ * 传入一个或多个按钮，返回有权限的按钮
+ * @param  {...object} permissionElements
+ * @param {string} permissionElements[].permission - 按钮的权限标识
+ * @param {function} permissionElements[].render - 用于渲染元素的函数
+ * @returns [render, hasPermissionButtons]
+ */
+export const useFilterElementPermission = function (...permissionElements) {
+  const hasButtonPermission = useButtonAuthorization();
+
+  const filteredElements = permissionElements.filter((item) =>
+    hasButtonPermission(item.permission)
+  );
+
+  const hasPermissionButtons = !!filteredElements.length;
+
+  const render = function (...argument) {
+    return (
+      <Fragment>
+        {filteredElements.map((item) => {
+          const element = item.render(...argument);
+          return <Fragment key={item.permission}>{element}</Fragment>;
+        })}
+      </Fragment>
+    );
+  };
+
+  return [render, hasPermissionButtons];
+};
+
+/**
+ * 按钮权限鉴权组件
+ * @param {string} permission - 按钮的权限标识
+ * @param {ReactNode} children - 按钮元素
+ */
+export default function PermissionControl({ permission, children }) {
+  const hasButtonPermission = useButtonAuthorization();
+
+  return hasButtonPermission(permission) ? children : undefined;
+}
+
+```
+
 ## Mockjs
 本项目是一个纯前端个人项目，所有的数据都是用 mockjs 模拟生成。它的原理是: 拦截了所有的请求并代理到本地，然后进行数据模拟，所以你会发现 network 中没有发出任何的请求。
 
