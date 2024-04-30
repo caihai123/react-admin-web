@@ -27,6 +27,9 @@ export default function App() {
           colorTextBase: isLight ? "#1E293B" : "#E2E8F0",
           colorBorder: isLight ? "#e5e7eb" : "#454847",
         },
+        components: {
+          Menu: { darkSubMenuItemBg: "#2c2d2d", darkPopupBg: "#424242" },
+        },
         algorithm: isLight ? theme.defaultAlgorithm : theme.darkAlgorithm,
         cssVar: true,
       }}
