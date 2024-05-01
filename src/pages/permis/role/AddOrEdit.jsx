@@ -39,7 +39,7 @@ const AddOrEdit = forwardRef((props, ref) => {
 
   return (
     <Modal
-      title={id ? "编辑" : "新增"}
+      title={<>{id ? "编辑" : "新增"}角色 ✨</>}
       open={visible}
       width={600}
       footer={
@@ -59,6 +59,10 @@ const AddOrEdit = forwardRef((props, ref) => {
         setId("");
         headForm.resetFields();
       }}
+      centered={true}
+      wrapClassName="custom-modal-style"
+      maskClosable={false}
+      style={{ marginTop: "-20vh" }}
     >
       <Form
         form={headForm}
