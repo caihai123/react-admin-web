@@ -7,8 +7,8 @@
 
 <img src="./public/static/react-admin-web-index.png" width="50%" /><img src="./public/static/react-admin-web-index-dark.png" width="50%" /><img src="./public/static/react-admin-web-table.png" width="50%" /><img src="./public/static/react-admin-web-table-dark.png" width="50%" />
 
-+ 预览链接：https://caihai123.com/react-admin-web/login
-+ ~~Gitee预览：https://caihai123.gitee.io/react-admin-web/login~~
++ 预览链接：https://caihai123.com/react-admin-web
++ ~~Gitee预览：https://caihai123.gitee.io/react-admin-web~~
 
 ## 目录结构
 
