@@ -1,4 +1,4 @@
-# 按钮权限控制
+# 按钮权限控制 ✨
 按钮权限和菜单类似，我们需要在菜单目录下添加按钮标识，获取菜单时按钮和菜单一起返回，在编码时只需要判断是否显示就行，详情参考代码：`@/compenents/PermissionControl.jsx`，以下是代码的具体使用方式。
 
 ## useButtonAuthorization
