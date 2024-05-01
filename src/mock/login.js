@@ -53,6 +53,14 @@ const mock = [
                   { name: "编辑", id: "edit" },
                   { name: "删除", id: "del" },
                 ],
+                children: [
+                  {
+                    id: "2-1-1",
+                    title: "新增菜单",
+                    path: "/permis/menu/add",
+                    type: "1",
+                  },
+                ],
               },
               {
                 id: "2-2",

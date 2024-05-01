@@ -29,9 +29,22 @@ const router = createBrowserRouter(
         },
         {
           path: "/permis/menu",
-          element: (
-            <Auth Component={lazy(() => import("@/pages/permis/menu"))} />
-          ),
+          children: [
+            {
+              path: "",
+              element: (
+                <Auth Component={lazy(() => import("@/pages/permis/menu"))} />
+              ),
+            },
+            {
+              path: "add",
+              element: (
+                <Auth
+                  Component={lazy(() => import("@/pages/permis/menu/add"))}
+                />
+              ),
+            },
+          ],
         },
         {
           path: "/permis/role",

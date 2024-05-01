@@ -1,13 +1,16 @@
-import { Button, Space, Tag, message } from "antd";
+import { Button, Space, Tag } from "antd";
 import axios from "@/utils/axios";
 import ProTable from "@/components/ProTable";
 import { PlusOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 import { menuType } from "@/utils/dict";
 import PermissionControl, {
   useFilterElementPermission,
 } from "@/components/PermissionControl";
 
 export default function Page() {
+  const navigate = useNavigate();
+
   // 表格的操作栏
   const [actionRender, isShowAction] = useFilterElementPermission(
     {
@@ -20,7 +23,11 @@ export default function Page() {
     },
     {
       render: (row) => (
-        <Button type="primary" size="small">
+        <Button
+          type="primary"
+          size="small"
+          onClick={() => navigate(`add?parentId=${row.id}`)}
+        >
           新增下级
         </Button>
       ),
@@ -70,6 +77,7 @@ export default function Page() {
           </Tag>
         ));
       },
+      hideInSearch: true,
     },
     {
       title: "操作",
@@ -100,7 +108,7 @@ export default function Page() {
           <Button
             type="primary"
             icon={<PlusOutlined />}
-            onClick={() => message.warning("演示功能")}
+            onClick={() => navigate("add")}
           >
             新增
           </Button>
