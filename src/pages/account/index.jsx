@@ -27,6 +27,7 @@ export default function Page() {
           phone: "18888888888",
           email: "12345678@email.com",
           deptId: ["1", "2"],
+          description: "阁下身为真灵，不知能接下韩某几招。",
         }}
       >
         <Row gutter={16}>
@@ -42,7 +43,7 @@ export default function Page() {
             </Form.Item>
           </Col>
           <Col span={24} xxl={16}>
-            <Form.Item label="个人简介">
+            <Form.Item label="个人简介" name="description">
               <Input.TextArea showCount maxLength={100} placeholder="请输入" />
             </Form.Item>
           </Col>
