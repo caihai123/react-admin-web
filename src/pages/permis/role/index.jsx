@@ -28,7 +28,12 @@ export default function Page() {
   const [actionRender, isShowAction] = useFilterElementPermission(
     {
       render: (row) => (
-        <Button type="primary" ghost size="small">
+        <Button
+          type="primary"
+          ghost
+          size="small"
+          onClick={() => addOrEditRef.current.editStart(row)}
+        >
           编辑
         </Button>
       ),
