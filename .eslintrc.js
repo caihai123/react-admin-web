@@ -28,7 +28,7 @@ module.exports = {
     "no-nested-ternary": "error",
     "no-unneeded-ternary": "error",
     "import/no-mutable-exports": "error",
-    "import/prefer-default-export": "error",
+    "import/prefer-default-export": "off",
     "import/first": "error",
     "import/extensions": [
       "error",
