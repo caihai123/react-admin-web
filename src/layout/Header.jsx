@@ -115,11 +115,13 @@ export default function LayHeader(props) {
                 key: 1,
                 label: "个人中心",
                 icon: <UserOutlined />,
+                onClick: () => navigate("/account/center"),
               },
               {
                 key: 2,
                 label: "个人设置",
                 icon: <SettingOutlined />,
+                onClick: () => navigate("/account/settings"),
               },
               {
                 key: 4,

@@ -122,14 +122,6 @@ const router = createBrowserRouter(
           ),
         },
         {
-          path: "/error/404",
-          element: <Auth Component={lazy(() => import("@/pages/404"))} />,
-        },
-        {
-          path: "/error/401",
-          element: <Auth Component={lazy(() => import("@/pages/401"))} />,
-        },
-        {
           path: "/issues",
           handle: { title: "意见反馈" },
           children: [
@@ -143,6 +135,36 @@ const router = createBrowserRouter(
               handle: { title: "新增Issues" },
             },
           ],
+        },
+        {
+          path: "/account",
+          handle: { title: "个人中心" },
+          Component: lazy(() => import("@/pages/account/layout")),
+          children: [
+            { path: "", element: <Navigate to="/account/center" replace /> },
+            {
+              path: "center",
+              Component: lazy(() => import("@/pages/account/index")),
+            },
+            {
+              path: "settings",
+              handle: { title: "个人设置" },
+              Component: lazy(() => import("@/pages/account/settings")),
+            },
+            {
+              path: "update-password",
+              handle: { title: "修改密码" },
+              Component: lazy(() => import("@/pages/account/update-password")),
+            },
+          ],
+        },
+        {
+          path: "/error/404",
+          element: <Auth Component={lazy(() => import("@/pages/404"))} />,
+        },
+        {
+          path: "/error/401",
+          element: <Auth Component={lazy(() => import("@/pages/401"))} />,
         },
         {
           path: "/*",
