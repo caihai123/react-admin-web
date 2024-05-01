@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkreact_admin_web=self.webpackChunkreact_admin_web||[]).push([[181],{25181:function(e,n,r){r.r(n),r.d(n,{default:function(){return u}});var t=r(67557);function u(){return(0,t.jsx)("div",{children:"设置"})}}}]);
+//# sourceMappingURL=181.c21e996b.chunk.js.map

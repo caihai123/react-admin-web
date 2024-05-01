@@ -1,0 +1,1 @@
+{"version":3,"file":"static/js/181.c21e996b.chunk.js","mappings":"oLAAe,SAASA,IACtB,OAAOC,EAAAA,EAAAA,KAAA,OAAAC,SAAK,MACd,C","sources":["webpack://react-admin-web/./src/pages/account/settings.jsx"],"sourcesContent":["export default function Page() {\r\n  return <div>设置</div>;\r\n}\r\n"],"names":["Page","_jsx","children"],"sourceRoot":""}
