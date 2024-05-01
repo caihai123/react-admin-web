@@ -222,7 +222,8 @@ const ProTable = forwardRef(function (props, ref) {
             }}
           >
             <div className={styles["header-title"]}>
-              {typeof headerTitle === "function" ? headerTitle() : headerTitle}
+              {typeof headerTitle === "function" ? headerTitle() : headerTitle}{" "}
+              ✨
             </div>
             <div className={styles["tool-right"]}>
               {toolBarRender && (
