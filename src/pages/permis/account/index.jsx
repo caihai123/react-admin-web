@@ -23,7 +23,7 @@ export default function Page() {
           详情
         </Button>
       ),
-      permission: "details",
+      role: ["admin"],
     },
     {
       render: (row) => (
@@ -31,7 +31,7 @@ export default function Page() {
           编辑
         </Button>
       ),
-      permission: "edit",
+      role: ["admin"],
     },
     {
       render: (row) => (
@@ -39,7 +39,7 @@ export default function Page() {
           授权
         </Button>
       ),
-      permission: "accredit",
+      role: ["admin"],
     },
     {
       render: (row) => (
@@ -47,7 +47,7 @@ export default function Page() {
           删除
         </Button>
       ),
-      permission: "del",
+      role: ["admin"],
     }
   );
 
@@ -63,13 +63,13 @@ export default function Page() {
           批量删除
         </Button>
       ),
-      permission: "del",
+      role: ["admin"],
     },
     {
       render: () => (
         <Button onClick={() => message.warning("演示功能")}>导出数据</Button>
       ),
-      permission: "export",
+      role: ["admin"],
     }
   );
 
@@ -85,13 +85,13 @@ export default function Page() {
           新增
         </Button>
       ),
-      permission: "add",
+      role: ["admin"],
     },
     {
       render: () => (
         <Button onClick={() => message.warning("演示功能")}>导出</Button>
       ),
-      permission: "export",
+      role: ["admin"],
     }
   );
 

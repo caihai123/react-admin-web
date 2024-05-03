@@ -29,7 +29,7 @@ export default function Page() {
           编辑
         </Button>
       ),
-      permission: "edit",
+      role: ["admin"],
     },
     {
       render: () => (
@@ -37,7 +37,7 @@ export default function Page() {
           新增下级
         </Button>
       ),
-      permission: "add",
+      role: ["admin"],
     },
     {
       render: (row) => (
@@ -53,7 +53,7 @@ export default function Page() {
           </Button>
         </Popconfirm>
       ),
-      permission: "del",
+      role: ["admin"],
     }
   );
 
@@ -89,13 +89,13 @@ export default function Page() {
           新增
         </Button>
       ),
-      permission: "add",
+      role: ["admin"],
     },
     {
       render: () => (
         <Button onClick={() => message.warning("演示功能")}>导出</Button>
       ),
-      permission: "export",
+      role: ["admin"],
     }
   );
 
@@ -111,7 +111,7 @@ export default function Page() {
           批量删除
         </Button>
       ),
-      permission: "del",
+      role: ["admin"],
     },
     {
       render: () => (
@@ -119,7 +119,7 @@ export default function Page() {
           导出数据
         </Button>
       ),
-      permission: "export",
+      role: ["admin"],
     }
   );
 
