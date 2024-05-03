@@ -12,7 +12,7 @@ export const userinfo = createSlice({
     email: "",
     deptId: [],
     role: [],
-    description: "阁下身为真灵，不知能接下韩某几招。",
+    description: "",
 
     status: "idle", // "idle" | "loading" | "succeeded" | "failed",
     error: null,
