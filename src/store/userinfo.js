@@ -4,9 +4,16 @@ import axios from "@/utils/axios";
 export const userinfo = createSlice({
   name: "userinfo",
   initialState: {
-    userName: "",
+    account: "",
     avatar: null,
+    name: "",
+    gender: "1",
+    phone: "",
+    email: "",
+    deptId: [],
     role: [],
+    description: "阁下身为真灵，不知能接下韩某几招。",
+
     status: "idle", // "idle" | "loading" | "succeeded" | "failed",
     error: null,
   },
@@ -17,10 +24,26 @@ export const userinfo = createSlice({
       })
       .addCase(init.fulfilled, (state, action) => {
         state.status = "succeeded";
-        const { userName, avatar, role } = action.payload;
-        state.userName = userName;
+        const {
+          account,
+          avatar,
+          name,
+          gender,
+          phone,
+          email,
+          deptId,
+          role,
+          description,
+        } = action.payload;
+        state.account = account;
         state.avatar = avatar;
+        state.name = name;
+        state.gender = gender;
+        state.phone = phone;
+        state.email = email;
+        state.deptId = deptId;
         state.role = role;
+        state.description = description;
       })
       .addCase(init.rejected, (state, action) => {
         state.status = "failed";

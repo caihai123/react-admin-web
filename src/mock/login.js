@@ -29,9 +29,15 @@ const mock = [
       return {
         status: "success",
         result: {
-          userName: "Cai Hai",
+          account: "Cai Hai",
           avatar: "https://avatars.githubusercontent.com/u/47770861?v=4",
+          name: "Cai Hai",
+          gender: "1",
+          phone: "18888888888",
+          email: "123456ch@email.com",
+          deptId: ["1", "2"],
           role: ["admin"],
+          description: "阁下身为真灵，不知能接下韩某几招。",
         },
       };
     },

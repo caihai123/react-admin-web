@@ -85,7 +85,7 @@ export default function LayHeader(props) {
   });
   // 全屏相关 end
 
-  const { userName, avatar } = useSelector(selectUserinfo);
+  const { account, avatar } = useSelector(selectUserinfo);
 
   return (
     <Header background={colorBgContainer}>
@@ -155,7 +155,7 @@ export default function LayHeader(props) {
               alt="用户头像"
               style={{ marginRight: 8 }}
             />
-            <span style={{ fontSize: 14 }}>{userName}</span>
+            <span style={{ fontSize: 14 }}>{account}</span>
           </div>
         </Dropdown>
       </div>

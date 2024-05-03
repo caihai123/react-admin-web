@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
   Card,
   Form,
@@ -8,28 +9,27 @@ import {
   Row,
   Col,
   TreeSelect,
+  Checkbox,
 } from "antd";
 import DictSelect from "@/components/DictSelect";
 import { useGetDeptSelectQuery } from "@/store/api/deptSlice";
+import { useButtonAuthorization } from "@/components/PermissionControl";
+import { useSelector } from "react-redux";
+import { selectUserinfo } from "@/store/userinfo";
 
 export default function Page() {
   const { data: depeOptions } = useGetDeptSelectQuery();
+  const hasButtonPermission = useButtonAuthorization();
+  const userinfo = useSelector(selectUserinfo);
+  const [form] = Form.useForm();
+
+  useEffect(() => {
+    form.setFieldsValue(JSON.parse(JSON.stringify(userinfo)));
+  }, [userinfo, form]);
 
   return (
     <Card title="基础信息">
-      <Form
-        layout="vertical"
-        autoComplete="off"
-        initialValues={{
-          account: "admin",
-          name: "Cai Hai",
-          gender: "1",
-          phone: "18888888888",
-          email: "12345678@email.com",
-          deptId: ["1", "2"],
-          description: "阁下身为真灵，不知能接下韩某几招。",
-        }}
-      >
+      <Form form={form} layout="vertical" autoComplete="off">
         <Row gutter={16}>
           <Col span={24} xxl={8}>
             <Form.Item name="avatar">
@@ -43,17 +43,15 @@ export default function Page() {
             </Form.Item>
           </Col>
           <Col span={24} xxl={16}>
-            <Form.Item label="个人简介" name="description">
-              <Input.TextArea showCount maxLength={100} placeholder="请输入" />
-            </Form.Item>
-          </Col>
-          <Col span={12} xxl={8}>
             <Form.Item
               label="用户名/账号"
               name="account"
               rules={[{ required: true }]}
             >
               <Input placeholder="请输入" />
+            </Form.Item>
+            <Form.Item label="个人简介" name="description">
+              <Input.TextArea showCount maxLength={100} placeholder="请输入" />
             </Form.Item>
           </Col>
           <Col span={12} xxl={8}>
@@ -71,7 +69,23 @@ export default function Page() {
               name="deptId"
               rules={[{ required: true }]}
             >
-              <TreeSelect treeData={depeOptions} disabled multiple></TreeSelect>
+              <TreeSelect
+                treeData={depeOptions}
+                disabled={!hasButtonPermission(["admin"])}
+                multiple
+              ></TreeSelect>
+            </Form.Item>
+          </Col>
+          <Col span={12} xxl={8}>
+            <Form.Item label="角色" name="role">
+              <Checkbox.Group
+                options={[
+                  { label: "管理员", value: "admin" },
+                  { label: "用户", value: "user" },
+                ]}
+                disabled={!hasButtonPermission(["admin"])}
+                placeholder="请选择"
+              />
             </Form.Item>
           </Col>
           <Col span={12} xxl={8}>
