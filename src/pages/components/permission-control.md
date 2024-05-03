@@ -1,8 +1,8 @@
 # 按钮权限控制 ✨
-按钮权限和菜单类似，我们需要在菜单目录下添加按钮标识，获取菜单时按钮和菜单一起返回，在编码时只需要判断是否显示就行，详情参考代码：`@/compenents/PermissionControl.jsx`，以下是代码的具体使用方式。
+按钮权限和菜单类似，只需要给按钮添加允许访问的角色即可，详情参考代码：`@/compenents/PermissionControl.jsx`，以下是代码的具体使用方式。
 
 ## useButtonAuthorization
-最简单的方式就是通过 `useButtonAuthorization` 获得一个函数，然后使用该函数判断当前用户在当前也是否拥有某个按钮的访问权限。
+最简单的方式就是通过 `useButtonAuthorization` 获得一个函数，该函数需要传入允许访问的角色列表，执行时会根据当前用户的角色进行判断。
 ```jsx
 import { Button } from "antd";
 import { useButtonAuthorization } from "@/components/PermissionControl";
@@ -10,7 +10,7 @@ import { useButtonAuthorization } from "@/components/PermissionControl";
 export default function Page() {
   const hasButtonPermission = useButtonAuthorization();
 
-  return hasButtonPermission("add") ? <Button>新增</Button> : undefined;
+  return hasButtonPermission(['admin']) ? <Button>新增</Button> : undefined;
 }
 ```
 
@@ -22,37 +22,34 @@ import PermissionControl from "@/components/PermissionControl";
 
 export default function PermissionButton() {
   return (
-    <PermissionControl permission="add">
+    <PermissionControl role={['admin']}>
       <Button>新增</Button>
     </PermissionControl>
   );
 }
 ```
 
-## useAnyButtonPermission
-在按钮组中我们可能需要知道用户是否至少拥有其中一个的按钮的权限，以控制父级是否显示，这时就需要使用 `useAnyButtonPermission`。
+在按钮组中我们可能需要知道用户是否至少拥有其中一个的按钮的权限，以控制父级是否显示。
 ```jsx
 import { Button, Space } from "antd";
-import PermissionControl, {
-  useAnyButtonPermission,
-} from "@/components/PermissionControl";
+import PermissionControl from "@/components/PermissionControl";
 
 export default function PermissionButton() {
-  const isShowButtonGroup = useAnyButtonPermission("add", "edit", "del");
-
-  return isShowButtonGroup ? (
-    <Space>
-      <PermissionControl permission="add">
-        <Button>新增</Button>
-      </PermissionControl>
-      <PermissionControl permission="edit">
-        <Button>编辑</Button>
-      </PermissionControl>
-      <PermissionControl permission="del">
-        <Button>删除</Button>
-      </PermissionControl>
-    </Space>
-  ) : undefined;
+  return (
+    <PermissionControl role={['admin','user']}>
+      <Space>
+        <PermissionControl role={['admin']}>
+          <Button>新增</Button>
+        </PermissionControl>
+        <PermissionControl role={['user']}>
+          <Button>编辑</Button>
+        </PermissionControl>
+        <PermissionControl role={['admin']}>
+          <Button>删除</Button>
+        </PermissionControl>
+      </Space>
+    </PermissionControl>
+  );
 }
 ```
 
@@ -66,15 +63,15 @@ export default function PermissionButton() {
   const [buttonGroupRender, showButtonGroup] = useFilterElementPermission(
     {
       render: () => <Button>新增</Button>,
-      permission: "add",
+      role: ['admin'],
     },
     {
       render: () => <Button>编辑</Button>,
-      permission: "edit",
+      role: ['user'],
     },
     {
       render: () => <Button>删除</Button>,
-      permission: "del",
+      role: ['admin'],
     }
   );
 
