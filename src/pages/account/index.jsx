@@ -73,6 +73,9 @@ export default function Page() {
               <TreeSelect
                 treeData={depeOptions}
                 disabled={!hasButtonPermission([RoleType.enum.admin])}
+                treeCheckable={true}
+                showCheckedStrategy={TreeSelect.SHOW_PARENT}
+                maxTagCount={3}
                 multiple
               ></TreeSelect>
             </Form.Item>
