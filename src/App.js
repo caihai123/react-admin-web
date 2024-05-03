@@ -10,6 +10,11 @@ import { useSelector } from "react-redux";
 // 我这样加载中文包之后就好了，我猜测应该是antd设置dayjs.locale的时候没有找到正确的中文包
 import "dayjs/locale/zh-cn";
 
+const validateMessages = {
+  // eslint-disable-next-line no-template-curly-in-string
+  required: "${label}是必选字段",
+};
+
 export default function App() {
   const themeName = useSelector(selectTheme);
 
@@ -18,6 +23,7 @@ export default function App() {
   return (
     <ConfigProvider
       locale={zhCN}
+      form={{ validateMessages }}
       theme={{
         token: {
           borderRadius: 2,
@@ -26,6 +32,9 @@ export default function App() {
           colorBgLayout: isLight ? "#f0f2f5" : "#2A2C2C",
           colorTextBase: isLight ? "#1E293B" : "#E2E8F0",
           colorBorder: isLight ? "#e5e7eb" : "#454847",
+        },
+        components: {
+          Menu: { darkSubMenuItemBg: "#2c2d2d", darkPopupBg: "#424242" },
         },
         algorithm: isLight ? theme.defaultAlgorithm : theme.darkAlgorithm,
         cssVar: true,

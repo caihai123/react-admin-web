@@ -7,7 +7,6 @@ import {
   ProductFilled,
   GoldFilled,
   CloseCircleFilled,
-  SignatureFilled,
 } from "@ant-design/icons";
 import Auth from "./RouteAuth";
 import Err404 from "@/pages/404";
@@ -32,17 +31,26 @@ export const authRouterMap = [
   {
     id: "permis",
     handle: { title: "权限管理", icon: <SettingFilled /> },
-    role: ["admin"],
     children: [
       {
         path: "/permis/menu",
-        Component: lazy(() => import("@/pages/permis/menu")),
         handle: { title: "菜单管理" },
+        children: [
+          {
+            path: "",
+            Component: lazy(() => import("@/pages/permis/menu")),
+          },
+          {
+            path: "add",
+            handle: { title: "新增" },
+            Component: lazy(() => import("@/pages/permis/menu/add")),
+          },
+        ],
       },
       {
         path: "/permis/role",
-        Component: lazy(() => import("@/pages/permis/role")),
         handle: { title: "角色管理" },
+        Component: lazy(() => import("@/pages/permis/role")),
       },
       {
         path: "/permis/account",
@@ -61,24 +69,32 @@ export const authRouterMap = [
       },
       {
         path: "/permis/dept",
-        Component: lazy(() => import("@/pages/permis/dept")),
         handle: { title: "部门管理" },
+        Component: lazy(() => import("@/pages/permis/dept")),
       },
     ],
   },
   {
+    id: "pro-table",
     path: "/pro-table",
-    Component: lazy(() => import("@/pages/pro-table")),
     handle: { title: "Pro Table", icon: <DatabaseFilled /> },
+    Component: lazy(() => import("@/pages/pro-table")),
   },
   {
-    id: "Components",
-    handle: { title: "Components", icon: <ProductFilled /> },
+    id: "components",
+    handle: { title: "公共组件", icon: <ProductFilled /> },
     children: [
       {
         path: "mackdown",
         Component: lazyMarkdown(() => import("@/pages/components/markdown.md")),
         handle: { title: "mackdown" },
+      },
+      {
+        path: "permission-control",
+        handle: { title: "按钮权限" },
+        Component: lazyMarkdown(() =>
+          import("@/pages/components/permission-control.md")
+        ),
       },
     ],
   },
@@ -96,6 +112,12 @@ export const authRouterMap = [
     ],
   },
   {
+    id: "dict",
+    path: "/dict",
+    handle: { title: "字典管理", icon: <CloseCircleFilled /> },
+    Component: lazyMarkdown(() => import("@/pages/dict.md")),
+  },
+  {
     id: "error",
     handle: { title: "错误页面", icon: <CloseCircleFilled /> },
     children: [
@@ -108,21 +130,6 @@ export const authRouterMap = [
         path: "/error/401",
         Component: lazy(() => import("@/pages/401")),
         handle: { title: "401" },
-      },
-    ],
-  },
-  {
-    path: "/issues",
-    handle: { title: "意见反馈", icon: <SignatureFilled /> },
-    children: [
-      {
-        path: "",
-        Component: lazy(() => import("@/pages/issues/index")),
-      },
-      {
-        path: "add",
-        Component: lazy(() => import("@/pages/issues/add")),
-        handle: { title: "新增Issues" },
       },
     ],
   },
@@ -168,6 +175,43 @@ const router = createBrowserRouter(
       children: [
         { path: "", element: <Navigate to="/index" replace /> },
         ...handleAuthRouterMap(authRouterMap),
+        {
+          path: "/issues",
+          handle: { title: "意见反馈" },
+          children: [
+            {
+              path: "",
+              Component: lazy(() => import("@/pages/issues/index")),
+            },
+            {
+              path: "add",
+              Component: lazy(() => import("@/pages/issues/add")),
+              handle: { title: "新增Issues" },
+            },
+          ],
+        },
+        {
+          path: "/account",
+          handle: { title: "个人中心" },
+          Component: lazy(() => import("@/pages/account/layout")),
+          children: [
+            { path: "", element: <Navigate to="/account/center" replace /> },
+            {
+              path: "center",
+              Component: lazy(() => import("@/pages/account/index")),
+            },
+            {
+              path: "settings",
+              handle: { title: "个人设置" },
+              Component: lazy(() => import("@/pages/account/settings")),
+            },
+            {
+              path: "update-password",
+              handle: { title: "修改密码" },
+              Component: lazy(() => import("@/pages/account/update-password")),
+            },
+          ],
+        },
         {
           path: "/*",
           element: <Err404 />,

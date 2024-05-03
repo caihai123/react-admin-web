@@ -1,4 +1,4 @@
-import { Row, Col, theme } from "antd";
+import { Row, Col, theme, Alert } from "antd";
 import IntroduceRow from "./components/IntroduceRow";
 import SalesCard from "./components/SalesCard";
 import ProportionSales from "./components/ProportionSales";
@@ -11,6 +11,14 @@ export default function Index() {
 
   return (
     <div style={{ height: "100%", background: colorBgLayout }}>
+      <Alert
+        message="提示"
+        description="本页面只是在样式上完全照抄 Ant Design Pro，并不是使用了 Ant Design Pro，只是因为我不知道怎么设计一个好看的首页。"
+        type="info"
+        closable
+        showIcon
+        style={{ marginBottom: 20 }}
+      ></Alert>
       <Row gutter={[20, 20]}>
         <Col span={24}>
           <IntroduceRow />

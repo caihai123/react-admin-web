@@ -5,6 +5,7 @@ import {
   useGetDeptAllQuery,
   useDeleteDeptItemMutation,
 } from "@/store/api/deptSlice";
+import { useFilterElementPermission } from "@/components/PermissionControl";
 
 export default function Page() {
   const { message } = App.useApp();
@@ -20,6 +21,43 @@ export default function Page() {
       });
   };
 
+  // 表格操作栏
+  const [actionRender, isShowAction] = useFilterElementPermission(
+    {
+      render: () => (
+        <Button type="primary" ghost size="small">
+          编辑
+        </Button>
+      ),
+      permission: "edit",
+    },
+    {
+      render: () => (
+        <Button type="primary" size="small">
+          新增下级
+        </Button>
+      ),
+      permission: "add",
+    },
+    {
+      render: (row) => (
+        <Popconfirm
+          title="提示"
+          description="您确定要删除此部门吗?"
+          onConfirm={() => deleteItem(row.id)}
+          okText="确定"
+          cancelText="取消"
+        >
+          <Button type="primary" danger size="small">
+            删除
+          </Button>
+        </Popconfirm>
+      ),
+      permission: "del",
+    }
+  );
+
+  // 表格列配置
   const columns = [
     {
       title: "部门名称",
@@ -32,32 +70,58 @@ export default function Page() {
     {
       title: "操作",
       key: "action",
-      render: (row) => (
-        <Space>
-          <Button type="primary" ghost size="small">
-            编辑
-          </Button>
-          <Button type="primary" size="small">
-            新增下级
-          </Button>
-
-          <Popconfirm
-            title="提示"
-            description="您确定要删除此部门吗?"
-            onConfirm={() => deleteItem(row.id)}
-            okText="确定"
-            cancelText="取消"
-          >
-            <Button type="primary" danger size="small">
-              删除
-            </Button>
-          </Popconfirm>
-        </Space>
-      ),
+      render: (row) => <Space>{actionRender(row)}</Space>,
       width: 100,
       fixed: "right",
+      hideInTable: !isShowAction,
     },
   ];
+
+  // 表格工具栏
+  const [toolRender] = useFilterElementPermission(
+    {
+      render: () => (
+        <Button
+          type="primary"
+          icon={<PlusOutlined />}
+          onClick={() => message.warning("演示功能")}
+        >
+          新增
+        </Button>
+      ),
+      permission: "add",
+    },
+    {
+      render: () => (
+        <Button onClick={() => message.warning("演示功能")}>导出</Button>
+      ),
+      permission: "export",
+    }
+  );
+
+  // 表格的批量操作栏
+  const [batchRender, isShowBatch] = useFilterElementPermission(
+    {
+      render: () => (
+        <Button
+          type="primary"
+          danger
+          onClick={() => message.warning("演示功能")}
+        >
+          批量删除
+        </Button>
+      ),
+      permission: "del",
+    },
+    {
+      render: () => (
+        <Button key="export" onClick={() => message.warning("演示功能")}>
+          导出数据
+        </Button>
+      ),
+      permission: "export",
+    }
+  );
 
   return (
     <>
@@ -75,32 +139,8 @@ export default function Page() {
         loading={isLoading}
         search={false}
         onRefresh={refetch}
-        toolBarRender={[
-          <Button
-            key="add"
-            type="primary"
-            icon={<PlusOutlined />}
-            onClick={() => message.warning("演示功能")}
-          >
-            新增
-          </Button>,
-          <Button key="export" onClick={() => message.warning("演示功能")}>
-            导出
-          </Button>,
-        ]}
-        batchBarRender={[
-          <Button
-            type="primary"
-            key="del"
-            danger
-            onClick={() => message.warning("演示功能")}
-          >
-            批量删除
-          </Button>,
-          <Button key="export" onClick={() => message.warning("演示功能")}>
-            导出数据
-          </Button>,
-        ]}
+        toolBarRender={toolRender()}
+        batchBarRender={isShowBatch ? batchRender() : undefined}
       ></ProTable>
     </>
   );

@@ -47,18 +47,45 @@ const mock = [
                 title: "菜单管理",
                 path: "/permis/menu",
                 type: "1",
+                buttonList: [
+                  { name: "新增", id: "add" },
+                  { name: "编辑", id: "edit" },
+                  { name: "删除", id: "del" },
+                ],
+                children: [
+                  {
+                    id: "2-1-1",
+                    title: "新增菜单",
+                    path: "/permis/menu/add",
+                    type: "1",
+                  },
+                ],
               },
               {
                 id: "2-2",
                 title: "角色管理",
                 path: "/permis/role",
                 type: "1",
+                buttonList: [
+                  { name: "新增", id: "add" },
+                  { name: "编辑", id: "edit" },
+                  { name: "删除", id: "del" },
+                  { name: "授权", id: "accredit" },
+                ],
               },
               {
                 id: "2-3",
                 title: "用户管理",
                 path: "/permis/account",
                 type: "1",
+                buttonList: [
+                  { name: "新增", id: "add" },
+                  { name: "编辑", id: "edit" },
+                  { name: "删除", id: "del" },
+                  { name: "授权", id: "accredit" },
+                  { name: "详情", id: "details" },
+                  { name: "导出", id: "export" },
+                ],
                 children: [
                   {
                     id: "2-3-1",
@@ -73,6 +100,12 @@ const mock = [
                 title: "部门管理",
                 path: "/permis/dept",
                 type: "1",
+                buttonList: [
+                  { name: "新增", id: "add" },
+                  { name: "编辑", id: "edit" },
+                  { name: "删除", id: "del" },
+                  { name: "导出", id: "export" },
+                ],
               },
             ],
           },
@@ -82,6 +115,12 @@ const mock = [
             type: "1",
             path: "/pro-table",
             icon: "DatabaseFilled",
+            buttonList: [
+              { name: "新增", id: "add" },
+              { name: "编辑", id: "edit" },
+              { name: "删除", id: "del" },
+              { name: "导出", id: "export" },
+            ],
           },
           {
             id: "5",
@@ -91,6 +130,12 @@ const mock = [
             children: [
               {
                 id: "5-1",
+                title: "按钮权限",
+                type: "1",
+                path: "/permission-control",
+              },
+              {
+                id: "5-2",
                 title: "mackdown",
                 type: "1",
                 path: "/mackdown",
@@ -110,6 +155,13 @@ const mock = [
                 path: "/use-loading-delay-and-keep",
               },
             ],
+          },
+          {
+            id: "7",
+            title: "字典管理",
+            path: "/dict",
+            type: "1",
+            icon: "ProfileFilled",
           },
           {
             id: "3",
