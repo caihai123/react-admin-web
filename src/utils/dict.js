@@ -6,6 +6,11 @@ const createDict = function (dict) {
   };
 };
 
+export const role = createDict([
+  { label: "管理员", value: "admin", alias: "admin" },
+  { label: "用户", value: "user", alias: "user" },
+]);
+
 // 菜单类型
 export const menuType = createDict([
   { label: "菜单", value: "1", alias: "menu", color: "#87d068" },
@@ -41,6 +46,7 @@ export const roleEnabledState = createDict([
 ]);
 
 const dict = {
+  role,
   menuType,
   gender,
   accountEnabledState,

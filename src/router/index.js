@@ -11,6 +11,7 @@ import {
 import Auth from "./RouteAuth";
 import Err404 from "@/pages/404";
 import lazyMarkdown from "@/components/Markdown/lazyMarkdown";
+import { role as RoleType } from "@/utils/dict";
 
 /* 一级路由数量有限，建议就别做懒加载了。
  * 具体原因就是我在index.html中添加了系统级的loading，如果是懒加载的话在loading过后还是可能出现一段时间白屏。显得这个loading没有意义。
@@ -31,7 +32,7 @@ export const authRouterMap = [
   {
     id: "permis",
     handle: { title: "用户管理", icon: <SettingFilled /> },
-    role: ["admin"],
+    role: [RoleType.enum.admin],
     children: [
       {
         path: "/permis/account",

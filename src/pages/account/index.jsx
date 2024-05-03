@@ -16,6 +16,7 @@ import { useGetDeptSelectQuery } from "@/store/api/deptSlice";
 import { useButtonAuthorization } from "@/components/PermissionControl";
 import { useSelector } from "react-redux";
 import { selectUserinfo } from "@/store/userinfo";
+import { role as RoleType } from "@/utils/dict";
 
 export default function Page() {
   const { data: depeOptions } = useGetDeptSelectQuery();
@@ -71,7 +72,7 @@ export default function Page() {
             >
               <TreeSelect
                 treeData={depeOptions}
-                disabled={!hasButtonPermission(["admin"])}
+                disabled={!hasButtonPermission([RoleType.enum.admin])}
                 multiple
               ></TreeSelect>
             </Form.Item>
@@ -79,11 +80,8 @@ export default function Page() {
           <Col span={12} xxl={8}>
             <Form.Item label="角色" name="role">
               <Checkbox.Group
-                options={[
-                  { label: "管理员", value: "admin" },
-                  { label: "用户", value: "user" },
-                ]}
-                disabled={!hasButtonPermission(["admin"])}
+                options={RoleType.options}
+                disabled={!hasButtonPermission([RoleType.enum.admin])}
                 placeholder="请选择"
               />
             </Form.Item>
