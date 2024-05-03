@@ -31,7 +31,7 @@ const mock = [
         result: {
           userName: "Cai Hai",
           avatar: "https://avatars.githubusercontent.com/u/47770861?v=4",
-          role: [],
+          role: ["admin"],
         },
       };
     },
