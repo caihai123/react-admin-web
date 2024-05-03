@@ -31,6 +31,7 @@ export const authRouterMap = [
   {
     id: "permis",
     handle: { title: "用户管理", icon: <SettingFilled /> },
+    role: ["admin"],
     children: [
       {
         path: "/permis/account",
