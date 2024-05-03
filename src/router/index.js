@@ -30,28 +30,8 @@ export const authRouterMap = [
   },
   {
     id: "permis",
-    handle: { title: "权限管理", icon: <SettingFilled /> },
+    handle: { title: "用户管理", icon: <SettingFilled /> },
     children: [
-      {
-        path: "/permis/menu",
-        handle: { title: "菜单管理" },
-        children: [
-          {
-            path: "",
-            Component: lazy(() => import("@/pages/permis/menu")),
-          },
-          {
-            path: "add",
-            handle: { title: "新增" },
-            Component: lazy(() => import("@/pages/permis/menu/add")),
-          },
-        ],
-      },
-      {
-        path: "/permis/role",
-        handle: { title: "角色管理" },
-        Component: lazy(() => import("@/pages/permis/role")),
-      },
       {
         path: "/permis/account",
         handle: { title: "用户管理" },
