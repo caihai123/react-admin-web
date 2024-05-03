@@ -20,6 +20,7 @@ export const useButtonAuthorization = function () {
  * @param  {...object} permissionElements
  * @param {array} permissionElements[].role - 按钮的权限标识
  * @param {function} permissionElements[].render - 用于渲染元素的函数
+ * @param {function} permissionElements[].key - key 没有时使用索引
  * @returns [render, hasPermissionButtons]
  */
 export const useFilterElementPermission = function (...permissionElements) {
@@ -34,9 +35,9 @@ export const useFilterElementPermission = function (...permissionElements) {
   const render = function (...argument) {
     return (
       <Fragment>
-        {filteredElements.map((item) => {
+        {filteredElements.map((item, index) => {
           const element = item.render(...argument);
-          return <Fragment key={item.permission}>{element}</Fragment>;
+          return <Fragment key={item.key || index}>{element}</Fragment>;
         })}
       </Fragment>
     );
