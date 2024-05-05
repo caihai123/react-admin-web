@@ -1,4 +1,4 @@
-import apiSlice from "../apiSlice";
+import apiSlice from "./index";
 
 export const deptSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({

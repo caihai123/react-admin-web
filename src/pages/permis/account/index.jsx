@@ -4,7 +4,7 @@ import axios from "@/utils/axios";
 import ProTable from "@/components/ProTable";
 import { PlusOutlined } from "@ant-design/icons";
 import { gender as genderDict, accountEnabledState } from "@/utils/dict";
-import { useGetDeptSelectQuery } from "@/store/api/deptSlice";
+import { useGetDeptSelectQuery } from "@/store/apiSlice/dept";
 import { useFilterElementPermission } from "@/components/PermissionControl";
 
 export default function Page() {

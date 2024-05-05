@@ -10,7 +10,7 @@ import {
   TreeSelect,
 } from "antd";
 import DictSelect from "@/components/DictSelect";
-import { useGetDeptSelectQuery } from "@/store/api/deptSlice";
+import { useGetDeptSelectQuery } from "@/store/apiSlice/dept";
 
 export default function Page() {
   const { data: depeOptions } = useGetDeptSelectQuery();

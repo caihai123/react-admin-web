@@ -4,7 +4,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import {
   useGetDeptAllQuery,
   useDeleteDeptItemMutation,
-} from "@/store/api/deptSlice";
+} from "@/store/apiSlice/dept";
 import { useFilterElementPermission } from "@/components/PermissionControl";
 
 export default function Page() {
