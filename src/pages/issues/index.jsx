@@ -67,7 +67,7 @@ export default function Comment() {
 
   return (
     <Card>
-      <h1>Issues 列表</h1>
+      <h1>Issues 列表 ✨</h1>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <Space>
           <Select
