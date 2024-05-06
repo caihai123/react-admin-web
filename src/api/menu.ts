@@ -8,6 +8,7 @@ export type Menu = {
   path: string;
   type: "1" | "2";
   icon: string;
+  children?: Menu[];
 };
 
 export const getMenuAll: () => AxiosResultPromise<Array<Menu>> = () =>
