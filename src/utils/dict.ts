@@ -1,25 +1,28 @@
-export type DictType = {
+export type DictType<L, V, A, C> = {
   enum: {
-    [alias: string]: string | number;
+    [alias: string]: V;
   };
   options: Array<{
-    label: string;
-    value: string | number;
-    color?: string;
+    label: L;
+    value: V;
+    color?: C;
   }>;
   map: {
-    [value: string | number]: {
-      label: string;
-      value: string | number;
-      alias: string;
-      color?: string;
+    [value: string]: {
+      label: L;
+      value: V;
+      alias: A;
+      color?: C;
     };
   };
 };
 
-const createDict = function (
-  dict: { label: string; value: string; alias: string; color?: string }[]
-): DictType {
+const createDict = function <
+  L extends string,
+  V extends string | number,
+  A extends string,
+  C extends string
+>(dict: { label: L; value: V; alias: A; color?: C }[]): DictType<L, V, A, C> {
   return {
     enum: Object.fromEntries(dict.map(({ alias, value }) => [alias, value])),
     options: dict.map(({ label, value, color }) => ({ label, value, color })),
@@ -60,11 +63,3 @@ export const roleEnabledState = createDict([
     color: "rgba(30, 41, 59, 0.25)",
   },
 ]);
-
-const dict: { [dictName: string]: DictType } = {
-  menuType,
-  gender,
-  accountEnabledState,
-};
-
-export default dict;
