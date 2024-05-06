@@ -3,7 +3,17 @@ import { Modal, Space, Button, Form, Input, App } from "antd";
 import useLoadingDelayAndKeep from "@/hooks/useLoadingDelayAndKeep";
 import axios from "@/utils/axios";
 
-const AddOrEdit = forwardRef((props, ref) => {
+import { Role } from "@/api/role";
+
+export type Props = {
+  callback: (pageIndex?: number) => void;
+};
+export type Ref = {
+  addStart: () => void;
+  editStart: (row: Role) => void;
+};
+
+const AddOrEdit = forwardRef<Ref, Props>((props, ref) => {
   const { message } = App.useApp();
 
   const [headForm] = Form.useForm();
@@ -12,8 +22,8 @@ const AddOrEdit = forwardRef((props, ref) => {
   const [visible, setVisible] = useState(false);
   const [loading, { setTrue, setFalse }] = useLoadingDelayAndKeep(false);
 
-  const onSubmit = function (data) {
-    setTrue(true);
+  const onSubmit = function (data: Pick<Role, "roleName" | "description">) {
+    setTrue();
     const apiUrl = id ? "/api/role/update" : "/api/role/add";
     const successMsg = id ? "更新成功！" : "新增成功！";
     const params = id ? { id, ...data } : data;

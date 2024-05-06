@@ -6,13 +6,16 @@ import {
   useDeleteDeptItemMutation,
 } from "@/store/api-slice/dept";
 
+import type { ProTableProps } from "@/components/ProTable";
+import type { Dept } from "@/api/dept";
+
 export default function Page() {
   const { message } = App.useApp();
 
   const { data: tableData, isLoading, refetch } = useGetDeptAllQuery();
 
   const [deleteDeptItem] = useDeleteDeptItemMutation();
-  const deleteItem = function (id) {
+  const deleteItem = function (id: Dept["id"]) {
     deleteDeptItem({ id })
       .unwrap()
       .then(() => {
@@ -20,7 +23,7 @@ export default function Page() {
       });
   };
 
-  const columns = [
+  const columns: ProTableProps["columns"] = [
     {
       title: "部门名称",
       dataIndex: "deptName",

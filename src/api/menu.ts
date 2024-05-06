@@ -1,12 +1,14 @@
 /* eslint-disable import/prefer-default-export */
 import axios from "@/utils/axios";
+import { menuType } from "@/utils/dict";
+
 import type { AxiosResultPromise } from "@/utils/axios";
 
 export type Menu = {
   id: string;
   title: string;
   path: string;
-  type: "1" | "2";
+  type: (typeof menuType.options)[number]["value"];
   icon: string;
   children?: Menu[];
 };

@@ -1,3 +1,4 @@
+import { FC } from "react";
 import { Result } from "antd";
 import { useSelector } from "react-redux";
 import { selectMenu, selectMenuFlatten } from "@/store/menu";
@@ -7,7 +8,7 @@ import PageLoading from "./PageLoading";
 
 // 权限路由包装组件
 // 根据后端返回的菜单列表显示视图
-export default function Auth(props) {
+export default function Auth(props: { Component: FC }) {
   const { pathname } = useLocation();
   const { status } = useSelector(selectMenu);
   const menuFlatten = useSelector(selectMenuFlatten);
@@ -35,6 +36,7 @@ export default function Auth(props) {
         ></Result>
       </div>
     ),
+    idle: null,
   };
 
   return component[status];
