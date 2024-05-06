@@ -4,6 +4,8 @@ import styled, { keyframes } from "styled-components";
 import SiderMenu from "./SiderMenu";
 import LogoSvg from "@/assets/logo.svg";
 
+import type { SiderProps } from "antd";
+
 const SiderStyled = styled(Layout.Sider)`
   position: fixed !important ;
   height: 100vh;
@@ -59,8 +61,8 @@ const Logo = styled.div`
   }
 `;
 
-export default function Sider(props) {
-  const siderConfig = {
+export default function Sider(props: { collapsed: boolean }) {
+  const siderConfig: SiderProps = {
     width: 210,
     collapsedWidth: 64,
     collapsed: props.collapsed,

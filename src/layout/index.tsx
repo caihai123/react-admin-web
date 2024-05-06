@@ -7,11 +7,13 @@ import LayContent from "./Content";
 import Header from "./Header";
 import Sider from "./Sider";
 
+import type { AppDispatch } from "@/store/index";
+
 export default function LayoutViwe() {
   const [collapsed, setCollapsed] = useState(false); // 控制侧边栏展开收起
 
   // 初始化菜单列表
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   useMount(() => dispatch(initMenu()));
 
   return (

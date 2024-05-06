@@ -9,7 +9,7 @@ export default function Component() {
   const menuFlatten = useSelector(selectMenuFlatten);
 
   const levelList = matches
-    .map((match) => {
+    .map((match: any) => {
       const found = menuFlatten.find((i) => i.path === match.pathname);
       if (found) {
         return { title: found.title, path: found.path };
@@ -22,7 +22,7 @@ export default function Component() {
         return undefined;
       }
     })
-    .filter(Boolean);
+    .filter(Boolean) as Array<{ title: string; path: string }>;
 
   return (
     <Breadcrumb

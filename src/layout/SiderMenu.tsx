@@ -6,21 +6,26 @@ import { selectTheme } from "@/store/system";
 import { useSelector } from "react-redux";
 import { selectMenu } from "@/store/menu";
 
-// import * as Icon from "@ant-design/icons";
-import * as Icon from "@ant-design/icons";
+import type { MenuProps } from "antd";
+import type { Menu as MenuType } from "@/api/menu";
 
+import * as icons from "@ant-design/icons";
+
+const allIcons: { [key: string]: any } = icons;
 // 动态渲染icon
-const antdIcon = function (icon) {
-  return icon && createElement(Icon[icon]);
+const antdIcon = function (icon?: string) {
+  return icon && createElement(allIcons[icon]);
 };
 
-const getItem = function ({ id, type, title, path, children, icon }) {
+type MenuItem = Required<MenuProps>["items"][number];
+
+const getItem: (menu: MenuType) => MenuItem = function (menu) {
+  const { id, type, title, path, children = [], icon } = menu;
   return {
     key: path || id,
     label: title,
     icon: icon ? antdIcon(icon) : "",
-    children:
-      type === "2" ? (children || []).map((item) => getItem(item)) : undefined,
+    children: type === "2" ? children.map((item) => getItem(item)) : undefined,
   };
 };
 

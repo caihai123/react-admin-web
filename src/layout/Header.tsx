@@ -29,7 +29,7 @@ const Header = styled(Layout.Header)`
   padding: 0;
   height: 48;
   lineheight: 1;
-  background: ${(props) => props.background};
+  background: ${(props: { background: string }) => props.background};
   & .header-actions-item {
     display: flex;
     align-items: center;
@@ -57,7 +57,12 @@ const Trigger = styled.div`
   }
 `;
 
-export default function LayHeader(props) {
+type Props = {
+  collapsed: boolean;
+  setCollapsed: (collapsed: boolean) => void;
+};
+
+export default function LayHeader(props: Props) {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -87,6 +92,7 @@ export default function LayHeader(props) {
     <Header background={colorBgContainer}>
       <div style={{ display: "flex", alignItems: "center" }}>
         <Trigger
+          // @ts-ignore
           as={props.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined}
           onClick={() => props.setCollapsed(!props.collapsed)}
         />
