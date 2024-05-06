@@ -4,13 +4,15 @@ import axios from "@/utils/axios";
 import ProTable from "@/components/ProTable";
 import { PlusOutlined } from "@ant-design/icons";
 import { gender as genderDict, accountEnabledState } from "@/utils/dict";
-import { useGetDeptSelectQuery } from "@/store/api/deptSlice";
+import { useGetDeptSelectQuery } from "@/store/api-slice/dept";
+
+import type { ProTableProps } from "@/components/ProTable";
 
 export default function Page() {
   const { data: depeOptions } = useGetDeptSelectQuery();
   const navigate = useNavigate();
 
-  const columns = [
+  const columns: ProTableProps["columns"] = [
     {
       title: "真实姓名",
       dataIndex: "name",
