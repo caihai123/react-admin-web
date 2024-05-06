@@ -5,13 +5,23 @@ import {
 } from "@reduxjs/toolkit";
 import axios from "@/utils/axios";
 
+import type { RootState } from "./index";
+import { Menu } from "@/api/menu";
+
+const initialState: {
+  list: Menu[];
+  status: "idle" | "loading" | "succeeded" | "failed";
+  error: any;
+} = {
+  list: [],
+  status: "idle",
+  error: null,
+};
+
 export const menu = createSlice({
   name: "menu",
-  initialState: {
-    list: [],
-    status: "idle", // "idle" | "loading" | "succeeded" | "failed",
-    error: null,
-  },
+  initialState,
+  reducers: {},
   extraReducers(builder) {
     builder
       .addCase(initMenu.pending, (state) => {
@@ -34,14 +44,14 @@ export const initMenu = createAsyncThunk("menu/initMenu", async () => {
   return response.result;
 });
 
-export const selectMenu = (state) => state.menu;
+export const selectMenu = (state: RootState) => state.menu;
 
 // 扁平化的菜单
 export const selectMenuFlatten = createSelector(
-  (state) => {
-    const list = [];
+  (state: RootState) => {
+    const list: Menu[] = [];
 
-    const deep = (obj) => {
+    const deep = (obj: Menu) => {
       if (obj.type === "1") {
         // 只保留菜单
         const { children, ...item } = obj;

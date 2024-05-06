@@ -1,8 +1,10 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import axios from "@/utils/axios";
 
+import type { BaseQueryFn } from "@reduxjs/toolkit/query/react";
+
 // 自定义查询
-const customQuery = async (args, api, extraOptions) => {
+const customQuery: BaseQueryFn = async (args, api, extraOptions) => {
   try {
     if (typeof args === "string") {
       const { result } = await axios.get(args);
@@ -20,7 +22,7 @@ const customQuery = async (args, api, extraOptions) => {
 const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: customQuery,
-  // tagTypes: ["DeptSelect"],
+  // tagTypes: [],
   endpoints: (builder) => ({}),
 });
 

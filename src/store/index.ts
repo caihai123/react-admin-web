@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
 import system from "./system";
 import menu from "./menu";
-import apiSlice from "./apiSlice";
+import apiSlice from "./api-slice";
 
-export default configureStore({
+const store = configureStore({
   reducer: {
     system,
     menu,
@@ -12,3 +12,9 @@ export default configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(apiSlice.middleware),
 });
+
+export default store;
+
+export type RootState = ReturnType<typeof store.getState>;
+
+export type AppDispatch = typeof store.dispatch;

@@ -4,7 +4,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import {
   useGetDeptAllQuery,
   useDeleteDeptItemMutation,
-} from "@/store/api/deptSlice";
+} from "@/store/api-slice/dept";
 
 export default function Page() {
   const { message } = App.useApp();
