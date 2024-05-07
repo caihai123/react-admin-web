@@ -112,6 +112,16 @@ const router = createBrowserRouter(
           ),
         },
         {
+          path: "/use-content-overflow",
+          element: (
+            <Auth
+              Component={lazyMarkdown(() =>
+                import("@/pages/hooks/use-content-overflow.md")
+              )}
+            />
+          ),
+        },
+        {
           path: "/dict",
           element: (
             <Auth Component={lazyMarkdown(() => import("@/pages/dict.md"))} />
