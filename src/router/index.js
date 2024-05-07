@@ -82,6 +82,12 @@ const router = createBrowserRouter(
           ),
         },
         {
+          path: "/system/file",
+          element: (
+            <Auth Component={lazy(() => import("@/pages/system/file"))} />
+          ),
+        },
+        {
           path: "/pro-table",
           element: <Auth Component={lazy(() => import("@/pages/pro-table"))} />,
         },
