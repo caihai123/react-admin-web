@@ -102,6 +102,16 @@ const router = createBrowserRouter(
           ),
         },
         {
+          path: "/use-dom-size",
+          element: (
+            <Auth
+              Component={lazyMarkdown(() =>
+                import("@/pages/hooks/use-dom-size.md")
+              )}
+            />
+          ),
+        },
+        {
           path: "/dict",
           element: (
             <Auth Component={lazyMarkdown(() => import("@/pages/dict.md"))} />

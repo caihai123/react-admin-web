@@ -161,6 +161,12 @@ const mock = [
                 type: "1",
                 path: "/use-loading-delay-and-keep",
               },
+              {
+                id: "6-2",
+                title: "useDomSize",
+                type: "1",
+                path: "/use-dom-size",
+              },
             ],
           },
           {
