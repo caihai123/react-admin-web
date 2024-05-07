@@ -40,10 +40,21 @@ export const roleEnabledState = createDict([
   },
 ]);
 
+// 文件类型
+export const fileType = createDict([
+  { label: "图片", value: "1", alias: "img", color: "" },
+  { label: "文档", value: "2", alias: "doc", color: "" },
+  { label: "视频", value: "3", alias: "video", color: "" },
+  { label: "音频", value: "4", alias: "music", color: "" },
+  { label: "其他", value: "5", alias: "other", color: "" },
+]);
+
 const dict = {
   menuType,
   gender,
   accountEnabledState,
+  roleEnabledState,
+  fileType,
 };
 
 export default dict;
