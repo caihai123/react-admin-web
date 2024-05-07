@@ -19,7 +19,7 @@ const getPadding = (el) => {
 /**
  * 判断容器内容是否溢出
  * @param {*} target DOM 节点或者 ref
- * @returns [isOverflowX, isOverflowY]
+ * @returns {isOverflowX, isOverflowY}
  */
 export default function useContentOverflow(target) {
   const [isOverflowX, { set: setIsOverflowX }] = useBoolean(false);
@@ -48,5 +48,5 @@ export default function useContentOverflow(target) {
     }
   });
 
-  return [isOverflowX, isOverflowY];
+  return { isOverflowX, isOverflowY };
 }
