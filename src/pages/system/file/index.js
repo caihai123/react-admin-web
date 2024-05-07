@@ -30,6 +30,7 @@ import MyIcon from "@/components/MyIcon";
 import FileView from "./components/FileView";
 import { fileType } from "@/utils/dict";
 import PieView from "./components/PieView";
+import NameEllipsis from "./components/NameEllipsis";
 
 export default function File() {
   const {
@@ -146,9 +147,10 @@ export default function File() {
                     src={item.url}
                     height={60}
                   />
-                  <div className="ellipsis" style={{ lineHeight: 2 }}>
-                    {getFilenameFromPath(item.url)}
-                  </div>
+                  <NameEllipsis
+                    text={getFilenameFromPath(item.url)}
+                    style={{ lineHeight: 2, padding: "0 10px" }}
+                  />
                 </div>
               ))}
             </div>
