@@ -1,11 +1,11 @@
 import Mock from "mockjs";
 
 import login from "./login";
-import role from "./premis/role";
-import account from "./premis/account";
-import dept from "./premis/dept";
+import role from "./system/role";
+import account from "./system/account";
+import dept from "./system/dept";
 import issues from "./issues";
-import menu from "./premis/menu";
+import menu from "./system/menu";
 
 Mock.setup({
   timeout: "50-1000",
