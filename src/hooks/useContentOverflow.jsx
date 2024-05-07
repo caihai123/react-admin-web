@@ -21,7 +21,7 @@ const getPadding = (el) => {
  * @param {*} target DOM 节点或者 ref
  * @returns [isOverflowX, isOverflowY]
  */
-export default function useContentOverflowDom(target) {
+export default function useContentOverflow(target) {
   const [isOverflowX, { set: setIsOverflowX }] = useBoolean(false);
   const [isOverflowY, { set: setIsOverflowY }] = useBoolean(false);
 

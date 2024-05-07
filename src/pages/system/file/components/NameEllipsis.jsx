@@ -1,10 +1,10 @@
 import { useRef } from "react";
-import useContentOverflowDom from "@/hooks/useContentOverflowDom";
+import useContentOverflow from "@/hooks/useContentOverflow";
 
 export default function ContentOverflowDetector({ text, ...rest }) {
   const containerRef = useRef(null);
 
-  const [isOverflow] = useContentOverflowDom(containerRef);
+  const [isOverflow] = useContentOverflow(containerRef);
 
   return (
     <div
