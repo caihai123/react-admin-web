@@ -60,7 +60,7 @@ export default function AddMenu() {
               icon: <ExclamationCircleFilled />,
               content: "菜单新增成功！",
               okText: "返回列表页",
-              onOk: () => navigate("/permis/menu"),
+              onOk: () => navigate("/system/menu"),
               cancelText: "继续新增",
               onCancel: () => {
                 form.resetFields();

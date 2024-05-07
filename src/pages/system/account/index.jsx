@@ -18,7 +18,7 @@ export default function Page() {
         <Button
           type="primary"
           size="small"
-          onClick={() => navigate(`/permis/account/detail?id=${row.id}`)}
+          onClick={() => navigate(`/system/account/detail?id=${row.id}`)}
         >
           详情
         </Button>

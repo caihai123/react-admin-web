@@ -28,38 +28,38 @@ const router = createBrowserRouter(
           element: <Auth Component={lazy(() => import("@/pages/index"))} />,
         },
         {
-          path: "/permis/menu",
+          path: "/system/menu",
           children: [
             {
               path: "",
               element: (
-                <Auth Component={lazy(() => import("@/pages/permis/menu"))} />
+                <Auth Component={lazy(() => import("@/pages/system/menu"))} />
               ),
             },
             {
               path: "add",
               element: (
                 <Auth
-                  Component={lazy(() => import("@/pages/permis/menu/add"))}
+                  Component={lazy(() => import("@/pages/system/menu/add"))}
                 />
               ),
             },
           ],
         },
         {
-          path: "/permis/role",
+          path: "/system/role",
           element: (
-            <Auth Component={lazy(() => import("@/pages/permis/role"))} />
+            <Auth Component={lazy(() => import("@/pages/system/role"))} />
           ),
         },
         {
-          path: "/permis/account",
+          path: "/system/account",
           children: [
             {
               path: "",
               element: (
                 <Auth
-                  Component={lazy(() => import("@/pages/permis/account"))}
+                  Component={lazy(() => import("@/pages/system/account"))}
                 />
               ),
             },
@@ -68,7 +68,7 @@ const router = createBrowserRouter(
               element: (
                 <Auth
                   Component={lazy(() =>
-                    import("@/pages/permis/account/detail")
+                    import("@/pages/system/account/detail")
                   )}
                 />
               ),
@@ -76,9 +76,9 @@ const router = createBrowserRouter(
           ],
         },
         {
-          path: "/permis/dept",
+          path: "/system/dept",
           element: (
-            <Auth Component={lazy(() => import("@/pages/permis/dept"))} />
+            <Auth Component={lazy(() => import("@/pages/system/dept"))} />
           ),
         },
         {

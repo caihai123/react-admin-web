@@ -39,14 +39,14 @@ const mock = [
           },
           {
             id: "2",
-            title: "权限管理",
+            title: "系统管理",
             type: "2",
             icon: "SettingFilled",
             children: [
               {
                 id: "2-1",
                 title: "菜单管理",
-                path: "/permis/menu",
+                path: "/system/menu",
                 type: "1",
                 buttonList: [
                   { name: "新增", id: "add" },
@@ -57,7 +57,7 @@ const mock = [
                   {
                     id: "2-1-1",
                     title: "新增菜单",
-                    path: "/permis/menu/add",
+                    path: "/system/menu/add",
                     type: "1",
                   },
                 ],
@@ -65,7 +65,7 @@ const mock = [
               {
                 id: "2-2",
                 title: "角色管理",
-                path: "/permis/role",
+                path: "/system/role",
                 type: "1",
                 buttonList: [
                   { name: "新增", id: "add" },
@@ -77,7 +77,7 @@ const mock = [
               {
                 id: "2-3",
                 title: "用户管理",
-                path: "/permis/account",
+                path: "/system/account",
                 type: "1",
                 buttonList: [
                   { name: "新增", id: "add" },
@@ -91,7 +91,7 @@ const mock = [
                   {
                     id: "2-3-1",
                     title: "人员详情",
-                    path: "/permis/account/detail",
+                    path: "/system/account/detail",
                     type: "1",
                   },
                 ],
@@ -99,7 +99,7 @@ const mock = [
               {
                 id: "2-4",
                 title: "部门管理",
-                path: "/permis/dept",
+                path: "/system/dept",
                 type: "1",
                 buttonList: [
                   { name: "新增", id: "add" },
@@ -107,6 +107,12 @@ const mock = [
                   { name: "删除", id: "del" },
                   { name: "导出", id: "export" },
                 ],
+              },
+              {
+                id: "2-5",
+                title: "文件管理",
+                path: "/system/file",
+                type: "1",
               },
             ],
           },
