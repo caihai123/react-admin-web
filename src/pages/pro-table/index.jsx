@@ -175,7 +175,8 @@ export default function ProTableDemo() {
       />
       <ProTable
         rowKey="id"
-        headerTitle="数据列表"
+        title="数据列表"
+        tableTitle={(total) => `data ${total}`}
         columns={columns}
         dataSource={tableData}
         batchBarRender={[
@@ -192,6 +193,9 @@ export default function ProTableDemo() {
           </Button>,
         ]}
         toolBarRender={(params) => [
+          <Button key="export" onClick={() => message.warning("演示功能")}>
+            导出
+          </Button>,
           <Button
             key="add"
             type="primary"
@@ -199,9 +203,6 @@ export default function ProTableDemo() {
             onClick={() => message.warning("演示功能")}
           >
             新增
-          </Button>,
-          <Button key="export" onClick={() => message.warning("演示功能")}>
-            导出
           </Button>,
         ]}
       />

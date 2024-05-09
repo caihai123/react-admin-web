@@ -1,6 +1,6 @@
-import { useRef } from "react";
-import { Button, Space, App } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { useRef, useState } from "react";
+import { Button, Space, App, Input } from "antd";
+import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import ProTable from "@/components/ProTable";
 import axios from "@/utils/axios";
 import OptimisticSwitch from "@/components/OptimisticSwitch";
@@ -23,6 +23,8 @@ export default function Page() {
 
   const tableRef = useRef();
   const addOrEditRef = useRef();
+
+  const [params, setParams] = useState({});
 
   // 表格的操作栏
   const [actionRender, isShowAction] = useFilterElementPermission(
@@ -61,6 +63,7 @@ export default function Page() {
     {
       title: "角色名称",
       dataIndex: "roleName",
+      hideInSearch: true,
     },
     {
       title: "备注",
@@ -79,8 +82,7 @@ export default function Page() {
           />
         );
       },
-      type: "select",
-      options: roleEnabledState.options,
+      hideInSearch: true,
     },
     {
       title: "操作",
@@ -99,7 +101,9 @@ export default function Page() {
         ref={tableRef}
         columns={columns}
         rowKey="id"
-        headerTitle="角色列表"
+        title="角色列表"
+        tableTitle={(total) => `角色 ${total}`}
+        extraParams={params}
         request={(params, { current, pageSize }) =>
           axios
             .post("/api/role/page", { params, pageIndex: current, pageSize })
@@ -111,6 +115,20 @@ export default function Page() {
               };
             })
         }
+        pageActions={[
+          <Input
+            key="search"
+            placeholder="通过角色名称查询"
+            prefix={<SearchOutlined />}
+            onPressEnter={(e) => {
+              const { value } = e.target;
+              setParams({
+                ...params,
+                roleName: value,
+              });
+            }}
+          />,
+        ]}
         toolBarRender={() => (
           <PermissionControl permission="add">
             <Button

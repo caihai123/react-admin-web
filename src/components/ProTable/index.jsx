@@ -6,19 +6,16 @@ import {
   useMemo,
   useEffect,
 } from "react";
-import DropdownFrom from "@/components/DropdownFrom";
-import { Table, Space, Button, theme, Card, Tooltip, Dropdown } from "antd";
+import { Table, Card, Space, theme } from "antd";
 import styles from "./style.module.css";
 import { usePagination } from "ahooks";
 import PropTypes from "prop-types";
-import {
-  ReloadOutlined,
-  ColumnHeightOutlined,
-  SettingOutlined,
-} from "@ant-design/icons";
-import ColumnSetting from "./ColumnSetting";
 import FormItem from "./FormItem";
 import useLoadingDelayAndKeep from "@/hooks/useLoadingDelayAndKeep";
+import PageContainer from "@/components/PageContainer";
+import BatchBar from "./BatchBar";
+import QueryForm from "./QueryForm";
+import TableTop from "./TableTop";
 
 const getRowkey = function (row) {
   return row.key || row.dataIndex;
@@ -28,23 +25,23 @@ const initialTableSize = "large"; // 表格尺寸默认值
 
 const ProTable = forwardRef(function (props, ref) {
   const {
+    // 页面标题
+    title,
+
     // Table 的数据，protable 推荐使用 request 来加载
     dataSource,
 
     // 表格列配置
     columns = [],
 
-    // 是否显示搜索表单
-    search = true,
-
     // 工具栏渲染函数
-    toolBarRender = null,
+    toolBarRender,
 
-    // 列表标题区渲染函数
-    headerTitle,
+    // 额外的参数，优先级比params高，所以最好别和params冲突
+    extraParams,
 
     // 批量操作功能的渲染函数，不为空时会自动配置checkbox
-    batchBarRender = null,
+    batchBarRender,
 
     // 表格的rowSelection配置项，优先级最高，可能会覆盖掉默认配置
     tableRowSelection = {},
@@ -63,8 +60,21 @@ const ProTable = forwardRef(function (props, ref) {
 
     // 重置表单时触发
     onReset,
+
+    // PageContainer actions fundamental模式下无效
+    pageActions = [],
+
+    // PageContainer extra fundamental模式下无效
+    pageExtra = null,
+
+    // table title fundamental模式下无效
+    tableTitle,
+
+    // 两种布局方式
+    layout = "primary", //  primary or fundamental
   } = props;
 
+  const queryForm = useRef(null);
   // 表单的默认值
   const initialValues = useMemo(
     () =>
@@ -75,13 +85,19 @@ const ProTable = forwardRef(function (props, ref) {
       ),
     [columns]
   );
-
   // 搜索表单项
   const formItems = useMemo(() => {
     return columns
       .filter((item) => item.hideInSearch !== true)
       .map((item) => <FormItem item={item} key={getRowkey(item)} />);
   }, [columns]);
+  // 查询表单参数缓存
+  const [searchParams, setSearchParams] = useState(initialValues);
+  // searchParams 和 extraParams合并，发起请求的真实参数
+  const params = useMemo(
+    () => ({ ...searchParams, ...extraParams }),
+    [searchParams, extraParams]
+  );
 
   // 表格上使用的columns
   const tableColumns = useMemo(
@@ -93,12 +109,6 @@ const ProTable = forwardRef(function (props, ref) {
   const [configkeys, setConfigkeys] = useState(
     tableColumns.map((item) => getRowkey(item))
   );
-
-  // 查询表单参数缓存
-  const [params, setParams] = useState(initialValues);
-
-  // 查询表单实例
-  const searchFrom = useRef(null);
 
   // request加载数据对象
   const requestData = usePagination(
@@ -126,6 +136,7 @@ const ProTable = forwardRef(function (props, ref) {
     const { data, pagination, refresh } = requestData;
     return {
       list: isDataSource ? dataSource : data?.list,
+      total: data?.total,
       // eslint-disable-next-line no-nested-ternary
       pagination: paginationConfig
         ? isDataSource
@@ -153,6 +164,7 @@ const ProTable = forwardRef(function (props, ref) {
   const [tableLoading, { setTrue, setFalse }] = useLoadingDelayAndKeep(
     typeof loading === "boolean" ? loading : false
   );
+
   useEffect(() => {
     const isDataSource = Array.isArray(dataSource);
     const tableLoading =
@@ -177,15 +189,15 @@ const ProTable = forwardRef(function (props, ref) {
 
     // 触发搜索表单的搜索事件
     search: () => {
-      const submit = searchFrom?.current?.submit;
-      submit ? submit() : setParams(null);
+      const submit = queryForm?.current?.submit;
+      submit ? submit() : setSearchParams(null);
       onSubmit?.(params);
     },
 
     // 触发搜索表单的重置事件
     reset: () => {
-      const reset = searchFrom?.current?.reset;
-      reset ? reset() : setParams(null);
+      const reset = queryForm?.current?.reset;
+      reset ? reset() : setSearchParams(null);
       onReset?.(params);
     },
 
@@ -194,147 +206,129 @@ const ProTable = forwardRef(function (props, ref) {
   }));
 
   const {
-    token: { borderRadius, controlItemBgActive, colorText },
+    token: { colorBorderSecondary },
   } = theme.useToken();
 
-  return (
-    <>
-      {search && (
-        <DropdownFrom
-          ref={searchFrom}
-          onFinish={(values) => setParams(values)}
-          initialValues={initialValues}
-        >
-          {formItems}
-        </DropdownFrom>
-      )}
-
-      <Card
-        style={{ marginTop: search ? 16 : 0 }}
-        styles={{ body: { paddingTop: 16, paddingBottom: 24 } }}
-      >
-        {
-          <div
-            className={styles["tools-bar"]}
-            style={{
-              display: selectedRowKeys.length > 0 ? "none" : "",
-              color: colorText,
-            }}
-          >
-            <div className={styles["header-title"]}>
-              {typeof headerTitle === "function" ? headerTitle() : headerTitle}{" "}
-              ✨
-            </div>
-            <div className={styles["tool-right"]}>
-              {toolBarRender && (
-                <Space>
-                  {typeof toolBarRender === "function"
-                    ? toolBarRender(params)
-                    : toolBarRender}
-                </Space>
-              )}
-              <div className={styles["toolbar-setting"]}>
-                <div
-                  className={styles["toolbar-setting-item"]}
-                  onClick={() => tableConfig.refresh()}
-                >
-                  <Tooltip title="刷新">
-                    <ReloadOutlined />
-                  </Tooltip>
-                </div>
-                <Dropdown
-                  overlayStyle={{ width: 80 }}
-                  menu={{
-                    items: [
-                      { key: "large", label: "默认" },
-                      { key: "middle", label: "中等" },
-                      { key: "small", label: "紧凑" },
-                    ],
-                    selectable: true,
-                    defaultSelectedKeys: [initialTableSize],
-                    onClick: ({ key }) => setTableSize(key),
-                  }}
-                  trigger={["click"]}
-                >
-                  <div className={styles["toolbar-setting-item"]}>
-                    <Tooltip title="密度">
-                      <ColumnHeightOutlined />
-                    </Tooltip>
-                  </div>
-                </Dropdown>
-
-                <ColumnSetting
-                  value={configkeys}
-                  options={tableColumns.map((item) => ({
-                    label: item.title,
-                    value: getRowkey(item),
-                  }))}
-                  onChange={(keys) => setConfigkeys(keys)}
-                >
-                  <div className={styles["toolbar-setting-item"]}>
-                    <Tooltip title="列设置">
-                      <SettingOutlined />
-                    </Tooltip>
-                  </div>
-                </ColumnSetting>
-              </div>
-            </div>
-          </div>
-        }
-
-        {batchBarRender && (
-          <div
-            className={styles["batch-bar"]}
-            style={{
-              display: selectedRowKeys.length > 0 ? "" : "none",
-              color: colorText,
-              backgroundColor: controlItemBgActive,
-              borderRadius,
-            }}
-          >
-            <div>
-              <span>已选 {selectedRowKeys.length} 项</span>
-              <Button type="link" onClick={() => setSelectedRowKeys([])}>
-                取消选择
-              </Button>
-            </div>
-            <Space>
-              {typeof batchBarRender === "function"
-                ? batchBarRender(selectedRowKeys)
-                : batchBarRender}
-            </Space>
-          </div>
-        )}
-
-        <div className={styles["main"]}>
-          <Table
-            rowKey={props.rowKey}
-            dataSource={tableConfig.list}
-            columns={tableColumns.filter((item) => {
-              const key = getRowkey(item);
-              return configkeys.includes(key);
-            })}
-            pagination={tableConfig.pagination}
-            loading={tableLoading}
-            rowSelection={
-              batchBarRender
-                ? {
-                    type: "checkbox",
-                    selectedRowKeys,
-                    onChange: (keys) => setSelectedRowKeys(keys),
-                    preserveSelectedRowKeys: true,
-                    ...tableRowSelection,
-                  }
-                : undefined
-            }
-            bordered
-            size={tableSize}
-            scroll={{ x: "max-content" }}
-          />
-        </div>
-      </Card>
-    </>
+  const QueryFormRender = (layout) => (
+    <QueryForm
+      ref={queryForm}
+      key="queryForm"
+      initialValues={initialValues}
+      onFinish={(values) => setSearchParams(values)}
+      layout={layout}
+    >
+      {formItems}
+    </QueryForm>
   );
+
+  const TableTitle =
+    // eslint-disable-next-line no-nested-ternary
+    layout === "fundamental"
+      ? `${title} ✨`
+      : typeof tableTitle === "function"
+      ? tableTitle(tableConfig.total || tableConfig.list?.length || "")
+      : tableTitle;
+
+  const toolBarEl =
+    typeof toolBarRender === "function" ? toolBarRender(params) : toolBarRender;
+
+  const TablleTopEl = (
+    <TableTop
+      style={{
+        display: selectedRowKeys.length > 0 ? "none" : "",
+        border:
+          layout === "fundamental"
+            ? "none"
+            : `1px solid ${colorBorderSecondary}`,
+        borderBottom: "none",
+        padding: layout === "fundamental" ? "0 0 12px 0" : "8px 12px",
+      }}
+      tableTitle={TableTitle}
+      onRefresh={() => tableConfig.refresh()}
+      initialTableSize={initialTableSize}
+      onTableSizeChange={(key) => setTableSize(key)}
+      columnSettingValue={configkeys}
+      columnSettingOptions={tableColumns.map((item) => ({
+        label: item.title,
+        value: getRowkey(item),
+      }))}
+      onColumnSettingChange={(keys) => setConfigkeys(keys)}
+      toolBarRender={
+        layout === "fundamental" ? <Space>{toolBarEl}</Space> : undefined
+      }
+    ></TableTop>
+  );
+
+  const TableEl = (
+    <div className={styles["main"]}>
+      <Table
+        rowKey={props.rowKey}
+        dataSource={tableConfig.list}
+        columns={tableColumns.filter((item) => {
+          const key = getRowkey(item);
+          return configkeys.includes(key);
+        })}
+        pagination={tableConfig.pagination}
+        loading={tableLoading}
+        rowSelection={
+          batchBarRender
+            ? {
+                type: "checkbox",
+                selectedRowKeys,
+                onChange: (keys) => setSelectedRowKeys(keys),
+                preserveSelectedRowKeys: true,
+                ...tableRowSelection,
+              }
+            : undefined
+        }
+        bordered
+        size={tableSize}
+        scroll={{ x: "max-content" }}
+      />
+    </div>
+  );
+
+  const BatchBarEl = (
+    <BatchBar
+      batchBarRender={batchBarRender}
+      selectedRowKeys={selectedRowKeys}
+      setSelectedRowKeys={setSelectedRowKeys}
+    />
+  );
+
+  if (layout === "fundamental") {
+    return (
+      <>
+        {QueryFormRender("dropdown")}
+
+        <Card
+          style={{ marginTop: formItems.length > 0 ? 16 : 0 }}
+          styles={{ body: { paddingTop: 16, paddingBottom: 24 } }}
+        >
+          {TablleTopEl}
+
+          {BatchBarEl}
+
+          {TableEl}
+        </Card>
+      </>
+    );
+  } else {
+    return (
+      <PageContainer
+        title={title}
+        tools={toolBarEl}
+        actions={[...pageActions, QueryFormRender()].filter(Boolean)}
+        extra={pageExtra}
+      >
+        {TablleTopEl}
+
+        {BatchBarEl}
+
+        {TableEl}
+      </PageContainer>
+    );
+  }
 });
 
 ProTable.propTypes = {
@@ -345,17 +339,15 @@ ProTable.propTypes = {
   onSubmit: PropTypes.func,
   onReset: PropTypes.func,
   columns: PropTypes.array.isRequired,
-  search: PropTypes.bool,
   loading: PropTypes.bool,
   toolBarRender: PropTypes.oneOfType([
     PropTypes.element,
     PropTypes.array,
     PropTypes.func,
   ]),
-  headerTitle: PropTypes.oneOfType([
+  title: PropTypes.oneOfType([
     PropTypes.element,
     PropTypes.array,
-    PropTypes.func,
     PropTypes.string,
   ]),
   batchBarRender: PropTypes.oneOfType([
@@ -365,6 +357,15 @@ ProTable.propTypes = {
   ]),
   tableRowSelection: PropTypes.object,
   pagination: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
+  pageActions: PropTypes.oneOfType([PropTypes.element, PropTypes.array]),
+  pageExtra: PropTypes.oneOfType([PropTypes.element, PropTypes.array]),
+  extraParams: PropTypes.object,
+  tableTitle: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.array,
+    PropTypes.string,
+    PropTypes.func,
+  ]),
 };
 
 export default ProTable;

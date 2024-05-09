@@ -1,6 +1,6 @@
-import { Button, Space, App, Popconfirm, Alert } from "antd";
+import { Button, Space, App, Popconfirm, Alert, Input } from "antd";
 import ProTable from "@/components/ProTable";
-import { PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import {
   useGetDeptAllQuery,
   useDeleteDeptItemMutation,
@@ -62,10 +62,12 @@ export default function Page() {
     {
       title: "部门名称",
       dataIndex: "deptName",
+      hideInSearch: true,
     },
     {
       title: "描述",
       dataIndex: "description",
+      hideInSearch: true,
     },
     {
       title: "操作",
@@ -74,11 +76,18 @@ export default function Page() {
       width: 100,
       fixed: "right",
       hideInTable: !isShowAction,
+      hideInSearch: true,
     },
   ];
 
   // 表格工具栏
   const [toolRender] = useFilterElementPermission(
+    {
+      render: () => (
+        <Button onClick={() => message.warning("演示功能")}>导出</Button>
+      ),
+      permission: "export",
+    },
     {
       render: () => (
         <Button
@@ -90,12 +99,6 @@ export default function Page() {
         </Button>
       ),
       permission: "add",
-    },
-    {
-      render: () => (
-        <Button onClick={() => message.warning("演示功能")}>导出</Button>
-      ),
-      permission: "export",
     }
   );
 
@@ -135,10 +138,17 @@ export default function Page() {
         rowKey="id"
         columns={columns}
         dataSource={tableData}
-        headerTitle="部门列表"
+        title="部门列表"
+        tableTitle={(total) => `部门 ${total}`}
         loading={isLoading}
-        search={false}
         onRefresh={refetch}
+        pageActions={[
+          <Input
+            key="search"
+            placeholder="通过部门名称查询"
+            prefix={<SearchOutlined />}
+          />,
+        ]}
         toolBarRender={toolRender()}
         batchBarRender={isShowBatch ? batchRender() : undefined}
       ></ProTable>

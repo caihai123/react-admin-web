@@ -1,8 +1,8 @@
-import { Button, message, Space, Switch, Tag } from "antd";
+import { Button, message, Space, Switch, Tag, Input } from "antd";
 import { useNavigate } from "react-router-dom";
 import axios from "@/utils/axios";
 import ProTable from "@/components/ProTable";
-import { PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import { gender as genderDict, accountEnabledState } from "@/utils/dict";
 import { useGetDeptSelectQuery } from "@/store/apiSlice/dept";
 import { useFilterElementPermission } from "@/components/PermissionControl";
@@ -77,6 +77,12 @@ export default function Page() {
   const [toolRender] = useFilterElementPermission(
     {
       render: () => (
+        <Button onClick={() => message.warning("演示功能")}>导出</Button>
+      ),
+      permission: "export",
+    },
+    {
+      render: () => (
         <Button
           type="primary"
           icon={<PlusOutlined />}
@@ -86,12 +92,6 @@ export default function Page() {
         </Button>
       ),
       permission: "add",
-    },
-    {
-      render: () => (
-        <Button onClick={() => message.warning("演示功能")}>导出</Button>
-      ),
-      permission: "export",
     }
   );
 
@@ -99,6 +99,7 @@ export default function Page() {
     {
       title: "真实姓名",
       dataIndex: "name",
+      hideInSearch: true,
     },
     {
       title: "账号",
@@ -157,7 +158,8 @@ export default function Page() {
     <ProTable
       columns={columns}
       rowKey="id"
-      headerTitle="用户列表"
+      title="用户列表"
+      tableTitle={(total) => `用户 ${total}`}
       request={(params, { current, pageSize }) => {
         return axios
           .post("/api/account/page", { params, pageIndex: current, pageSize })
@@ -169,6 +171,13 @@ export default function Page() {
             };
           });
       }}
+      pageActions={[
+        <Input
+          key="search"
+          placeholder="通过真实姓名查询"
+          prefix={<SearchOutlined />}
+        />,
+      ]}
       batchBarRender={isShowBatch ? batchRender() : undefined}
       toolBarRender={toolRender()}
     />

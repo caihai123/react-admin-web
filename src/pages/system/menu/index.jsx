@@ -1,7 +1,7 @@
-import { Button, Space, Tag } from "antd";
+import { Button, Space, Tag, Input } from "antd";
 import axios from "@/utils/axios";
 import ProTable from "@/components/ProTable";
-import { PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { menuType } from "@/utils/dict";
 import PermissionControl, {
@@ -47,10 +47,12 @@ export default function Page() {
     {
       title: "名称",
       dataIndex: "title",
+      hideInSearch: true,
     },
     {
       title: "路径",
       dataIndex: "path",
+      hideInSearch: true,
     },
     {
       title: "图标",
@@ -66,6 +68,7 @@ export default function Page() {
       },
       type: "select",
       options: menuType.options,
+      hideInSearch: true,
     },
     {
       title: "按钮",
@@ -94,7 +97,8 @@ export default function Page() {
     <ProTable
       rowKey="id"
       columns={columns}
-      headerTitle="菜单列表"
+      title="菜单列表"
+      tableTitle={(total) => `菜单 ${total}`}
       request={() => {
         return axios.get("/api/get-menu-all").then((value) => {
           const { result: data } = value;
@@ -103,6 +107,13 @@ export default function Page() {
           };
         });
       }}
+      pageActions={[
+        <Input
+          key="search"
+          placeholder="通过菜单名称查询"
+          prefix={<SearchOutlined />}
+        />,
+      ]}
       toolBarRender={
         <PermissionControl permission="add">
           <Button

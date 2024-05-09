@@ -1,13 +1,14 @@
 .tools-bar {
+  height: 48px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 16px;
+  box-sizing: border-box;
 }
 
 .tools-bar .header-title {
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 500;
 }
 
 .tools-bar .tool-right {
@@ -29,11 +30,12 @@
   font-size: 16px;
   cursor: pointer;
 }
-.tools-bar .toolbar-setting .toolbar-setting-item:hover{
+.tools-bar .toolbar-setting .toolbar-setting-item:hover {
   color: #1677ff;
 }
 
 .batch-bar {
+  height: 48px;
   display: flex;
   justify-content: space-between;
   align-items: center;
