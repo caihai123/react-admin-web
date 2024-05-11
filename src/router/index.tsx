@@ -135,6 +135,16 @@ const router = createBrowserRouter(
           ),
         },
         {
+          path: "/dropdown-from",
+          element: (
+            <Auth
+              Component={lazyMarkdown(
+                () => import("@/pages/components/dropdown-from.md")
+              )}
+            />
+          ),
+        },
+        {
           path: "/issues",
           handle: { title: "意见反馈" },
           children: [
