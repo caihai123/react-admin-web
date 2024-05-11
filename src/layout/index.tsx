@@ -25,7 +25,7 @@ export default function LayoutViwe() {
     setCollapsed(screenWidth < 1200);
   };
   useEffect(() => {
-    // 为什么不使用 useDomSize? 因为useDomSize会很频繁的触发，比如页面切换的时候
+    // 为什么不使用 useDomSize? 因为 Layout 的高度经常都可能改变，比如页面切换的时候，使用 useDomSize 会很频繁的触发。
     window.addEventListener("resize", resizeEnet);
     return () => window.removeEventListener("resize", resizeEnet);
   });
