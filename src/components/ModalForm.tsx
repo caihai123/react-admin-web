@@ -1,14 +1,14 @@
 import { forwardRef, useImperativeHandle, type ReactNode } from "react";
 import { useBoolean } from "ahooks";
-import { Drawer, Form, Space, Button } from "antd";
+import { Modal, Form, Space, Button } from "antd";
 import useLoadingDelayAndKeep from "@/hooks/useLoadingDelayAndKeep";
 
-import type { DrawerProps, FormProps, FormInstance } from "antd";
+import type { ModalProps, FormProps, FormInstance } from "antd";
 
 export type Ref = {
-  /** 打开 Drawer */
+  /** 打开 Modal */
   open: () => void;
-  /** 关闭 Drawer */
+  /** 关闭 Modal */
   close: () => void;
   /** 重置表单 */
   reset: () => void;
@@ -22,9 +22,9 @@ export type Props = {
   /** 表单内容 */
   children?: ReactNode;
   /** Drawer title */
-  title?: DrawerProps["title"];
+  title?: ModalProps["title"];
   /** Drawer width */
-  width?: DrawerProps["width"];
+  width?: ModalProps["width"];
   /** 确认按钮文字 默认：确定 */
   submitText?: ReactNode;
   /** 取消按钮文字 默认：取消 */
@@ -32,70 +32,76 @@ export type Props = {
   /** 提交表单后触发的事件 */
   onFinish?: ((values: any) => void | Promise<any>) | undefined;
   /** Drawer 底部内容，当不需要默认底部按钮时，可以设为 footer={null} 默认：确定取消按钮 */
-  footer?: DrawerProps["footer"];
+  footer?: ModalProps["footer"];
   /** 表单默认值 */
   initialValues?: FormProps["initialValues"];
-  /** Drawer 其他属性 优先级较高，可能会覆盖title，width等属性 */
-  drawerProps?: DrawerProps;
+  // Modal 完全关闭后的回调
+  afterClose?: ModalProps["afterClose"];
+  /** Modal 其他属性 优先级较高，可能会覆盖title，width等属性 */
+  modalProps?: ModalProps;
   /** Form 其他属性 优先级较高，可能会覆盖onFinish，initialValues等属性 */
   formProps?: FormProps;
 };
 
 /**
- * Drawer 和 Form 的组合，方便在 Drawer 中快速创建表单
+ * Modal 和 Form 的组合，方便在 Modal 中快速创建表单
  */
-const DrawerForm = forwardRef<Ref, Props>(function (props, ref) {
+const ModalForm = forwardRef<Ref, Props>(function (props, ref) {
   const {
     title,
     width,
     submitText = "确定",
     cancelText = "取消",
     children,
-    drawerProps,
+    modalProps,
     formProps,
     onFinish,
     footer,
     initialValues,
+    afterClose,
   } = props;
 
   const [form] = Form.useForm();
-  const [open, { setTrue, setFalse }] = useBoolean(false);
+  const [open, { set: setOpen }] = useBoolean(false);
 
   const [loading, setLoading] = useLoadingDelayAndKeep(false);
 
   useImperativeHandle(ref, () => ({
-    open: () => setTrue(),
-    close: () => setFalse(),
+    open: () => setOpen(true),
+    close: () => setOpen(false),
     reset: form.resetFields,
     submit: form.submit,
     formInstance: form,
   }));
 
   return (
-    <Drawer
+    <Modal
       title={title}
       open={open}
-      onClose={() => setFalse()}
+      onCancel={() => setOpen(false)}
       width={width}
       footer={
         footer ? (
           footer
         ) : (
-          <div style={{ textAlign: "right" }}>
-            <Space>
-              <Button onClick={() => setFalse()}>{cancelText}</Button>
-              <Button
-                type="primary"
-                loading={loading}
-                onClick={() => form.submit()}
-              >
-                {submitText}
-              </Button>
-            </Space>
-          </div>
+          <Space>
+            <Button onClick={() => setOpen(false)}>{cancelText}</Button>
+            <Button
+              type="primary"
+              loading={loading}
+              onClick={() => form.submit()}
+            >
+              {submitText}
+            </Button>
+          </Space>
         )
       }
-      {...drawerProps}
+      centered={true}
+      wrapClassName="custom-modal-style"
+      maskClosable={false}
+      style={{ marginTop: "-20vh" }}
+      afterClose={afterClose}
+      {...modalProps}
     >
       <Form
         form={form}
@@ -104,7 +110,7 @@ const DrawerForm = forwardRef<Ref, Props>(function (props, ref) {
           const fnResult = onFinish?.(values);
           if (fnResult instanceof Promise) {
             setLoading.setTrue();
-            fnResult.then(() => setFalse());
+            fnResult.then(() => setOpen(false));
             fnResult.finally(() => setLoading.setFalse());
           }
         }}
@@ -114,8 +120,8 @@ const DrawerForm = forwardRef<Ref, Props>(function (props, ref) {
       >
         {children}
       </Form>
-    </Drawer>
+    </Modal>
   );
 });
 
-export default DrawerForm;
+export default ModalForm;
