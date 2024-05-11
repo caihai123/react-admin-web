@@ -2,7 +2,7 @@ import { forwardRef, useImperativeHandle, type ReactNode } from "react";
 import { useBoolean } from "ahooks";
 import { Drawer, Form, Space, Button } from "antd";
 
-import type { DrawerProps, FormProps } from "antd";
+import type { DrawerProps, FormProps, FormInstance } from "antd";
 
 export type Ref = {
   /** 打开 Drawer */
@@ -13,6 +13,8 @@ export type Ref = {
   reset: () => void;
   /** 提交表单 */
   submit: () => void;
+  /** FormInstance */
+  formInstance: FormInstance<any>;
 };
 
 export type Props = {
@@ -63,6 +65,7 @@ const DrawerForm = forwardRef<Ref, Props>(function (props, ref) {
     close: () => setFalse(),
     reset: form.resetFields,
     submit: form.submit,
+    formInstance: form,
   }));
 
   return (
