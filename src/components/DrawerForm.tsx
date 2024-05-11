@@ -1,6 +1,7 @@
 import { forwardRef, useImperativeHandle, type ReactNode } from "react";
 import { useBoolean } from "ahooks";
 import { Drawer, Form, Space, Button } from "antd";
+import useLoadingDelayAndKeep from "@/hooks/useLoadingDelayAndKeep";
 
 import type { DrawerProps, FormProps, FormInstance } from "antd";
 
@@ -60,6 +61,8 @@ const DrawerForm = forwardRef<Ref, Props>(function (props, ref) {
   const [form] = Form.useForm();
   const [open, { setTrue, setFalse }] = useBoolean(false);
 
+  const [loading, setLoading] = useLoadingDelayAndKeep(false);
+
   useImperativeHandle(ref, () => ({
     open: () => setTrue(),
     close: () => setFalse(),
@@ -81,7 +84,11 @@ const DrawerForm = forwardRef<Ref, Props>(function (props, ref) {
           <div style={{ textAlign: "right" }}>
             <Space>
               <Button onClick={() => setFalse()}>{cancelText}</Button>
-              <Button type="primary" onClick={() => form.submit()}>
+              <Button
+                type="primary"
+                loading={loading}
+                onClick={() => form.submit()}
+              >
                 {submitText}
               </Button>
             </Space>
@@ -93,9 +100,14 @@ const DrawerForm = forwardRef<Ref, Props>(function (props, ref) {
       <Form
         form={form}
         autoComplete="off"
-        onFinish={(values) =>
-          onFinish && onFinish(values)?.then(() => setFalse())
-        }
+        onFinish={(values) => {
+          const fnResult = onFinish?.(values);
+          if (fnResult instanceof Promise) {
+            setLoading.setTrue();
+            fnResult.then(() => setFalse());
+            fnResult.finally(() => setLoading.setFalse());
+          }
+        }}
         layout="vertical"
         initialValues={initialValues}
         {...formProps}
