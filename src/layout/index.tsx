@@ -1,6 +1,5 @@
-import React, { useState } from "react";
 import { Layout } from "antd";
-import { useMount } from "ahooks";
+import { useMount, useLocalStorageState } from "ahooks";
 import { useDispatch } from "react-redux";
 import { initMenu } from "@/store/menu";
 import LayContent from "./Content";
@@ -10,7 +9,10 @@ import Sider from "./Sider";
 import type { AppDispatch } from "@/store/index";
 
 export default function LayoutViwe() {
-  const [collapsed, setCollapsed] = useState(false); // 控制侧边栏展开收起
+  // 控制侧边栏展开收起
+  const [collapsed, setCollapsed] = useLocalStorageState("layout-collapsed", {
+    defaultValue: false,
+  });
 
   // 初始化菜单列表
   const dispatch = useDispatch<AppDispatch>();

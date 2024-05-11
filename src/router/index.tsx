@@ -28,25 +28,25 @@ const router = createBrowserRouter(
           element: <Auth Component={lazy(() => import("@/pages/index"))} />,
         },
         {
-          path: "/permis/menu",
+          path: "/system/menu",
           element: (
-            <Auth Component={lazy(() => import("@/pages/permis/menu"))} />
+            <Auth Component={lazy(() => import("@/pages/system/menu"))} />
           ),
         },
         {
-          path: "/permis/role",
+          path: "/system/role",
           element: (
-            <Auth Component={lazy(() => import("@/pages/permis/role"))} />
+            <Auth Component={lazy(() => import("@/pages/system/role"))} />
           ),
         },
         {
-          path: "/permis/account",
+          path: "/system/account",
           children: [
             {
               path: "",
               element: (
                 <Auth
-                  Component={lazy(() => import("@/pages/permis/account"))}
+                  Component={lazy(() => import("@/pages/system/account"))}
                 />
               ),
             },
@@ -55,7 +55,7 @@ const router = createBrowserRouter(
               element: (
                 <Auth
                   Component={lazy(
-                    () => import("@/pages/permis/account/detail")
+                    () => import("@/pages/system/account/detail")
                   )}
                 />
               ),
@@ -63,9 +63,15 @@ const router = createBrowserRouter(
           ],
         },
         {
-          path: "/permis/dept",
+          path: "/system/dept",
           element: (
-            <Auth Component={lazy(() => import("@/pages/permis/dept"))} />
+            <Auth Component={lazy(() => import("@/pages/system/dept"))} />
+          ),
+        },
+        {
+          path: "/system/file",
+          element: (
+            <Auth Component={lazy(() => import("@/pages/system/file"))} />
           ),
         },
         {
@@ -83,7 +89,33 @@ const router = createBrowserRouter(
           ),
         },
         {
-          path: "mackdown",
+          path: "/use-dom-size",
+          element: (
+            <Auth
+              Component={lazyMarkdown(
+                () => import("@/pages/hooks/use-dom-size.md")
+              )}
+            />
+          ),
+        },
+        {
+          path: "/use-content-overflow",
+          element: (
+            <Auth
+              Component={lazyMarkdown(
+                () => import("@/pages/hooks/use-content-overflow.md")
+              )}
+            />
+          ),
+        },
+        {
+          path: "/dict",
+          element: (
+            <Auth Component={lazyMarkdown(() => import("@/pages/dict.md"))} />
+          ),
+        },
+        {
+          path: "/mackdown",
           element: (
             <Auth
               Component={lazyMarkdown(
@@ -93,12 +125,14 @@ const router = createBrowserRouter(
           ),
         },
         {
-          path: "/error/404",
-          element: <Auth Component={lazy(() => import("@/pages/404"))} />,
-        },
-        {
-          path: "/error/401",
-          element: <Auth Component={lazy(() => import("@/pages/401"))} />,
+          path: "/permission-control",
+          element: (
+            <Auth
+              Component={lazyMarkdown(
+                () => import("@/pages/components/permission-control.md")
+              )}
+            />
+          ),
         },
         {
           path: "/issues",
@@ -114,6 +148,36 @@ const router = createBrowserRouter(
               handle: { title: "新增Issues" },
             },
           ],
+        },
+        {
+          path: "/account",
+          handle: { title: "个人中心" },
+          Component: lazy(() => import("@/pages/account/layout")),
+          children: [
+            { path: "", element: <Navigate to="/account/center" replace /> },
+            {
+              path: "center",
+              Component: lazy(() => import("@/pages/account/index")),
+            },
+            {
+              path: "settings",
+              handle: { title: "个人设置" },
+              Component: lazy(() => import("@/pages/account/settings")),
+            },
+            {
+              path: "update-password",
+              handle: { title: "修改密码" },
+              Component: lazy(() => import("@/pages/account/update-password")),
+            },
+          ],
+        },
+        {
+          path: "/error/404",
+          element: <Auth Component={lazy(() => import("@/pages/404"))} />,
+        },
+        {
+          path: "/error/401",
+          element: <Auth Component={lazy(() => import("@/pages/401"))} />,
         },
         {
           path: "/*",

@@ -11,6 +11,7 @@ export type Menu = {
   type: (typeof menuType.options)[number]["value"];
   icon: string;
   children?: Menu[];
+  buttonList?: { id: string; name: string }[];
 };
 
 export const getMenuAll: () => AxiosResultPromise<Array<Menu>> = () =>
