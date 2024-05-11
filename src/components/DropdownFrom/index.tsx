@@ -64,6 +64,7 @@ const DropdownForm = forwardRef<Ref, Props>(function (props, ref) {
           paddingRight: visible ? "0" : toolsWidth,
         }}
         form={form}
+        autoComplete="off"
         {...rest}
       >
         {children}
