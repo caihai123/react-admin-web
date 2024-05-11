@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Layout } from "antd";
 import { useMount, useLocalStorageState } from "ahooks";
 import { useDispatch } from "react-redux";
@@ -17,6 +18,17 @@ export default function LayoutViwe() {
   // 初始化菜单列表
   const dispatch = useDispatch<AppDispatch>();
   useMount(() => dispatch(initMenu()));
+
+  // 根据屏幕宽度自动设置菜单栏展开状态
+  const resizeEnet = () => {
+    const screenWidth = document.body.clientWidth;
+    setCollapsed(screenWidth < 1200);
+  };
+  useEffect(() => {
+    // 为什么不使用 useDomSize? 因为useDomSize会很频繁的触发，比如页面切换的时候
+    window.addEventListener("resize", resizeEnet);
+    return () => window.removeEventListener("resize", resizeEnet);
+  });
 
   return (
     <Layout style={{ minHeight: "100vh", flexDirection: "row" }}>
