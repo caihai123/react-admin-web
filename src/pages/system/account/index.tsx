@@ -5,12 +5,97 @@ import ProTable from "@/components/ProTable";
 import { PlusOutlined } from "@ant-design/icons";
 import { gender as genderDict, accountEnabledState } from "@/utils/dict";
 import { useGetDeptSelectQuery } from "@/store/api-slice/dept";
+import { useFilterElementPermission } from "@/components/PermissionControl";
 
 import type { ProTableProps } from "@/components/ProTable";
 
 export default function Page() {
   const { data: depeOptions } = useGetDeptSelectQuery();
   const navigate = useNavigate();
+
+  // 表格的操作栏
+  const [actionRender, isShowAction] = useFilterElementPermission(
+    {
+      render: (row) => (
+        <Button
+          type="primary"
+          size="small"
+          onClick={() => navigate("/permis/account/detail")}
+        >
+          详情
+        </Button>
+      ),
+      permission: "details",
+    },
+    {
+      render: (row) => (
+        <Button type="primary" ghost size="small">
+          编辑
+        </Button>
+      ),
+      permission: "edit",
+    },
+    {
+      render: (row) => (
+        <Button type="primary" size="small" style={{ background: "#e6a23c" }}>
+          授权
+        </Button>
+      ),
+      permission: "accredit",
+    },
+    {
+      render: (row) => (
+        <Button type="primary" danger size="small">
+          删除
+        </Button>
+      ),
+      permission: "del",
+    }
+  );
+
+  // 表格的批量操作栏
+  const [batchRender, isShowBatch] = useFilterElementPermission(
+    {
+      render: () => (
+        <Button
+          type="primary"
+          danger
+          onClick={() => message.warning("演示功能")}
+        >
+          批量删除
+        </Button>
+      ),
+      permission: "del",
+    },
+    {
+      render: () => (
+        <Button onClick={() => message.warning("演示功能")}>导出数据</Button>
+      ),
+      permission: "export",
+    }
+  );
+
+  // 表格工具栏
+  const [toolRender] = useFilterElementPermission(
+    {
+      render: () => (
+        <Button
+          type="primary"
+          icon={<PlusOutlined />}
+          onClick={() => message.warning("演示功能")}
+        >
+          新增
+        </Button>
+      ),
+      permission: "add",
+    },
+    {
+      render: () => (
+        <Button onClick={() => message.warning("演示功能")}>导出</Button>
+      ),
+      permission: "export",
+    }
+  );
 
   const columns: ProTableProps["columns"] = [
     {
@@ -62,29 +147,11 @@ export default function Page() {
     {
       title: "操作",
       key: "action",
-      render: (row) => (
-        <Space>
-          <Button
-            type="primary"
-            size="small"
-            onClick={() => navigate("/permis/account/detail")}
-          >
-            详情
-          </Button>
-          <Button type="primary" ghost size="small">
-            编辑
-          </Button>
-          <Button type="primary" size="small" style={{ background: "#e6a23c" }}>
-            授权
-          </Button>
-          <Button type="primary" danger size="small">
-            删除
-          </Button>
-        </Space>
-      ),
+      render: (row) => <Space>{actionRender(row)}</Space>,
       width: 100,
       fixed: "right",
       hideInSearch: true,
+      hideInTable: !isShowAction,
     },
   ];
 
@@ -104,32 +171,8 @@ export default function Page() {
             };
           });
       }}
-      batchBarRender={[
-        <Button
-          type="primary"
-          key="del"
-          danger
-          onClick={() => message.warning("演示功能")}
-        >
-          批量删除
-        </Button>,
-        <Button key="export" onClick={() => message.warning("演示功能")}>
-          导出数据
-        </Button>,
-      ]}
-      toolBarRender={[
-        <Button
-          key="add"
-          type="primary"
-          icon={<PlusOutlined />}
-          onClick={() => message.warning("演示功能")}
-        >
-          新增
-        </Button>,
-        <Button key="export" onClick={() => message.warning("演示功能")}>
-          导出
-        </Button>,
-      ]}
+      toolBarRender={toolRender()}
+      batchBarRender={isShowBatch ? batchRender() : undefined}
     />
   );
 }
