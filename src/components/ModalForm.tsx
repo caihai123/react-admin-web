@@ -1,8 +1,10 @@
-import { forwardRef, useImperativeHandle, type ReactNode } from "react";
+import { forwardRef, useImperativeHandle, useRef } from "react";
 import { useBoolean } from "ahooks";
 import { Modal, Form, Space, Button } from "antd";
 import useLoadingDelayAndKeep from "@/hooks/useLoadingDelayAndKeep";
+import createCompoundedComponent from "./utils/createCompoundedComponent";
 
+import type { ReactNode, RefObject, ReactElement } from "react";
 import type { ModalProps, FormProps, FormInstance } from "antd";
 
 export type Ref = {
@@ -124,4 +126,15 @@ const ModalForm = forwardRef<Ref, Props>(function (props, ref) {
   );
 });
 
-export default ModalForm;
+// 可以稍微减少使用时的代码量
+const useModal: (props: Props) => [RefObject<Ref>, ReactElement] = function (
+  props: Props
+) {
+  const ref = useRef<Ref>(null);
+
+  return [ref, <ModalForm ref={ref} {...props} />];
+};
+
+export default createCompoundedComponent(ModalForm, {
+  useModal,
+});

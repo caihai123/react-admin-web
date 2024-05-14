@@ -1,8 +1,10 @@
-import { forwardRef, useImperativeHandle, type ReactNode } from "react";
+import { forwardRef, useImperativeHandle, useRef } from "react";
 import { useBoolean } from "ahooks";
 import { Drawer, Form, Space, Button } from "antd";
 import useLoadingDelayAndKeep from "@/hooks/useLoadingDelayAndKeep";
+import createCompoundedComponent from "./utils/createCompoundedComponent";
 
+import type { ReactNode, RefObject, ReactElement } from "react";
 import type { DrawerProps, FormProps, FormInstance } from "antd";
 
 export type Ref = {
@@ -118,4 +120,15 @@ const DrawerForm = forwardRef<Ref, Props>(function (props, ref) {
   );
 });
 
-export default DrawerForm;
+// 可以稍微减少使用时的代码量
+const useDrawer: (props: Props) => [RefObject<Ref>, ReactElement] = function (
+  props: Props
+) {
+  const ref = useRef<Ref>(null);
+
+  return [ref, <DrawerForm ref={ref} {...props} />];
+};
+
+export default createCompoundedComponent(DrawerForm, {
+  useDrawer,
+});

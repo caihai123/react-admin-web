@@ -12,19 +12,26 @@ import PermissionControl, {
 
 import type { ProTableProps, Ref } from "@/components/ProTable";
 import type { Role } from "@/api/role";
-import type { Ref as AddOrEditRef } from "./AddOrEdit";
 
 export default function Page() {
   const { message } = App.useApp();
 
   const tableRef = useRef<Ref>(null);
-  const addOrEditRef = useRef<AddOrEditRef>(null);
+
+  const [addOrEditRef, contextHolder] = AddOrEdit.useModal({
+    callback: (pageIndex) => tableRef.current?.refresh(pageIndex),
+  });
 
   // 表格的操作栏
   const [actionRender, isShowAction] = useFilterElementPermission(
     {
       render: (row) => (
-        <Button type="primary" ghost size="small">
+        <Button
+          type="primary"
+          ghost
+          size="small"
+          onClick={() => addOrEditRef.current?.editStart(row)}
+        >
           编辑
         </Button>
       ),
@@ -121,10 +128,7 @@ export default function Page() {
         )}
       />
 
-      <AddOrEdit
-        ref={addOrEditRef}
-        callback={(pageIndex) => tableRef.current?.refresh(pageIndex)}
-      />
+      {contextHolder}
     </>
   );
 }
