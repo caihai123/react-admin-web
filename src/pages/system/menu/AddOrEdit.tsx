@@ -11,7 +11,7 @@ import { menuType } from "@/utils/dict";
 import type { Menu } from "@/api/menu";
 
 export type Props = {
-  callback: () => void;
+  callback: (isAdd: boolean) => void;
   menuTreeAll: Menu[];
 };
 export type Ref = {
@@ -58,7 +58,7 @@ const AddOrEdit = React.forwardRef<Ref, Props>((props, ref) => {
         const params = id ? { id, ...values } : values;
         return axios.post(apiUrl, params).then(() => {
           message.success(successMsg);
-          props.callback();
+          props.callback(!id);
         });
       }}
     >

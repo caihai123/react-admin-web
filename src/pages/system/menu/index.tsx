@@ -11,13 +11,17 @@ import AddOrEdit from "./AddOrEdit";
 import { useRequest } from "ahooks";
 import { treeFilter } from "@/utils/utils";
 
-import type { ProTableProps, Ref } from "@/components/ProTable";
+import type { ProTableProps } from "@/components/ProTable";
 import type { Menu } from "@/api/menu";
 
 export default function Page() {
   const { modal, message } = App.useApp();
 
-  const { data: tableData, loading } = useRequest(async () => {
+  const {
+    data: tableData,
+    loading,
+    refresh,
+  } = useRequest(async () => {
     const response = await getMenuAll();
     return response.result;
   });
@@ -32,12 +36,13 @@ export default function Page() {
   }, [tableData, filterVal]);
   // 根据菜单名称过滤列表 end
 
-  const tableRef = React.useRef<Ref>(null);
-
   // 新增或者编辑弹窗
   const [addOrEditRef, contextHolder] = AddOrEdit.useModal({
     menuTreeAll: tableData as Menu[],
-    callback: () => tableRef.current?.refresh(),
+    callback: (isAdd) => {
+      refresh();
+      isAdd && setFilterVal(undefined);
+    },
   });
 
   // 表格的操作栏
@@ -173,6 +178,7 @@ export default function Page() {
         toolBarRender={
           <Space>
             <Input
+              value={filterVal}
               prefix={<SearchOutlined />}
               placeholder="输入菜单名称查询"
               style={{ width: 200 }}
