@@ -103,8 +103,9 @@ const ModalForm = forwardRef<Ref, Props>(function (props, ref) {
           const fnResult = onFinish?.(values);
           if (fnResult instanceof Promise) {
             setLoading.setTrue();
-            fnResult.then(() => setOpen(false));
-            fnResult.finally(() => setLoading.setFalse());
+            fnResult
+              .then(() => setOpen(false))
+              .finally(() => setLoading.setFalse());
           }
         }}
         layout="vertical"

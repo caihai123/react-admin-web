@@ -98,8 +98,9 @@ const DrawerForm = forwardRef<Ref, Props>(function (props, ref) {
           const fnResult = onFinish?.(values);
           if (fnResult instanceof Promise) {
             setLoading.setTrue();
-            fnResult.then(() => setFalse());
-            fnResult.finally(() => setLoading.setFalse());
+            fnResult
+              .then(() => setFalse())
+              .finally(() => setLoading.setFalse());
           }
         }}
         layout="vertical"
