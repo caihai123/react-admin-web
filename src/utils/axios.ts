@@ -1,5 +1,5 @@
 import axios from "axios";
-import { message } from "antd";
+import { message } from "@/App";
 import router from "@/router";
 
 export type AxiosResultPromise<Result extends any> = Promise<{
