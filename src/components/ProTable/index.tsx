@@ -80,6 +80,8 @@ export type ProTableProps<RecordType = any> = {
   onSubmit?: (params: any) => void;
   /** 重置表单时触发 */
   onReset?: (params: any) => void;
+
+  footer?: TableProps["footer"];
 };
 
 export type TableSize = TableProps["size"];
@@ -368,6 +370,7 @@ const ProTable = forwardRef<Ref, ProTableProps>(function (props, ref) {
             size={tableSize}
             bordered
             scroll={{ x: "max-content" }}
+            footer={props.footer}
           ></Table>
         </div>
       </Card>
