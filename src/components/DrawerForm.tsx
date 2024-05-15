@@ -5,19 +5,13 @@ import useLoadingDelayAndKeep from "@/hooks/useLoadingDelayAndKeep";
 import createCompoundedComponent from "./utils/createCompoundedComponent";
 
 import type { ReactNode, RefObject, ReactElement } from "react";
-import type { DrawerProps, FormProps, FormInstance } from "antd";
+import type { DrawerProps, FormProps } from "antd";
 
 export type Ref = {
   /** 打开 Drawer */
   open: () => void;
   /** 关闭 Drawer */
   close: () => void;
-  /** 重置表单 */
-  reset: () => void;
-  /** 提交表单 */
-  submit: () => void;
-  /** FormInstance */
-  formInstance: FormInstance<any>;
 };
 
 export type Props = {
@@ -37,6 +31,7 @@ export type Props = {
   footer?: DrawerProps["footer"];
   /** 表单默认值 */
   initialValues?: FormProps["initialValues"];
+  form: FormProps["form"];
   /** Drawer 其他属性 优先级较高，可能会覆盖title，width等属性 */
   drawerProps?: DrawerProps;
   /** Form 其他属性 优先级较高，可能会覆盖onFinish，initialValues等属性 */
@@ -58,9 +53,9 @@ const DrawerForm = forwardRef<Ref, Props>(function (props, ref) {
     onFinish,
     footer,
     initialValues,
+    form,
   } = props;
 
-  const [form] = Form.useForm();
   const [open, { setTrue, setFalse }] = useBoolean(false);
 
   const [loading, setLoading] = useLoadingDelayAndKeep(false);
@@ -68,9 +63,6 @@ const DrawerForm = forwardRef<Ref, Props>(function (props, ref) {
   useImperativeHandle(ref, () => ({
     open: () => setTrue(),
     close: () => setFalse(),
-    reset: form.resetFields,
-    submit: form.submit,
-    formInstance: form,
   }));
 
   return (
@@ -89,7 +81,7 @@ const DrawerForm = forwardRef<Ref, Props>(function (props, ref) {
               <Button
                 type="primary"
                 loading={loading}
-                onClick={() => form.submit()}
+                onClick={() => form?.submit()}
               >
                 {submitText}
               </Button>
@@ -120,15 +112,16 @@ const DrawerForm = forwardRef<Ref, Props>(function (props, ref) {
   );
 });
 
-// 可以稍微减少使用时的代码量
-const useDrawer: (props: Props) => [RefObject<Ref>, ReactElement] = function (
-  props: Props
-) {
+// 帮你创建 ref 和 form，可以稍微减少使用时的代码量
+const useModal: (
+  props: Omit<Props, "form">
+) => [RefObject<Ref>, FormProps["form"], ReactElement] = function (props) {
   const ref = useRef<Ref>(null);
+  const [form] = Form.useForm();
 
-  return [ref, <DrawerForm ref={ref} {...props} />];
+  return [ref, form, <DrawerForm ref={ref} form={form} {...props} />];
 };
 
 export default createCompoundedComponent(DrawerForm, {
-  useDrawer,
+  useModal,
 });

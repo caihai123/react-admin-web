@@ -5,19 +5,13 @@ import useLoadingDelayAndKeep from "@/hooks/useLoadingDelayAndKeep";
 import createCompoundedComponent from "./utils/createCompoundedComponent";
 
 import type { ReactNode, RefObject, ReactElement } from "react";
-import type { ModalProps, FormProps, FormInstance } from "antd";
+import type { ModalProps, FormProps } from "antd";
 
 export type Ref = {
   /** 打开 Modal */
   open: () => void;
   /** 关闭 Modal */
   close: () => void;
-  /** 重置表单 */
-  reset: () => void;
-  /** 提交表单 */
-  submit: () => void;
-  /** FormInstance */
-  formInstance: FormInstance<any>;
 };
 
 export type Props = {
@@ -37,6 +31,7 @@ export type Props = {
   footer?: ModalProps["footer"];
   /** 表单默认值 */
   initialValues?: FormProps["initialValues"];
+  form: FormProps["form"];
   // Modal 完全关闭后的回调
   afterClose?: ModalProps["afterClose"];
   /** Modal 其他属性 优先级较高，可能会覆盖title，width等属性 */
@@ -63,7 +58,6 @@ const ModalForm = forwardRef<Ref, Props>(function (props, ref) {
     afterClose,
   } = props;
 
-  const [form] = Form.useForm();
   const [open, { set: setOpen }] = useBoolean(false);
 
   const [loading, setLoading] = useLoadingDelayAndKeep(false);
@@ -71,9 +65,6 @@ const ModalForm = forwardRef<Ref, Props>(function (props, ref) {
   useImperativeHandle(ref, () => ({
     open: () => setOpen(true),
     close: () => setOpen(false),
-    reset: form.resetFields,
-    submit: form.submit,
-    formInstance: form,
   }));
 
   return (
@@ -91,7 +82,7 @@ const ModalForm = forwardRef<Ref, Props>(function (props, ref) {
             <Button
               type="primary"
               loading={loading}
-              onClick={() => form.submit()}
+              onClick={() => props.form?.submit()}
             >
               {submitText}
             </Button>
@@ -101,12 +92,12 @@ const ModalForm = forwardRef<Ref, Props>(function (props, ref) {
       centered={true}
       wrapClassName="custom-modal-style"
       maskClosable={false}
-      style={{ marginTop: "-20vh" }}
+      // style={{ marginTop: "-20vh" }}
       afterClose={afterClose}
       {...modalProps}
     >
       <Form
-        form={form}
+        form={props.form}
         autoComplete="off"
         onFinish={(values) => {
           const fnResult = onFinish?.(values);
@@ -126,13 +117,14 @@ const ModalForm = forwardRef<Ref, Props>(function (props, ref) {
   );
 });
 
-// 可以稍微减少使用时的代码量
-const useModal: (props: Props) => [RefObject<Ref>, ReactElement] = function (
-  props: Props
-) {
+// 帮你创建 ref 和 form，可以稍微减少使用时的代码量
+const useModal: (
+  props: Omit<Props, "form">
+) => [RefObject<Ref>, FormProps["form"], ReactElement] = function (props) {
   const ref = useRef<Ref>(null);
+  const [form] = Form.useForm();
 
-  return [ref, <ModalForm ref={ref} {...props} />];
+  return [ref, form, <ModalForm ref={ref} form={form} {...props} />];
 };
 
 export default createCompoundedComponent(ModalForm, {
