@@ -15,4 +15,4 @@ export type Menu = {
 };
 
 export const getMenuAll: () => AxiosResultPromise<Array<Menu>> = () =>
-  axios.get("/api/get-menu-all");
+  axios.get("/api/menu/all");

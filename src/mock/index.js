@@ -6,12 +6,21 @@ import account from "./system/account";
 import dept from "./system/dept";
 import issues from "./issues";
 import file from "./system/file";
+import menu from "./system/menu";
 
 Mock.setup({
   timeout: "50-1000",
 });
 
-const mock = [...login, ...role, ...account, ...dept, ...issues, ...file];
+const mock = [
+  ...login,
+  ...menu,
+  ...dept,
+  ...role,
+  ...account,
+  ...issues,
+  ...file,
+];
 
 mock.forEach(({ url, type, handler }) => {
   Mock.mock(url, type, function (...params) {

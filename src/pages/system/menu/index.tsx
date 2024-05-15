@@ -1,4 +1,5 @@
-import { Button, Space, Tag, message } from "antd";
+import React, { useState } from "react";
+import { Button, Space, Tag } from "antd";
 import ProTable from "@/components/ProTable";
 import { PlusOutlined } from "@ant-design/icons";
 import { menuType } from "@/utils/dict";
@@ -6,16 +7,31 @@ import { getMenuAll } from "@/api/menu";
 import PermissionControl, {
   useFilterElementPermission,
 } from "@/components/PermissionControl";
+import AddOrEdit from "./AddOrEdit";
 
-import type { ProTableProps } from "@/components/ProTable";
+import type { ProTableProps, Ref } from "@/components/ProTable";
 import type { Menu } from "@/api/menu";
 
 export default function Page() {
+  const tableRef = React.useRef<Ref>(null);
+
+  const [menuTreeAll, setMenuTreeAll] = useState<Menu[]>([]);
+
+  const [addOrEditRef, contextHolder] = AddOrEdit.useModal({
+    menuTreeAll,
+    callback: () => tableRef.current?.refresh(),
+  });
+
   // 表格的操作栏
   const [actionRender, isShowAction] = useFilterElementPermission(
     {
       render: (row) => (
-        <Button type="primary" ghost size="small">
+        <Button
+          type="primary"
+          ghost
+          size="small"
+          onClick={() => addOrEditRef.current?.editStart(row)}
+        >
           编辑
         </Button>
       ),
@@ -23,7 +39,11 @@ export default function Page() {
     },
     {
       render: (row) => (
-        <Button type="primary" size="small">
+        <Button
+          type="primary"
+          size="small"
+          onClick={() => addOrEditRef.current?.addStart(row.id)}
+        >
           新增下级
         </Button>
       ),
@@ -86,27 +106,33 @@ export default function Page() {
   ];
 
   return (
-    <ProTable
-      rowKey="id"
-      columns={columns}
-      headerTitle="菜单列表"
-      request={async () => {
-        const value = await getMenuAll();
-        const { result: data } = value;
-        return { list: data };
-      }}
-      toolBarRender={
-        <PermissionControl permission="add">
-          <Button
-            type="primary"
-            icon={<PlusOutlined />}
-            onClick={() => message.warning("演示功能")}
-          >
-            新增
-          </Button>
-        </PermissionControl>
-      }
-      pagination={false}
-    ></ProTable>
+    <>
+      <ProTable
+        ref={tableRef}
+        rowKey="id"
+        search={false}
+        columns={columns}
+        headerTitle="菜单列表"
+        request={async () => {
+          const value = await getMenuAll();
+          const { result: data } = value;
+          setMenuTreeAll(data);
+          return { list: data };
+        }}
+        toolBarRender={
+          <PermissionControl permission="add">
+            <Button
+              type="primary"
+              icon={<PlusOutlined />}
+              onClick={() => addOrEditRef.current?.addStart()}
+            >
+              新增
+            </Button>
+          </PermissionControl>
+        }
+        pagination={false}
+      ></ProTable>
+      {contextHolder}
+    </>
   );
 }
