@@ -9,7 +9,7 @@ import PermissionControl, {
 } from "@/components/PermissionControl";
 import AddOrEdit from "./AddOrEdit";
 import { useRequest } from "ahooks";
-import { treeFilter, treeMap } from "@/utils/utils";
+import { treeFilter } from "@/utils/utils";
 
 import type { ProTableProps, Ref } from "@/components/ProTable";
 import type { Menu } from "@/api/menu";
@@ -23,41 +23,13 @@ export default function Page() {
   });
 
   // 根据菜单名称过滤列表 Start
-  const {
-    token: { colorError },
-  } = theme.useToken();
-
-  const highlightSubstring = React.useCallback(
-    function (text: string, keyword: string): string {
-      if (!keyword) {
-        return text; // 如果 keyword 为空，直接返回原字符串
-      }
-
-      // 使用正则表达式查找所有匹配的子字符串，并用 <span> 标签包裹
-      const regex = new RegExp(`(${keyword})`, "gi"); // 'gi' 表示全局和不区分大小写
-      return text.replace(regex, `<span style="color:${colorError}">$1</span>`);
-    },
-    [colorError]
-  );
-
   const [filterVal, setFilterVal] = React.useState<string>();
   const FilteredTableData = React.useMemo(() => {
     if (!filterVal) return tableData;
-
-    return treeMap(
-      treeFilter(tableData, (item) =>
-        item.title.toLowerCase().includes(filterVal.toLowerCase())
-      ),
-      (node) => {
-        const { title, ...rest } = node;
-        return {
-          title: highlightSubstring(title, filterVal),
-          ...rest,
-        };
-      }
+    return treeFilter(tableData, (item) =>
+      item.title.toLowerCase().includes(filterVal.toLowerCase())
     );
-  }, [tableData, filterVal, highlightSubstring]);
-
+  }, [tableData, filterVal]);
   // 根据菜单名称过滤列表 end
 
   const tableRef = React.useRef<Ref>(null);
@@ -119,11 +91,34 @@ export default function Page() {
     }
   );
 
+  const {
+    token: { colorError },
+  } = theme.useToken();
+
+  const highlightSubstring = React.useCallback(
+    function (text: string, keyword: string): string {
+      if (!keyword) {
+        return text; // 如果 keyword 为空，直接返回原字符串
+      }
+
+      // 使用正则表达式查找所有匹配的子字符串，并用 <span> 标签包裹
+      const regex = new RegExp(`(${keyword})`, "gi"); // 'gi' 表示全局和不区分大小写
+      return text.replace(regex, `<span style="color:${colorError}">$1</span>`);
+    },
+    [colorError]
+  );
+
   const columns: ProTableProps<Menu>["columns"] = [
     {
       title: "名称",
       dataIndex: "title",
-      render: (title) => <div dangerouslySetInnerHTML={{ __html: title }} />,
+      render: (title) => (
+        <div
+          dangerouslySetInnerHTML={{
+            __html: highlightSubstring(title, filterVal || ""),
+          }}
+        />
+      ),
       width: 300,
     },
     {
@@ -170,7 +165,6 @@ export default function Page() {
   return (
     <>
       <ProTable
-        ref={tableRef}
         rowKey="id"
         dataSource={FilteredTableData}
         search={false}
