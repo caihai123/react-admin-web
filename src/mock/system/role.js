@@ -41,7 +41,7 @@ const mock = [
     },
   },
   {
-    // 更新角色状态
+    // 新增角色
     url: "/api/role/add",
     type: "post",
     handler() {
@@ -55,7 +55,7 @@ const mock = [
     },
   },
   {
-    // 更新角色状态
+    // 更新角色
     url: "/api/role/update",
     type: "post",
     handler() {
