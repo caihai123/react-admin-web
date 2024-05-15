@@ -1,10 +1,17 @@
 import { FC, Suspense } from "react";
 import { RouterProvider } from "react-router-dom";
-import { ConfigProvider, App as AntdApp, theme } from "antd";
+import {
+  ConfigProvider,
+  App as AntdApp,
+  theme,
+  message as messageAnt,
+} from "antd";
 import zhCN from "antd/locale/zh_CN";
 import router from "@/router";
 import { selectTheme } from "@/store/system";
 import { useSelector } from "react-redux";
+
+import type { MessageInstance } from "antd/es/message/interface";
 
 // antd 的 DatePicker 国际化失效，官网说是因为我项目中同时存在两个dayjs，也确实是这样，ahooks中也有dayjs
 // 我这样加载中文包之后就好了，我猜测应该是antd设置dayjs.locale的时候没有找到正确的中文包
@@ -15,10 +22,17 @@ const validateMessages = {
   required: "${label}是必选字段",
 };
 
+// eslint-disable-next-line import/no-mutable-exports
+let message: MessageInstance;
+
 const App: FC = function () {
   const themeName = useSelector(selectTheme);
 
   const isLight = themeName !== "dark";
+
+  const [messageApi, contextHolder] = messageAnt.useMessage();
+
+  message = messageApi;
 
   return (
     <ConfigProvider
@@ -44,9 +58,12 @@ const App: FC = function () {
         <Suspense>
           <RouterProvider router={router} />
         </Suspense>
+        {contextHolder}
       </AntdApp>
     </ConfigProvider>
   );
 };
+
+export { message };
 
 export default App;
