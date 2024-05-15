@@ -40,7 +40,7 @@ export const menu = createSlice({
 
 // 初始化菜单列表
 export const initMenu = createAsyncThunk("menu/initMenu", async () => {
-  const response = await axios.get("/api/get-menu-all");
+  const response = await axios.get("/api/menu/all");
   return response.result;
 });
 
