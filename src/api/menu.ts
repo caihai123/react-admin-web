@@ -16,3 +16,7 @@ export type Menu = {
 
 export const getMenuAll: () => AxiosResultPromise<Array<Menu>> = () =>
   axios.get("/api/menu/all");
+
+export const removeMenu: (id: string) => AxiosResultPromise<Array<Menu>> = (
+  id
+) => axios.post("/api/menu/remove", { id });

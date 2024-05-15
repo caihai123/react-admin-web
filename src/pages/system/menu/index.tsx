@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { Button, Space, Tag } from "antd";
+import { Button, Space, Tag, App } from "antd";
 import ProTable from "@/components/ProTable";
 import { PlusOutlined } from "@ant-design/icons";
 import { menuType } from "@/utils/dict";
-import { getMenuAll } from "@/api/menu";
+import { getMenuAll, removeMenu } from "@/api/menu";
 import PermissionControl, {
   useFilterElementPermission,
 } from "@/components/PermissionControl";
@@ -13,6 +13,8 @@ import type { ProTableProps, Ref } from "@/components/ProTable";
 import type { Menu } from "@/api/menu";
 
 export default function Page() {
+  const { modal, message } = App.useApp();
+
   const tableRef = React.useRef<Ref>(null);
 
   const [menuTreeAll, setMenuTreeAll] = useState<Menu[]>([]);
@@ -51,7 +53,21 @@ export default function Page() {
     },
     {
       render: (row) => (
-        <Button type="primary" danger size="small">
+        <Button
+          type="primary"
+          danger
+          size="small"
+          onClick={() =>
+            modal.confirm({
+              title: "提示",
+              content: "确定要删除此菜单及其子菜单吗？",
+              okType: "danger",
+              onOk: () =>
+                removeMenu(row.id).then(() => message.success("删除成功！")),
+              centered: true,
+            })
+          }
+        >
           删除
         </Button>
       ),
