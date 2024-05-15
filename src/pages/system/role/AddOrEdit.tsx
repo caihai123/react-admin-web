@@ -22,19 +22,19 @@ const AddOrEdit = React.forwardRef<Ref, Props>((props, ref) => {
     const apiUrl = id ? "/api/role/update" : "/api/role/add";
     const successMsg = id ? "更新成功！" : "新增成功！";
     const params = id ? { id, ...data } : data;
-    const callback = () => props.callback?.(id ? undefined : 1);
+    const callback = () => props.callback(id ? undefined : 1);
     return axios.post(apiUrl, params).then(() => {
       message.success(successMsg);
       callback();
     });
   };
 
-  const [modalFormRef, contextHolder] = ModalForm.useModal({
+  const [modalFormRef, formInstance, contextHolder] = ModalForm.useModal({
     title: id ? "编辑" : "新增",
     width: 600,
     afterClose: () => {
       setId("");
-      modalFormRef.current?.formInstance.resetFields();
+      formInstance?.resetFields();
     },
     onFinish: onSubmit,
     children: (
@@ -57,7 +57,7 @@ const AddOrEdit = React.forwardRef<Ref, Props>((props, ref) => {
     addStart: () => modalFormRef.current?.open(),
     editStart: (row) => {
       setId(row.id);
-      modalFormRef.current?.formInstance.setFieldsValue(row);
+      formInstance?.setFieldsValue(row);
       modalFormRef.current?.open();
     },
   }));
