@@ -5,7 +5,7 @@ import ProTable from "@/components/ProTable";
 import OptimisticSwitch from "@/components/OptimisticSwitch";
 import AddOrEdit from "./AddOrEdit";
 import { roleEnabledState } from "@/utils/dict";
-import { getRoleList, updateRoleStatusById } from "@/api/role";
+import { getRoleList, updateRoleStatusById, removeRole } from "@/api/role";
 import PermissionControl, {
   useFilterElementPermission,
 } from "@/components/PermissionControl";
@@ -14,7 +14,7 @@ import type { ProTableProps, Ref } from "@/components/ProTable";
 import type { Role } from "@/api/role";
 
 export default function Page() {
-  const { message } = App.useApp();
+  const { modal, message } = App.useApp();
 
   const tableRef = useRef<Ref>(null);
 
@@ -47,7 +47,21 @@ export default function Page() {
     },
     {
       render: (row) => (
-        <Button type="primary" danger size="small">
+        <Button
+          type="primary"
+          danger
+          size="small"
+          onClick={() =>
+            modal.confirm({
+              title: "提示",
+              content: "确定要删除此角色吗？",
+              okType: "danger",
+              onOk: () =>
+                removeRole(row.id).then(() => message.success("删除成功！")),
+              centered: true,
+            })
+          }
+        >
           删除
         </Button>
       ),
