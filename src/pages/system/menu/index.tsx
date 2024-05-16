@@ -27,8 +27,9 @@ export default function Page() {
   });
 
   // 根据菜单名称过滤列表 Start
-  const [filterVal, setFilterVal] = React.useState<string>();
-  const FilteredTableData = React.useMemo(() => {
+  const [realVal, setRealVal] = React.useState<string>(); // 输入框实时value
+  const [filterVal, setFilterVal] = React.useState<string>(); // 按下回车后保存realVal
+  const filteredTableData = React.useMemo(() => {
     if (!filterVal) return tableData;
     return treeFilter(tableData, (item) =>
       item.title.toLowerCase().includes(filterVal.toLowerCase())
@@ -41,7 +42,11 @@ export default function Page() {
     menuTreeAll: tableData as Menu[],
     callback: (isAdd) => {
       refresh();
-      isAdd && setFilterVal(undefined);
+      if (isAdd) {
+        // 新增后清除搜索条件
+        setFilterVal(undefined);
+        setRealVal(undefined);
+      }
     },
   });
 
@@ -171,21 +176,19 @@ export default function Page() {
     <>
       <ProTable
         rowKey="id"
-        dataSource={FilteredTableData}
+        dataSource={filteredTableData}
         search={false}
         columns={columns}
         headerTitle="菜单列表"
         toolBarRender={
           <Space>
             <Input
-              value={filterVal}
+              value={realVal}
               prefix={<SearchOutlined />}
               placeholder="输入菜单名称查询"
               style={{ width: 200 }}
-              onPressEnter={(e) => {
-                const { value } = e.target as HTMLInputElement;
-                setFilterVal(value);
-              }}
+              onChange={(e) => setRealVal(e.target.value)}
+              onPressEnter={() => setFilterVal(realVal)}
             ></Input>
             <PermissionControl permission="add">
               <Button
