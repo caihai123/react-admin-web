@@ -203,6 +203,7 @@ export default function Page() {
         }
         pagination={false}
         loading={loading}
+        onRefresh={() => refresh()}
       ></ProTable>
       {contextHolder}
     </>
