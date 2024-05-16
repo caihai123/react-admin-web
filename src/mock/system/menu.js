@@ -230,7 +230,7 @@ const mock = [
       return {
         result: null,
         status: b ? "success" : "failure",
-        msg: b ? "成功！" : "更新失败！",
+        msg: b ? "成功！" : "删除失败！",
       };
     },
   },

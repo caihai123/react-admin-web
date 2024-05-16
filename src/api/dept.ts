@@ -15,11 +15,15 @@ export type DeptSelectItem = {
   children?: DeptSelectItem[];
 };
 
-// 获取所有部门
+/**
+ * 获取所有部门
+ */
 export const getMenuAll: () => AxiosResultPromise<Array<Dept>> = () =>
   axios.get("/api/dept/list");
 
-// 获取部门options
+/**
+ * 获取部门 options
+ */
 export const getMenuSelect: () => AxiosResultPromise<
   Array<DeptSelectItem>
 > = () => axios.get("/api/dept/select");

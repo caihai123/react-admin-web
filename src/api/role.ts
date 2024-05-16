@@ -11,7 +11,12 @@ export type Role = {
   status: (typeof roleEnabledState.options)[number]["value"];
 };
 
-/** 分页获取角色列表*/
+/**
+ * 分页获取角色列表
+ * @param params - 查询参数
+ * @param pageIndex - 页码 默认： 1
+ * @param pageSize - 页大小 默认：10
+ */
 export const getRoleList: (
   params: any,
   pageIndex: number,
@@ -24,10 +29,21 @@ export const getRoleList: (
   return axios.post("/api/role/page", { params, pageIndex, pageSize });
 };
 
-// 通过id更新角色状态
+/**
+ * 通过id更新角色状态
+ * @param id - id
+ * @param status - 角色状态
+ */
 export const updateRoleStatusById: (
   id: Role["id"],
   status: Role["status"]
 ) => AxiosResultPromise<any> = (id, status) => {
   return axios.post("/api/role/status/update", { id, status });
 };
+
+/**
+ * 通过id删除角色
+ * @param id - id
+ */
+export const removeRole: (id: string) => AxiosResultPromise<any> = (id) =>
+  axios.post("/api/role/remove", { id });

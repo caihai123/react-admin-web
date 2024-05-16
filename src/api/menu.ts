@@ -14,8 +14,15 @@ export type Menu = {
   buttonList?: { id: string; name: string }[];
 };
 
+/**
+ * 获取所有菜单
+ */
 export const getMenuAll: () => AxiosResultPromise<Array<Menu>> = () =>
   axios.get("/api/menu/all");
 
+/**
+ * 删除菜单
+ * @param id - id
+ */
 export const removeMenu: (id: string) => AxiosResultPromise<any> = (id) =>
   axios.post("/api/menu/remove", { id });

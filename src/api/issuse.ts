@@ -14,7 +14,12 @@ export type Issuse = {
   describe: string;
 };
 
-/** 获取 issuse 分页列表 */
+/**
+ * 获取 issuse 分页列表
+ * @param pageIndex - 页码
+ * @param pageSize - 页大小
+ * @returns
+ */
 export const getIssuseList: (
   pageIndex: number,
   pageSize: number
