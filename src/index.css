@@ -29,6 +29,8 @@ body {
   border-bottom: 1px solid var(---modal-border-color);
 }
 .custom-modal-style .ant-modal-body {
+  max-height: calc(100vh - 118px);
+  overflow-y: auto;
   padding: 20px 24px;
 }
 .custom-modal-style .ant-modal-footer {
