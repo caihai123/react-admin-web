@@ -7,6 +7,7 @@ import { menuType } from "@/utils/dict";
 import createCompoundedComponent from "@/components/utils/createCompoundedComponent";
 import { deepCopy, treeMap } from "@/utils/utils";
 import useLoadingDelayAndKeep from "@/hooks/useLoadingDelayAndKeep";
+import Mock from "mockjs";
 
 type AuthMenu = {
   id: string;
@@ -59,7 +60,10 @@ const Accredit = React.forwardRef<Ref, Props>((props, ref) => {
     async (roleId: string) => {
       // 真实情况下获取菜单时必须要传入 roleId
       const response = await getMenuAll();
-      return response.result as AuthMenu[];
+      return treeMap(response.result, (item) => ({
+        ...item,
+        isAuth: Mock.mock({ "boolean|1-2": false }).boolean, // mock 后后端返回的授权状态
+      })) as AuthMenu[];
     },
     { manual: true }
   );
@@ -67,42 +71,36 @@ const Accredit = React.forwardRef<Ref, Props>((props, ref) => {
   const [checkAll, setCheckAll] = React.useState<boolean>(false); // 控制表头是否全选
   const [indeterminate, setIndeterminate] = React.useState<boolean>(false); // 是否有选中，控制控制表头半选状态
 
-  // 计算全选checkbox的状态
-  const calcCheckAllState = React.useCallback(
-    function () {
-      const isAuthAllList: boolean[] = [];
+  React.useEffect(() => {
+    // tableData改变时计算全选checkbox的状态
+    const isAuthAllList: boolean[] = [];
 
-      const deep = function (arr: AuthMenu[] = []) {
-        arr.forEach((item) => {
-          isAuthAllList.push(item.isAuth);
-          item.buttonList?.forEach((but) => {
-            isAuthAllList.push(but.isAuth);
-          });
-          deep(item.children);
+    const deep = function (arr: AuthMenu[] = []) {
+      arr.forEach((item) => {
+        isAuthAllList.push(item.isAuth);
+        item.buttonList?.forEach((but) => {
+          isAuthAllList.push(but.isAuth);
         });
-      };
-      deep(tableData);
-      mutateTableData(deepCopy(tableData));
+        deep(item.children);
+      });
+    };
+    deep(tableData);
 
-      if (isAuthAllList.every((item) => item)) {
-        setCheckAll(true);
-        setIndeterminate(false);
-      } else if (isAuthAllList.every((item) => !item)) {
-        setCheckAll(false);
-        setIndeterminate(false);
-      } else {
-        setCheckAll(false);
-        setIndeterminate(true);
-      }
-    },
-    [tableData, mutateTableData, setCheckAll, setIndeterminate]
-  );
+    if (isAuthAllList.every((item) => item === true)) {
+      setCheckAll(true);
+      setIndeterminate(false);
+    } else if (isAuthAllList.every((item) => item !== true)) {
+      setCheckAll(false);
+      setIndeterminate(false);
+    } else {
+      setCheckAll(false);
+      setIndeterminate(true);
+    }
+  }, [tableData]);
 
   // 全选checkbox改变时触发
   const checkAllChange = React.useCallback(
     function (val: boolean) {
-      setCheckAll(val);
-      setIndeterminate(false);
       const deep = function (arr: AuthMenu[] = []) {
         arr.forEach((item) => {
           item.isAuth = val;
@@ -115,7 +113,7 @@ const Accredit = React.forwardRef<Ref, Props>((props, ref) => {
       deep(tableData);
       mutateTableData(deepCopy(tableData));
     },
-    [setCheckAll, setIndeterminate, tableData, mutateTableData]
+    [tableData, mutateTableData]
   );
 
   // 勾选菜单或目录时自动勾选所有父级菜单
@@ -153,9 +151,9 @@ const Accredit = React.forwardRef<Ref, Props>((props, ref) => {
 
       deep(row);
 
-      calcCheckAllState();
+      mutateTableData(deepCopy(tableData));
     },
-    [selectParentMenu, calcCheckAllState]
+    [selectParentMenu, mutateTableData, tableData]
   );
 
   // 处理功能标签check改变时
@@ -165,9 +163,9 @@ const Accredit = React.forwardRef<Ref, Props>((props, ref) => {
         row.isAuth = true;
         selectParentMenu(row.id);
       }
-      calcCheckAllState();
+      mutateTableData(deepCopy(tableData));
     },
-    [selectParentMenu, calcCheckAllState]
+    [selectParentMenu, mutateTableData, tableData]
   );
 
   const [submitLoading, setSubmitLoading] = useLoadingDelayAndKeep(false);
