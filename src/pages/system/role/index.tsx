@@ -67,7 +67,10 @@ export default function Page() {
               content: "确定要删除此角色吗？",
               okType: "danger",
               onOk: () =>
-                removeRole(row.id).then(() => message.success("删除成功！")),
+                removeRole(row.id).then(() => {
+                  message.success("删除成功！");
+                  tableRef.current?.refresh();
+                }),
               centered: true,
             })
           }

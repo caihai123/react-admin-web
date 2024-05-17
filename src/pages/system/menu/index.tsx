@@ -89,7 +89,10 @@ export default function Page() {
               content: "确定要删除此菜单及其子菜单吗？",
               okType: "danger",
               onOk: () =>
-                removeMenu(row.id).then(() => message.success("删除成功！")),
+                removeMenu(row.id).then(() => {
+                  message.success("删除成功！");
+                  refresh();
+                }),
               centered: true,
             })
           }
