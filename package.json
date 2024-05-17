@@ -37,6 +37,7 @@
     "@babel/preset-typescript": "^7.24.1",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
     "@soda/friendly-errors-webpack-plugin": "^1.8.1",
+    "@types/mockjs": "^1.0.10",
     "@types/node": "^20.12.6",
     "@types/react": "^18.2.75",
     "@types/react-custom-scrollbars": "^4.0.13",
