@@ -120,6 +120,11 @@ export default function Page() {
       options: roleEnabledState.options,
     },
     {
+      title: "创建时间",
+      dataIndex: "createTime",
+      hideInSearch: true,
+    },
+    {
       title: "操作",
       key: "action",
       render: (row) => <Space>{actionRender(row)}</Space>,

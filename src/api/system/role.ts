@@ -9,6 +9,7 @@ export type Role = {
   roleName: string;
   description: string;
   status: (typeof roleEnabledState.options)[number]["value"];
+  createTime: string;
 };
 
 /**

@@ -16,6 +16,7 @@ const mock = [
               roleName: `角色名称-${pageIndex * pageSize - pageSize + i + 1}`,
               description: "@csentence",
               "status|1": roleEnabledState.options.map((item) => item.value),
+              createTime: "@datetime",
             })
           ),
           total: 100,
