@@ -35,3 +35,10 @@ export const updateAccountStatusById: (
 ) => AxiosResultPromise<any> = (id, status) => {
   return axios.post("/api/account/status/update", { id, status });
 };
+
+/**
+ * 通过id删除用户
+ * @param id - id
+ */
+export const removeAccount: (id: string) => AxiosResultPromise<any> = (id) =>
+  axios.post("/api/account/remove", { id });

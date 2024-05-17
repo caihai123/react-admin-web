@@ -46,6 +46,20 @@ const mock = [
       };
     },
   },
+  {
+    // 单个删除用户
+    url: "/api/account/remove",
+    type: "post",
+    handler() {
+      // 随机模拟成功或者失败
+      const b = Mock.mock({ "boolean|1-2": false }).boolean;
+      return {
+        result: null,
+        status: b ? "success" : "failure",
+        msg: b ? "成功！" : "删除失败！",
+      };
+    },
+  },
 ];
 
 export default mock;

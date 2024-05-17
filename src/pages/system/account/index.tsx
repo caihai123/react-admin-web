@@ -1,17 +1,26 @@
-import { Button, message, Space, Tag } from "antd";
+import { useRef } from "react";
+import { Button, App, Space, Tag } from "antd";
 import { useNavigate } from "react-router-dom";
 import ProTable from "@/components/ProTable";
 import { PlusOutlined } from "@ant-design/icons";
 import { gender as genderDict, accountEnabledState } from "@/utils/dict";
 import { useGetDeptSelectQuery } from "@/store/api-slice/dept";
 import { useFilterElementPermission } from "@/components/PermissionControl";
-import { getAccountList, updateAccountStatusById } from "@/api/system/account";
+import {
+  getAccountList,
+  updateAccountStatusById,
+  removeAccount,
+} from "@/api/system/account";
 import OptimisticSwitch from "@/components/OptimisticSwitch";
 
-import type { ProTableProps } from "@/components/ProTable";
+import type { ProTableProps, Ref } from "@/components/ProTable";
 import type { Account } from "@/api/system/account";
 
 export default function Page() {
+  const { modal, message } = App.useApp();
+
+  const tableRef = useRef<Ref>(null);
+
   const { data: depeOptions } = useGetDeptSelectQuery();
   const navigate = useNavigate();
 
@@ -47,7 +56,24 @@ export default function Page() {
     },
     {
       render: (row) => (
-        <Button type="primary" danger size="small">
+        <Button
+          type="primary"
+          danger
+          size="small"
+          onClick={() =>
+            modal.confirm({
+              title: "提示",
+              content: "确定要删除此用户吗？",
+              okType: "danger",
+              onOk: () =>
+                removeAccount(row.id).then(() => {
+                  message.success("删除成功！");
+                  tableRef.current?.refresh();
+                }),
+              centered: true,
+            })
+          }
+        >
           删除
         </Button>
       ),
@@ -175,6 +201,7 @@ export default function Page() {
 
   return (
     <ProTable
+      ref={tableRef}
       columns={columns}
       rowKey="id"
       headerTitle="用户列表"
