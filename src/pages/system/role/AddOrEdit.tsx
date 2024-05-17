@@ -2,7 +2,7 @@ import React from "react";
 import { Form, Input, App } from "antd";
 import axios from "@/utils/axios";
 import ModalForm from "@/components/ModalForm";
-import { Role } from "@/api/role";
+import { Role } from "@/api/system/role";
 import createCompoundedComponent from "@/components/utils/createCompoundedComponent";
 
 export type Props = {

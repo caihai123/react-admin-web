@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { selectMenu } from "@/store/menu";
 
 import type { MenuProps } from "antd";
-import type { Menu as MenuType } from "@/api/menu";
+import type { Menu as MenuType } from "@/api/system/menu";
 
 import * as icons from "@ant-design/icons";
 

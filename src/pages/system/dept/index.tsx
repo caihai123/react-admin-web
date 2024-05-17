@@ -8,7 +8,7 @@ import {
 import { useFilterElementPermission } from "@/components/PermissionControl";
 
 import type { ProTableProps } from "@/components/ProTable";
-import type { Dept } from "@/api/dept";
+import type { Dept } from "@/api/system/dept";
 
 export default function Page() {
   const { message } = App.useApp();

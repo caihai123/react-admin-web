@@ -6,13 +6,17 @@ import OptimisticSwitch from "@/components/OptimisticSwitch";
 import AddOrEdit from "./AddOrEdit";
 import Accredit from "./Accredit";
 import { roleEnabledState } from "@/utils/dict";
-import { getRoleList, updateRoleStatusById, removeRole } from "@/api/role";
+import {
+  getRoleList,
+  updateRoleStatusById,
+  removeRole,
+} from "@/api/system/role";
 import PermissionControl, {
   useFilterElementPermission,
 } from "@/components/PermissionControl";
 
 import type { ProTableProps, Ref } from "@/components/ProTable";
-import type { Role } from "@/api/role";
+import type { Role } from "@/api/system/role";
 
 export default function Page() {
   const { modal, message } = App.useApp();

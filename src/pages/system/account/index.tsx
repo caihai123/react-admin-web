@@ -5,11 +5,11 @@ import { PlusOutlined } from "@ant-design/icons";
 import { gender as genderDict, accountEnabledState } from "@/utils/dict";
 import { useGetDeptSelectQuery } from "@/store/api-slice/dept";
 import { useFilterElementPermission } from "@/components/PermissionControl";
-import { getAccountList, updateAccountStatusById } from "@/api/account";
+import { getAccountList, updateAccountStatusById } from "@/api/system/account";
 import OptimisticSwitch from "@/components/OptimisticSwitch";
 
 import type { ProTableProps } from "@/components/ProTable";
-import type { Account } from "@/api/account";
+import type { Account } from "@/api/system/account";
 
 export default function Page() {
   const { data: depeOptions } = useGetDeptSelectQuery();

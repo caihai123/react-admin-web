@@ -6,7 +6,7 @@ import {
 import axios from "@/utils/axios";
 
 import type { RootState } from "./index";
-import { Menu } from "@/api/menu";
+import { Menu } from "@/api/system/menu";
 
 const initialState: {
   list: Menu[];

@@ -1,8 +1,8 @@
 import React from "react";
 import { Modal, Table, Tag, Checkbox, App } from "antd";
 import { useBoolean, useRequest } from "ahooks";
-import { getMenuAll } from "@/api/menu";
-import { authRole } from "@/api/role";
+import { getMenuAll } from "@/api/system/menu";
+import { authRole } from "@/api/system/role";
 import { menuType } from "@/utils/dict";
 import createCompoundedComponent from "@/components/utils/createCompoundedComponent";
 import { deepCopy, treeMap } from "@/utils/utils";

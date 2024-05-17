@@ -8,7 +8,7 @@ import { CloseOutlined } from "@ant-design/icons";
 import { path as pathRule, id as idRule } from "@/utils/rules";
 import { menuType } from "@/utils/dict";
 
-import type { Menu } from "@/api/menu";
+import type { Menu } from "@/api/system/menu";
 
 export type Props = {
   callback: (isAdd: boolean) => void;

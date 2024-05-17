@@ -1,5 +1,5 @@
 import apiSlice from "./index";
-import type { Dept, DeptSelectItem } from "@/api/dept";
+import type { Dept, DeptSelectItem } from "@/api/system/dept";
 
 const apiWithTag = apiSlice.enhanceEndpoints({
   addTagTypes: ["deptList", "deptSelect"],

@@ -3,7 +3,7 @@ import { Button, Space, Tag, App, Input, theme } from "antd";
 import ProTable from "@/components/ProTable";
 import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import { menuType } from "@/utils/dict";
-import { getMenuAll, removeMenu } from "@/api/menu";
+import { getMenuAll, removeMenu } from "@/api/system/menu";
 import PermissionControl, {
   useFilterElementPermission,
 } from "@/components/PermissionControl";
@@ -12,7 +12,7 @@ import { useRequest } from "ahooks";
 import { treeFilter } from "@/utils/utils";
 
 import type { ProTableProps } from "@/components/ProTable";
-import type { Menu } from "@/api/menu";
+import type { Menu } from "@/api/system/menu";
 
 export default function Page() {
   const { modal, message } = App.useApp();
