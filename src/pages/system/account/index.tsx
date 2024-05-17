@@ -1,13 +1,15 @@
-import { Button, message, Space, Switch, Tag } from "antd";
+import { Button, message, Space, Tag } from "antd";
 import { useNavigate } from "react-router-dom";
-import axios from "@/utils/axios";
 import ProTable from "@/components/ProTable";
 import { PlusOutlined } from "@ant-design/icons";
 import { gender as genderDict, accountEnabledState } from "@/utils/dict";
 import { useGetDeptSelectQuery } from "@/store/api-slice/dept";
 import { useFilterElementPermission } from "@/components/PermissionControl";
+import { getAccountList, updateAccountStatusById } from "@/api/account";
+import OptimisticSwitch from "@/components/OptimisticSwitch";
 
 import type { ProTableProps } from "@/components/ProTable";
+import type { Account } from "@/api/account";
 
 export default function Page() {
   const { data: depeOptions } = useGetDeptSelectQuery();
@@ -131,9 +133,25 @@ export default function Page() {
     {
       title: "状态",
       dataIndex: "status",
-      render: (status) => (
-        <Switch checked={status === accountEnabledState.enum.enabled} />
-      ),
+      render: (status, row) => {
+        const { enabled, disabled } = accountEnabledState.enum;
+        return (
+          <OptimisticSwitch
+            defaultChecked={status === enabled}
+            onChange={(val) =>
+              updateAccountStatusById(
+                row.id,
+                val
+                  ? (enabled as Account["status"])
+                  : (disabled as Account["status"])
+              ).then(() => {
+                // 如果觉得需要，也可以在此刷新表格
+                message.success("切换成功！");
+              })
+            }
+          />
+        );
+      },
       type: "select",
       options: accountEnabledState.options,
     },
@@ -161,15 +179,13 @@ export default function Page() {
       rowKey="id"
       headerTitle="用户列表"
       request={(params, { current, pageSize }) => {
-        return axios
-          .post("/api/account/page", { params, pageIndex: current, pageSize })
-          .then((value) => {
-            const { result: data } = value;
-            return {
-              list: data.records,
-              total: data.total,
-            };
-          });
+        return getAccountList(params, current, pageSize).then((value) => {
+          const { result: data } = value;
+          return {
+            list: data.records,
+            total: data.total,
+          };
+        });
       }}
       toolBarRender={toolRender()}
       batchBarRender={isShowBatch ? batchRender() : undefined}
