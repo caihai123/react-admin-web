@@ -47,3 +47,10 @@ export const updateRoleStatusById: (
  */
 export const removeRole: (id: string) => AxiosResultPromise<any> = (id) =>
   axios.post("/api/role/remove", { id });
+
+/**
+ * 角色授权
+ * @param params
+ */
+export const authRole: (params: any[]) => AxiosResultPromise<any> = (params) =>
+  axios.post("/api/role/auth", params);

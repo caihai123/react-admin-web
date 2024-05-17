@@ -8,9 +8,11 @@ const mock = [
     handler() {
       return {
         status: "success",
+        // 真实场景中 parentId 不是必须的，这里是定义是因为我在【角色授权】中也用了此接口模拟
         result: [
           {
             id: "1",
+            parentId: null,
             title: "Dashboard",
             path: "/index",
             type: "1",
@@ -18,12 +20,14 @@ const mock = [
           },
           {
             id: "2",
+            parentId: null,
             title: "系统管理",
             type: "2",
             icon: "SettingFilled",
             children: [
               {
                 id: "2-1",
+                parentId: "2",
                 title: "菜单管理",
                 path: "/system/menu",
                 type: "1",
@@ -34,6 +38,7 @@ const mock = [
                 ],
                 children: [
                   {
+                    parentId: "2-1",
                     id: "2-1-1",
                     title: "新增菜单",
                     path: "/system/menu/add",
@@ -43,6 +48,7 @@ const mock = [
               },
               {
                 id: "2-2",
+                parentId: "2",
                 title: "角色管理",
                 path: "/system/role",
                 type: "1",
@@ -55,6 +61,7 @@ const mock = [
               },
               {
                 id: "2-3",
+                parentId: "2",
                 title: "用户管理",
                 path: "/system/account",
                 type: "1",
@@ -68,6 +75,7 @@ const mock = [
                 ],
                 children: [
                   {
+                    parentId: "2-3",
                     id: "2-3-1",
                     title: "人员详情",
                     path: "/system/account/detail",
@@ -77,6 +85,7 @@ const mock = [
               },
               {
                 id: "2-4",
+                parentId: "2",
                 title: "部门管理",
                 path: "/system/dept",
                 type: "1",
@@ -89,6 +98,7 @@ const mock = [
               },
               {
                 id: "2-5",
+                parentId: "2",
                 title: "文件管理",
                 path: "/system/file",
                 type: "1",
@@ -97,6 +107,7 @@ const mock = [
           },
           {
             id: "4",
+            parentId: null,
             title: "Pro Table",
             type: "1",
             path: "/pro-table",
@@ -110,24 +121,28 @@ const mock = [
           },
           {
             id: "5",
+            parentId: null,
             title: "components",
             type: "2",
             icon: "ProductFilled",
             children: [
               {
                 id: "5-1",
+                parentId: "5",
                 title: "按钮权限",
                 type: "1",
                 path: "/permission-control",
               },
               {
                 id: "5-2",
+                parentId: "5",
                 title: "mackdown",
                 type: "1",
                 path: "/mackdown",
               },
               {
                 id: "5-3",
+                parentId: "5",
                 title: "dropdown-from",
                 type: "1",
                 path: "/dropdown-from",
@@ -136,24 +151,28 @@ const mock = [
           },
           {
             id: "6",
+            parentId: null,
             title: "hooks",
             type: "2",
             icon: "GoldFilled",
             children: [
               {
                 id: "6-1",
+                parentId: "6",
                 title: "useLoadingDelayAndKeep",
                 type: "1",
                 path: "/use-loading-delay-and-keep",
               },
               {
                 id: "6-2",
+                parentId: "6",
                 title: "useDomSize",
                 type: "1",
                 path: "/use-dom-size",
               },
               {
                 id: "6-3",
+                parentId: "6",
                 title: "useContentOverflow",
                 type: "1",
                 path: "/use-content-overflow",
@@ -162,6 +181,7 @@ const mock = [
           },
           {
             id: "7",
+            parentId: null,
             title: "字典管理",
             path: "/dict",
             type: "1",
@@ -169,18 +189,21 @@ const mock = [
           },
           {
             id: "3",
+            parentId: null,
             title: "错误页面",
             type: "2",
             icon: "CloseCircleFilled",
             children: [
               {
                 id: "3-1",
+                parentId: "3",
                 title: "401",
                 path: "/error/401",
                 type: "1",
               },
               {
                 id: "3-2",
+                parentId: "3",
                 title: "404",
                 path: "/error/404",
                 type: "1",

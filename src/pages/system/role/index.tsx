@@ -4,6 +4,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import ProTable from "@/components/ProTable";
 import OptimisticSwitch from "@/components/OptimisticSwitch";
 import AddOrEdit from "./AddOrEdit";
+import Accredit from "./Accredit";
 import { roleEnabledState } from "@/utils/dict";
 import { getRoleList, updateRoleStatusById, removeRole } from "@/api/role";
 import PermissionControl, {
@@ -18,8 +19,12 @@ export default function Page() {
 
   const tableRef = useRef<Ref>(null);
 
-  const [addOrEditRef, contextHolder] = AddOrEdit.useModal({
+  const [addOrEditRef, addOrEditContext] = AddOrEdit.useModal({
     callback: (pageIndex) => tableRef.current?.refresh(pageIndex),
+  });
+
+  const [accreditRef, accreditContext] = Accredit.useModal({
+    callback: () => tableRef.current?.refresh(),
   });
 
   // 表格的操作栏
@@ -39,7 +44,12 @@ export default function Page() {
     },
     {
       render: (row) => (
-        <Button type="primary" size="small">
+        <Button
+          type="primary"
+          size="small"
+          style={{ background: "#e6a23c" }}
+          onClick={() => accreditRef.current?.start(row.id)}
+        >
           授权
         </Button>
       ),
@@ -142,7 +152,8 @@ export default function Page() {
         )}
       />
 
-      {contextHolder}
+      {addOrEditContext}
+      {accreditContext}
     </>
   );
 }
