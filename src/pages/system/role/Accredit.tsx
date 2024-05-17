@@ -257,6 +257,7 @@ const Accredit = React.forwardRef<Ref, Props>((props, ref) => {
       onOk={() => onSubmit()}
       onCancel={() => setOpen(false)}
       confirmLoading={submitLoading}
+      okText="保存"
     >
       <Table
         rowKey="id"
