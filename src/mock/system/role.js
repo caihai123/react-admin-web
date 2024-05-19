@@ -1,27 +1,60 @@
 import Mock from "mockjs";
 import { roleEnabledState } from "@/utils/dict";
 
+export const roles = [
+  Mock.mock({
+    id: "1",
+    roleName: "管理员",
+    description: "@csentence",
+    "status|1": roleEnabledState.options.map((item) => item.value),
+    createTime: "@datetime",
+  }),
+  Mock.mock({
+    id: "2",
+    roleName: "普通用户",
+    description: "@csentence",
+    "status|1": roleEnabledState.options.map((item) => item.value),
+    createTime: "@datetime",
+  }),
+  Mock.mock({
+    id: "3",
+    roleName: "企业用户",
+    description: "@csentence",
+    "status|1": roleEnabledState.options.map((item) => item.value),
+    createTime: "@datetime",
+  }),
+  Mock.mock({
+    id: "4",
+    roleName: "游客",
+    description: "@csentence",
+    "status|1": roleEnabledState.options.map((item) => item.value),
+    createTime: "@datetime",
+  }),
+];
+
 const mock = [
   {
     url: "/api/role/page",
     type: "post",
     handler({ body }) {
-      const { pageIndex, pageSize = 10 } = JSON.parse(body);
-
+      const { pageIndex } = JSON.parse(body);
       return {
         result: {
-          records: [...Array(pageSize)].map((_, i) =>
-            Mock.mock({
-              id: "@guid",
-              roleName: `角色名称-${pageIndex * pageSize - pageSize + i + 1}`,
-              description: "@csentence",
-              "status|1": roleEnabledState.options.map((item) => item.value),
-              createTime: "@datetime",
-            })
-          ),
-          total: 100,
+          records: roles,
+          total: 4,
           pageIndex,
         },
+        status: "success",
+        msg: "成功！",
+      };
+    },
+  },
+  {
+    url: "/api/role/select",
+    type: "get",
+    handler() {
+      return {
+        result: roles.map((item) => ({ label: item.roleName, value: item.id })),
         status: "success",
         msg: "成功！",
       };
