@@ -1,8 +1,8 @@
 import { useRef } from "react";
-import { Button, App, Space, Tag } from "antd";
+import { Button, App, Space, Tag, Avatar, theme } from "antd";
 import { useNavigate } from "react-router-dom";
 import ProTable from "@/components/ProTable";
-import { PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined, UserOutlined } from "@ant-design/icons";
 import { gender as genderDict, accountEnabledState } from "@/utils/dict";
 import { useGetDeptSelectQuery } from "@/store/api-slice/dept";
 import { useFilterElementPermission } from "@/components/PermissionControl";
@@ -12,6 +12,7 @@ import {
   removeAccount,
 } from "@/api/system/account";
 import OptimisticSwitch from "@/components/OptimisticSwitch";
+import AddOrEdit from "./AddOrEdit";
 
 import type { ProTableProps, Ref } from "@/components/ProTable";
 import type { Account } from "@/api/system/account";
@@ -23,6 +24,14 @@ export default function Page() {
 
   const { data: depeOptions } = useGetDeptSelectQuery();
   const navigate = useNavigate();
+
+  const [addOrEditRef, addOrEditContext] = AddOrEdit.useModal({
+    callback: (pageIndex) => tableRef.current?.refresh(pageIndex),
+  });
+
+  const {
+    token: { colorTextDescription },
+  } = theme.useToken();
 
   // 表格的操作栏
   const [actionRender, isShowAction] = useFilterElementPermission(
@@ -40,19 +49,16 @@ export default function Page() {
     },
     {
       render: (row) => (
-        <Button type="primary" ghost size="small">
+        <Button
+          type="primary"
+          ghost
+          size="small"
+          onClick={() => addOrEditRef.current?.editStart(row)}
+        >
           编辑
         </Button>
       ),
       permission: "edit",
-    },
-    {
-      render: (row) => (
-        <Button type="primary" size="small" style={{ background: "#e6a23c" }}>
-          授权
-        </Button>
-      ),
-      permission: "accredit",
     },
     {
       render: (row) => (
@@ -110,7 +116,7 @@ export default function Page() {
         <Button
           type="primary"
           icon={<PlusOutlined />}
-          onClick={() => message.warning("演示功能")}
+          onClick={() => addOrEditRef.current?.addStart()}
         >
           新增
         </Button>
@@ -129,6 +135,30 @@ export default function Page() {
     {
       title: "真实姓名",
       dataIndex: "name",
+      hideInTable: true,
+    },
+    {
+      title: "用户信息",
+      key: "userinfo",
+      render(_, row) {
+        return (
+          <div style={{ display: "flex", flex: 1, alignItems: "flex-start" }}>
+            <Avatar
+              size={40}
+              src={row.avatar}
+              icon={<UserOutlined />}
+              style={{ marginRight: 16 }}
+            />
+            <div>
+              <h4 style={{ margin: 0, fontWeight: 700 }}>{row.name}</h4>
+              <div style={{ color: colorTextDescription }}>
+                {row.description}
+              </div>
+            </div>
+          </div>
+        );
+      },
+      hideInSearch: true,
     },
     {
       title: "账号",
@@ -148,13 +178,33 @@ export default function Page() {
       type: "select",
       options: genderDict.options,
     },
+    // {
+    //   title: "手机号",
+    //   dataIndex: "phone",
+    //   hideInTable: true,
+    // },
+    // {
+    //   title: "邮箱",
+    //   dataIndex: "email",
+    //   hideInTable: true,
+    // },
     {
-      title: "手机号",
-      dataIndex: "phone",
+      title: "部门",
+      dataIndex: "deptId",
+      type: "treeSelect",
+      options: depeOptions,
+      render: (_, row) => row.deptName,
     },
     {
-      title: "邮箱",
-      dataIndex: "email",
+      title: "角色",
+      dataIndex: "role",
+      render: (role: Account["role"]) => {
+        return role?.map((item) => (
+          <Tag key={item.id} color="green">
+            {item.name}
+          </Tag>
+        ));
+      },
     },
     {
       title: "状态",
@@ -182,13 +232,6 @@ export default function Page() {
       options: accountEnabledState.options,
     },
     {
-      title: "部门",
-      dataIndex: "deptId",
-      type: "treeSelect",
-      options: depeOptions,
-      render: (_, row) => row.deptName,
-    },
-    {
       title: "操作",
       key: "action",
       render: (row) => <Space>{actionRender(row)}</Space>,
@@ -200,22 +243,25 @@ export default function Page() {
   ];
 
   return (
-    <ProTable
-      ref={tableRef}
-      columns={columns}
-      rowKey="id"
-      headerTitle="用户列表"
-      request={(params, { current, pageSize }) => {
-        return getAccountList(params, current, pageSize).then((value) => {
-          const { result: data } = value;
-          return {
-            list: data.records,
-            total: data.total,
-          };
-        });
-      }}
-      toolBarRender={toolRender()}
-      batchBarRender={isShowBatch ? batchRender() : undefined}
-    />
+    <>
+      <ProTable
+        ref={tableRef}
+        columns={columns}
+        rowKey="id"
+        headerTitle="用户列表"
+        request={(params, { current, pageSize }) => {
+          return getAccountList(params, current, pageSize).then((value) => {
+            const { result: data } = value;
+            return {
+              list: data.records,
+              total: data.total,
+            };
+          });
+        }}
+        toolBarRender={toolRender()}
+        batchBarRender={isShowBatch ? batchRender() : undefined}
+      />
+      {addOrEditContext}
+    </>
   );
 }

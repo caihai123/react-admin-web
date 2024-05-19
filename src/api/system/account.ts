@@ -1,9 +1,19 @@
 import axios, { type AxiosResultPromise } from "@/utils/axios";
-import { accountEnabledState } from "@/utils/dict";
+import { gender, accountEnabledState } from "@/utils/dict";
 
 export type Account = {
   id: string;
+  account: string;
+  name: string;
+  avatar: string;
+  gender: (typeof gender.options)[number]["value"];
+  phone: string;
+  email: string;
+  deptId: string;
+  deptName: string;
+  role?: { name: string; id: string }[];
   status: (typeof accountEnabledState.options)[number]["value"];
+  description: string;
 };
 
 /**
