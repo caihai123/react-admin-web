@@ -19,7 +19,7 @@ export type DeptSelectItem = {
  * 获取所有部门
  */
 export const getMenuAll: () => AxiosResultPromise<Array<Dept>> = () =>
-  axios.get("/api/dept/list");
+  axios.get("/api/dept/all");
 
 /**
  * 获取部门 options

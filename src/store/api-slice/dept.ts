@@ -18,7 +18,7 @@ export const deptSlice = apiWithTag.injectEndpoints({
   endpoints: (builder) => ({
     // 获取所有部门
     getDeptAll: builder.query<Dept[], void>({
-      query: () => "/api/dept/list",
+      query: () => "/api/dept/all",
       providesTags: ["deptList"],
     }),
     // 获取部门选择器

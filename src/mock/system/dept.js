@@ -3,7 +3,7 @@ import Mock from "mockjs";
 const mock = [
   {
     // 获取权限菜单
-    url: "/api/dept/list",
+    url: "/api/dept/all",
     type: "get",
     handler() {
       return {
