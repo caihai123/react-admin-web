@@ -55,3 +55,10 @@ export const removeRole: (id: string) => AxiosResultPromise<any> = (id) =>
  */
 export const authRole: (params: any[]) => AxiosResultPromise<any> = (params) =>
   axios.post("/api/role/auth", params);
+
+/**
+ * 获取角色选择器
+ */
+export const getRoleSelect: () => AxiosResultPromise<
+  { value: string; label: string }[]
+> = () => axios.get("/api/role/select");
