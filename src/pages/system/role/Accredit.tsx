@@ -5,7 +5,8 @@ import { getMenuAll } from "@/api/system/menu";
 import { authRole } from "@/api/system/role";
 import { menuType } from "@/utils/dict";
 import createCompoundedComponent from "@/components/utils/createCompoundedComponent";
-import { deepCopy, treeMap } from "@/utils/utils";
+import { deepCopy } from "@/utils/utils";
+import { treeMap } from "@/utils/tree";
 import useLoadingDelayAndKeep from "@/hooks/useLoadingDelayAndKeep";
 import Mock from "mockjs";
 

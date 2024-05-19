@@ -1,5 +1,5 @@
 import Mock from "mockjs";
-import { treeMap } from "@/utils/utils";
+import { treeMap } from "@/utils/tree";
 
 export const deptDataMock = Mock.mock([
   {

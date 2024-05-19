@@ -9,7 +9,7 @@ import PermissionControl, {
 } from "@/components/PermissionControl";
 import AddOrEdit from "./AddOrEdit";
 import { useRequest } from "ahooks";
-import { treeFilter } from "@/utils/utils";
+import { treeFilter } from "@/utils/tree";
 
 import type { ProTableProps } from "@/components/ProTable";
 import type { Menu } from "@/api/system/menu";

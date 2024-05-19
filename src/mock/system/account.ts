@@ -1,7 +1,7 @@
 import Mock from "mockjs";
 import { gender, accountEnabledState } from "@/utils/dict";
 import { roles } from "./role";
-import { flattenTree } from "@/utils/utils";
+import { flattenTree } from "@/utils/tree";
 import { deptDataMock } from "./dept";
 
 const meptNamesMock = flattenTree(deptDataMock).map((item) => ({
