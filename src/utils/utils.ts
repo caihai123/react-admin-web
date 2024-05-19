@@ -53,10 +53,12 @@ export const deepCopy = function <T extends any>(obj: T): T {
 
 // ================================ 分割线 ================================
 
+type Obj = { [key: string]: any };
+
 // 用来阻断类型推断
 type NoInfer<T> = [T][T extends any ? 0 : never];
 
-type TreeNode<A extends any, T extends string = "children"> = A & {
+type TreeNode<A extends Obj, T extends string = "children"> = A & {
   // eslint-disable-next-line no-unused-vars
   [key in T]?: TreeNode<A, T>[];
 };
@@ -71,7 +73,7 @@ type TreeNode<A extends any, T extends string = "children"> = A & {
  * @returns 过滤后的新树形结构。
  */
 export const treeFilter = function <
-  A extends any,
+  A extends Obj,
   T extends string = "children"
 >(
   /** 要过滤的树结构 */
@@ -134,8 +136,8 @@ export const treeFilter = function <
  * @returns 新的树形结构，节点经过回调函数的转换。
  */
 export const treeMap = function <
-  A extends any,
-  B extends any,
+  A extends Obj,
+  B extends Obj,
   T extends string = "children",
   N extends string = "children"
 >(
@@ -166,4 +168,29 @@ export const treeMap = function <
   };
 
   return mapTree(treeData);
+};
+
+/**
+ * 将tree扁平化
+ * @param treeData - 要扁平化的树形结构数据。
+ * @param children - 子节点属性的名称，默认为 'children'。
+ */
+export const flattenTree = function <
+  A extends Obj,
+  T extends string = "children"
+>(treeData: TreeNode<A, NoInfer<T>>[] = [], children?: T) {
+  const childrenKey = children || "children";
+
+  const list: TreeNode<A, NoInfer<T>>[] = [];
+
+  const deep = function (obj: TreeNode<A, NoInfer<T>>) {
+    list.push(obj);
+    (obj[childrenKey] as TreeNode<A, NoInfer<T>>[])?.forEach((item) =>
+      deep(item)
+    );
+  };
+
+  treeData.forEach((item) => deep(item));
+
+  return list;
 };
