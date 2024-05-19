@@ -60,10 +60,11 @@ const Accredit = React.forwardRef<Ref, Props>((props, ref) => {
     async (roleId: string) => {
       // 真实情况下获取菜单时必须要传入 roleId
       const response = await getMenuAll();
-      return treeMap(response.result, (item) => ({
+      const data = treeMap(response.result, ({ children, ...item }) => ({
         ...item,
         isAuth: Mock.mock({ "boolean|1-2": false }).boolean, // mock 后后端返回的授权状态
-      })) as AuthMenu[];
+      }));
+      return data as AuthMenu[];
     },
     { manual: true }
   );

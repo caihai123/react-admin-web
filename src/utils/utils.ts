@@ -122,29 +122,33 @@ export const treeFilter = function <
 
 /**
  * 对树形结构的每个节点应用回调函数，并返回一个新的树形结构。
+ *
  * 类似于数组的 `map` 方法。
+ *
+ * 为了严谨，不需要在callback中返回children属性，但是你可以通过children指定当前数据的子节点键名，或者newChildren指定新数据的子节点键名。
  *
  * @param treeData - 要遍历和转换的树形结构数据。
  * @param callback - 应用于每个节点的回调函数。
- * @param childrenKey - 子节点属性的名称，默认为 'children'。
- * @param newChildrenKey - map过后子节点的属性名称，默认为 'children'。
+ * @param children - 子节点属性的名称，默认为 'children'。
+ * @param newChildren - map过后子节点的属性名称，默认为 'children'。
  * @returns 新的树形结构，节点经过回调函数的转换。
  */
 export const treeMap = function <
   A extends any,
+  B extends any,
   T extends string = "children",
   N extends string = "children"
 >(
   treeData: TreeNode<A, NoInfer<T>>[] = [],
-  callback: (node: TreeNode<A, NoInfer<T>>) => TreeNode<any, N>,
+  callback: (node: TreeNode<A, NoInfer<T>>) => TreeNode<B, NoInfer<N>>,
   children?: T,
   newChildren?: N
-): TreeNode<any, N>[] {
+): TreeNode<B, NoInfer<N>>[] {
   const _childrenKey = children || "children";
   const _newChildrenKey = newChildren || "children";
 
   // 递归遍历和转换树的函数
-  const mapTree = (nodes: TreeNode<A, T>[]): TreeNode<any, N>[] => {
+  const mapTree = (nodes: TreeNode<A, T>[]): TreeNode<B, NoInfer<N>>[] => {
     return nodes.map((node) => {
       // 对当前节点应用回调函数
       const newNode = callback({ ...node });
@@ -153,7 +157,8 @@ export const treeMap = function <
 
       // 如果有子节点，递归应用回调函数
       if (children && children.length > 0) {
-        newNode[_newChildrenKey] = mapTree(children);
+        (newNode[_newChildrenKey] as TreeNode<B, NoInfer<N>>[]) =
+          mapTree(children);
       }
 
       return newNode;
