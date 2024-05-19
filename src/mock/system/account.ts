@@ -1,8 +1,19 @@
 import Mock from "mockjs";
 import { gender, accountEnabledState } from "@/utils/dict";
 import { roles } from "./role";
+import { flattenTree } from "@/utils/utils";
+import { deptDataMock } from "./dept";
 
-const getRandomElementsFromArray = function (arr, min, max = min) {
+const meptNamesMock = flattenTree(deptDataMock).map((item) => ({
+  id: item.id,
+  name: item.deptName,
+}));
+
+const getRandomElementsFromArray = function (
+  arr: any[],
+  min: number,
+  max = min
+) {
   // 随机选择 min 到 max 个元素
   const count = Mock.Random.integer(min, max);
 
@@ -20,13 +31,13 @@ const mock = [
     // 用户列表分页
     url: "/api/account/page",
     type: "post",
-    handler({ body }) {
+    handler({ body }: { body: any }) {
       const { pageIndex, pageSize = 10 } = JSON.parse(body);
-
       return {
         result: {
-          records: [...Array(pageSize)].map(() =>
-            Mock.mock({
+          records: [...Array(pageSize)].map(() => {
+            const deptMock = Mock.mock({ "dept|1": meptNamesMock }).dept;
+            return Mock.mock({
               id: "@guid",
               account: /^[a-zA-Z0-9_-]{4,16}$/,
               "avatar|1": [
@@ -40,8 +51,8 @@ const mock = [
               "gender|1": [...gender.options.map((item) => item.value), ""],
               phone: /^(?:(?:\+|00)86)?1[3-9]\d{9}$/,
               email: "@email",
-              deptId: "@guid",
-              deptName: "部门名称",
+              deptId: deptMock.id,
+              deptName: deptMock.name,
               "role|+1"() {
                 return getRandomElementsFromArray(
                   roles.map((item) => ({ name: item.roleName, id: item.id })),
@@ -51,8 +62,8 @@ const mock = [
               },
               "status|1": accountEnabledState.options.map((item) => item.value),
               description: "@csentence",
-            })
-          ),
+            });
+          }),
           total: 100,
           pageIndex,
         },

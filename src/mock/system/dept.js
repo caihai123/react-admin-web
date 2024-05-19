@@ -1,4 +1,67 @@
 import Mock from "mockjs";
+import { treeMap } from "@/utils/utils";
+
+export const deptDataMock = Mock.mock([
+  {
+    id: "1",
+    deptName: "贵州某某科技无限公司",
+    description: "@csentence",
+    children: [
+      {
+        id: "1-1",
+        deptName: "产品研发部",
+        description: "@csentence",
+        children: [
+          {
+            id: "1-1-1",
+            deptName: "研发部",
+            description: "@csentence",
+          },
+          {
+            id: "1-1-2",
+            deptName: "UI部",
+            description: "@csentence",
+          },
+          {
+            id: "1-1-3",
+            deptName: "产品部",
+            description: "@csentence",
+          },
+          {
+            id: "1-1-4",
+            deptName: "运维部",
+            description: "@csentence",
+          },
+          {
+            id: "1-1-5",
+            deptName: "测试部",
+            description: "@csentence",
+          },
+        ],
+      },
+      {
+        id: "1-2",
+        deptName: "人事部",
+        description: "@csentence",
+      },
+      {
+        id: "1-3",
+        deptName: "销售部",
+        description: "@csentence",
+      },
+      {
+        id: "1-4",
+        deptName: "财务部",
+        description: "@csentence",
+      },
+      {
+        id: "1-5",
+        deptName: "后勤部",
+        description: "@csentence",
+      },
+    ],
+  },
+]);
 
 const mock = [
   {
@@ -8,97 +71,7 @@ const mock = [
     handler() {
       return {
         status: "success",
-        result: Mock.mock([
-          {
-            id: "1",
-            deptName: "部门1",
-            description: "@csentence",
-          },
-          {
-            id: "2",
-            deptName: "部门2",
-            description: "@csentence",
-            children: [
-              {
-                id: "2-1",
-                deptName: "部门2-1",
-                description: "@csentence",
-              },
-              {
-                id: "2-2",
-                deptName: "部门2-2",
-                description: "@csentence",
-              },
-              {
-                id: "2-3",
-                deptName: "部门2-3",
-                description: "@csentence",
-              },
-              {
-                id: "2-4",
-                deptName: "部门2-4",
-                description: "@csentence",
-              },
-            ],
-          },
-          {
-            id: "3",
-            deptName: "部门3",
-            description: "@csentence",
-          },
-          {
-            id: "4",
-            deptName: "部门4",
-            description: "@csentence",
-            children: [
-              {
-                id: "4-1",
-                deptName: "部门4-1",
-                description: "@csentence",
-              },
-              {
-                id: "4-2",
-                deptName: "部门4-2",
-                description: "@csentence",
-              },
-            ],
-          },
-          {
-            id: "5",
-            deptName: "部门5",
-            description: "@csentence",
-          },
-          {
-            id: "6",
-            deptName: "部门6",
-            description: "@csentence",
-          },
-          {
-            id: "7",
-            deptName: "部门7",
-            description: "@csentence",
-          },
-          {
-            id: "8",
-            deptName: "部门8",
-            description: "@csentence",
-          },
-          {
-            id: "9",
-            deptName: "部门9",
-            description: "@csentence",
-          },
-          {
-            id: "10",
-            deptName: "部门10",
-            description: "@csentence",
-          },
-          {
-            id: "11",
-            deptName: "部门11",
-            description: "@csentence",
-          },
-        ]),
+        result: deptDataMock,
         msg: "成功！",
       };
     },
@@ -110,52 +83,10 @@ const mock = [
     handler() {
       return {
         status: "success",
-        result: [
-          {
-            value: "1",
-            title: "部门1",
-          },
-          {
-            value: "2",
-            title: "部门2",
-            children: [
-              {
-                value: "2-1",
-                title: "部门2-1",
-              },
-              {
-                value: "2-2",
-                title: "部门2-2",
-              },
-              {
-                value: "2-3",
-                title: "部门2-3",
-              },
-              {
-                value: "2-4",
-                title: "部门2-4",
-              },
-            ],
-          },
-          {
-            value: "3",
-            title: "部门3",
-          },
-          {
-            value: "4",
-            title: "部门4",
-            children: [
-              {
-                value: "4-1",
-                title: "部门4-1",
-              },
-              {
-                value: "4-2",
-                title: "部门4-2",
-              },
-            ],
-          },
-        ],
+        result: treeMap(deptDataMock, (item) => ({
+          label: item.deptName,
+          value: item.id,
+        })),
         msg: "成功！",
       };
     },
