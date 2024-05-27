@@ -1,7 +1,6 @@
 import { createElement, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Menu, theme, Skeleton } from "antd";
-import { Scrollbars } from "react-custom-scrollbars";
 import { selectTheme } from "@/store/system";
 import { useSelector } from "react-redux";
 import { selectMenu } from "@/store/menu";
@@ -51,16 +50,14 @@ export default function LayMenu() {
       title={false}
       style={{ padding: 20 }}
     >
-      <Scrollbars style={{ height: "calc(100% - 64px)" }} autoHide>
-        <Menu
-          mode="inline"
-          selectedKeys={[location.pathname]}
-          items={menuList}
-          onClick={({ key }) => navigate(key)}
-          style={{ border: "none", background: colorBgContainer }}
-          theme={themeName === "dark" ? "dark" : "light"}
-        ></Menu>
-      </Scrollbars>
+      <Menu
+        mode="inline"
+        selectedKeys={[location.pathname]}
+        items={menuList}
+        onClick={({ key }) => navigate(key)}
+        style={{ border: "none", background: colorBgContainer }}
+        theme={themeName === "dark" ? "dark" : "light"}
+      ></Menu>
     </Skeleton>
   );
 }

@@ -1,8 +1,9 @@
-import { Layout } from "antd";
+import { Layout, theme } from "antd";
 import { Link } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 import SiderMenu from "./SiderMenu";
 import LogoSvg from "@/assets/logo.svg";
+import { Scrollbars } from "react-custom-scrollbars";
 
 import type { SiderProps } from "antd";
 
@@ -61,6 +62,12 @@ const Logo = styled.div`
   }
 `;
 
+const AsderFooter = styled.div`
+  padding: 12px;
+  text-align: center;
+  animation: ${titleHide} 0.3s;
+`;
+
 export default function Sider(props: { collapsed: boolean }) {
   const siderConfig: SiderProps = {
     width: 210,
@@ -68,6 +75,10 @@ export default function Sider(props: { collapsed: boolean }) {
     collapsed: props.collapsed,
     theme: "light",
   };
+
+  const {
+    token: { colorTextTertiary },
+  } = theme.useToken();
   return (
     <>
       <Layout.Sider {...siderConfig}></Layout.Sider>
@@ -80,7 +91,22 @@ export default function Sider(props: { collapsed: boolean }) {
             </h1>
           </Link>
         </Logo>
-        <SiderMenu />
+
+        <Scrollbars style={{ height: "calc(100% - 132px)" }} autoHide>
+          <SiderMenu />
+        </Scrollbars>
+
+        <AsderFooter
+          style={{
+            display: props.collapsed ? "none" : "block",
+            color: colorTextTertiary,
+          }}
+        >
+          <div>
+            © 2024 Made with <span style={{ color: "#e5e0d8" }}>❤</span>
+          </div>
+          <div>by CaiHai</div>
+        </AsderFooter>
       </SiderStyled>
     </>
   );
