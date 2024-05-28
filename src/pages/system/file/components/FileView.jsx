@@ -16,7 +16,7 @@ export default function FileView(props) {
     case "video":
       // 视频
       return <MyIcon type="icon-file_video" style={{ fontSize: height }} />;
-    case "music":
+    case "audio":
       // 音频
       return (
         <MyIcon

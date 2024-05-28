@@ -69,6 +69,6 @@ export const fileType = createDict([
   { label: "图片", value: "img", alias: "img", color: "" },
   { label: "文档", value: "doc", alias: "doc", color: "" },
   { label: "视频", value: "video", alias: "video", color: "" },
-  { label: "音频", value: "music", alias: "music", color: "" },
+  { label: "音频", value: "audio", alias: "audio", color: "" },
   { label: "其他", value: "other", alias: "other", color: "" },
 ]);

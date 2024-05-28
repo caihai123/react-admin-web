@@ -23,7 +23,7 @@ const mockAccount = (filetype) => {
           ],
         }).img;
 
-      case "music":
+      case "audio":
         return Mock.mock({
           "src|1": [
             "https://m10.music.126.net/20240528133333/29a4a9dcf8c77f71187ab639b1be7d29/yyaac/5459/045e/0e5e/c371249b1734b0c1110e94d5f268cce4.m4a",

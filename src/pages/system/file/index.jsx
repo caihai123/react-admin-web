@@ -210,7 +210,7 @@ export default function File() {
                     icon: <MyIcon type="icon-file_video" />,
                   },
                   {
-                    key: "music",
+                    key: "audio",
                     label: "音频",
                     icon: <MyIcon type="icon-file_music" />,
                   },
