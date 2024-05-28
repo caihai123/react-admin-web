@@ -1,4 +1,4 @@
-html{
+html {
   /* 设置最小宽度，防止页面变形 */
   min-width: 992px;
   ---modal-border-color: rgba(5, 5, 5, 0.06);
@@ -12,8 +12,8 @@ html[data-theme="dark"] {
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -40,13 +40,13 @@ body {
 }
 
 /* css文字省略 */
-.ellipsis{
+.ellipsis {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 /* 最多显示两行的文字 */
-.multi-ellipsis-2{
+.multi-ellipsis-2 {
   display: -webkit-box;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -54,7 +54,7 @@ body {
   -webkit-box-orient: vertical;
 }
 /* 最多显示三行的文字 */
-.multi-ellipsis-3{
+.multi-ellipsis-3 {
   display: -webkit-box;
   overflow: hidden;
   text-overflow: ellipsis;
