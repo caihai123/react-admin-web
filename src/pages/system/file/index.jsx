@@ -74,24 +74,28 @@ export default function File() {
           />
         );
       },
+      width: 100,
     },
     {
       title: "文件地址",
       dataIndex: "url",
+      ellipsis: true,
     },
     {
       title: "文件大小",
       dataIndex: "size",
+      width: 150,
     },
     {
       title: "创建时间",
       dataIndex: "createDate",
+      width: 150,
     },
     {
       title: "操作",
       key: "action",
       fixed: "right",
-      width: 150,
+      width: 120,
       render: (_, record) => (
         <Space size="middle">
           <Tooltip title="下载" mouseEnterDelay={1}>
@@ -259,7 +263,7 @@ export default function File() {
           <PieView />
         </Card>
       </div>
-      <div style={{ flex: "auto", padding: "0px 16px" }}>
+      <div style={{ flex: "auto", width: 0, padding: "0px 16px" }}>
         <Card>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <Space>
