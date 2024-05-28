@@ -33,6 +33,17 @@ const mockAccount = (filetype) => {
           ],
         }).src;
 
+      case "video":
+        return Mock.mock({
+          "src|1": [
+            "https://media.w3.org/2010/05/sintel/trailer.mp4",
+            "http://www.w3school.com.cn/example/html5/mov_bbb.mp4",
+            "https://www.w3schools.com/html/movie.mp4",
+            "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4",
+            "http://devimages.apple.com/iphone/samples/bipbop/bipbopall.m3u8",
+          ],
+        }).src;
+
       default:
         return Mock.mock("@url");
     }

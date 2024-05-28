@@ -1,6 +1,7 @@
 import { Image } from "antd";
 import MyIcon from "@/components/CustomIcon";
 import AudioModal from "@/components/AudioModal";
+import VideoModal from "@/components/VideoModal";
 import { getFilenameFromPath } from "@/utils/utils";
 
 export default function FileView(props) {
@@ -15,7 +16,13 @@ export default function FileView(props) {
       return <MyIcon type="icon-file_txt" style={{ fontSize: height }} />;
     case "video":
       // 视频
-      return <MyIcon type="icon-file_video" style={{ fontSize: height }} />;
+      return (
+        <MyIcon
+          type="icon-file_video"
+          style={{ fontSize: height }}
+          onClick={() => VideoModal.showModal(src)}
+        />
+      );
     case "audio":
       // 音频
       return (
