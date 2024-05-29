@@ -55,55 +55,53 @@ const AudioModal = (props: Props) => {
   } = theme.useToken();
 
   return createPortal(
-    <div className={`video-modal`}>
-      <Draggable bounds={"body"} handle=".drag-handler">
+    <Draggable bounds={"body"} handle=".drag-handler">
+      <div
+        className={`video-modal`}
+        style={{ position: "fixed", top: 60, right: 0, zIndex: 999 }}
+      >
         <AudioModalStyled
           className={props.visible ? "show" : "hide"}
           style={{
             width: 320,
-            position: "fixed",
-            top: 60,
-            right: 0,
             borderRadius: 8,
+            padding: "10px 14px 14px 14px",
             boxShadow: "0 2px 12px 0 rgba(0, 0, 0, 0.1)",
             background: colorPrimary,
-            zIndex: 999,
           }}
         >
-          <div style={{ padding: "10px 14px 14px 14px" }}>
-            <div
-              className="drag-handler"
-              style={{
-                color: "#fff",
-                fontSize: 16,
-                marginBottom: 10,
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                cursor: "move",
-                userSelect: "none",
-              }}
-            >
-              <div className="audio-name ellipsis">{props.name}</div>
-              <Button
-                type="text"
-                icon={<CloseOutlined />}
-                onClick={() => props.onClose?.()}
-                style={{ color: "#fff" }}
-                size="small"
-              ></Button>
-            </div>
-
-            <audio
-              src={props.audioSrc}
-              controls
-              autoPlay
-              style={{ width: "100%" }}
-            ></audio>
+          <div
+            className="drag-handler"
+            style={{
+              color: "#fff",
+              fontSize: 16,
+              marginBottom: 10,
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              cursor: "move",
+              userSelect: "none",
+            }}
+          >
+            <div className="audio-name ellipsis">{props.name}</div>
+            <Button
+              type="text"
+              icon={<CloseOutlined />}
+              onClick={() => props.onClose?.()}
+              style={{ color: "#fff" }}
+              size="small"
+            ></Button>
           </div>
+
+          <audio
+            src={props.audioSrc}
+            controls
+            autoPlay
+            style={{ width: "100%" }}
+          ></audio>
         </AudioModalStyled>
-      </Draggable>
-    </div>,
+      </div>
+    </Draggable>,
     document.body
   );
 };
