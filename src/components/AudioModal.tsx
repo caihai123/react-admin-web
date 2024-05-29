@@ -1,10 +1,15 @@
 import { theme, Button } from "antd";
-import { CloseOutlined } from "@ant-design/icons";
+import {
+  CloseOutlined,
+  AudioFilled,
+  ExclamationCircleFilled,
+} from "@ant-design/icons";
 import Draggable from "react-draggable";
 import ReactDOM from "react-dom/client";
 import { createPortal } from "react-dom";
 import createCompoundedComponent from "@/components/utils/createCompoundedComponent";
 import styled, { keyframes } from "styled-components";
+import { useBoolean } from "ahooks";
 
 const fadeIn = keyframes`
     from {
@@ -51,8 +56,10 @@ type Props = {
 
 const AudioModal = (props: Props) => {
   const {
-    token: { colorPrimary },
+    token: { colorPrimary, colorError },
   } = theme.useToken();
+
+  const [error, { set: setError }] = useBoolean(false);
 
   return createPortal(
     <Draggable bounds={"body"} handle=".drag-handler">
@@ -83,7 +90,18 @@ const AudioModal = (props: Props) => {
               userSelect: "none",
             }}
           >
-            <div className="audio-name ellipsis">{props.name}</div>
+            <div
+              className="audio-name ellipsis"
+              style={{ color: error ? colorError : "" }}
+            >
+              {error ? (
+                <ExclamationCircleFilled style={{ marginRight: 8 }} />
+              ) : (
+                <AudioFilled style={{ marginRight: 8 }} />
+              )}
+              {props.name}
+            </div>
+
             <Button
               type="text"
               icon={<CloseOutlined />}
@@ -98,6 +116,8 @@ const AudioModal = (props: Props) => {
             controls
             autoPlay
             style={{ width: "100%" }}
+            onError={() => setError(true)}
+            onPlay={() => setError(false)}
           ></audio>
         </AudioModalStyled>
       </div>
