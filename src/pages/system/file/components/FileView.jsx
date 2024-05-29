@@ -28,7 +28,7 @@ export default function FileView(props) {
       // 音频
       return (
         <BoxMark
-          onClick={() => AudioModal.showAudioModal(src)}
+          onClick={() => AudioModal.showModal(src)}
           style={{ display: "inline-block" }}
         >
           <MyIcon type="icon-file_music" style={{ fontSize: height }} />
