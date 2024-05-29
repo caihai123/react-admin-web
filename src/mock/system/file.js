@@ -26,10 +26,8 @@ const mockAccount = (filetype) => {
       case "audio":
         return Mock.mock({
           "src|1": [
-            "https://m10.music.126.net/20240528133333/29a4a9dcf8c77f71187ab639b1be7d29/yyaac/5459/045e/0e5e/c371249b1734b0c1110e94d5f268cce4.m4a",
-            "https://m704.music.126.net/20240528133434/9b247bd4b6ed199003d082654a364e18/jdyyaac/040c/565b/5109/3feef0f4a9a1672cb358fc395e4218d0.m4a?authSecret=0000018fbd9a905f11860aaba0bbbc35",
-            "https://m704.music.126.net/20240528133535/b785858ccd9019e9d6c9b43550dd79d0/jdyyaac/obj/w5rDlsOJwrLDjj7CmsOj/28482025540/2ecd/059d/82f0/bb30988ff630497b351f36da15000e22.m4a?authSecret=0000018fbd9b801419cd0aaba56a125a",
-            "https://m804.music.126.net/20240528133620/51949e5da040a9468cb57b0a740413b6/jdyyaac/0409/515c/555c/3c26b50ab9f6f7a5ffd6b67802db95a9.m4a?authSecret=0000018fbd9c2dbf1d350aaba0761578",
+            "http://downsc.chinaz.net/Files/DownLoad/sound1/201906/11582.mp3",
+            "http://downsc.chinaz.net/files/download/sound1/201206/1638.mp3",
           ],
         }).src;
 
