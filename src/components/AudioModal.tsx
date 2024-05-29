@@ -10,6 +10,7 @@ import { createPortal } from "react-dom";
 import createCompoundedComponent from "@/components/utils/createCompoundedComponent";
 import styled, { keyframes } from "styled-components";
 import { useBoolean } from "ahooks";
+import { getFilenameFromPath } from "@/utils/utils";
 
 const fadeIn = keyframes`
     from {
@@ -50,7 +51,7 @@ const AudioModalStyled = styled.div`
 type Props = {
   visible: boolean;
   audioSrc: string;
-  name: string;
+  name?: string;
   onClose?: () => void;
 };
 
@@ -99,7 +100,7 @@ const AudioModal = (props: Props) => {
               ) : (
                 <AudioFilled style={{ marginRight: 8 }} />
               )}
-              {props.name}
+              {!props.name ? getFilenameFromPath(props.audioSrc) : props.name}
             </div>
 
             <Button
