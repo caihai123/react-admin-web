@@ -280,7 +280,7 @@ export default function File() {
               <Tooltip title="视图" mouseEnterDelay={1}>
                 <Button
                   icon={
-                    viewType.view === "table" ? (
+                    viewType === "table" ? (
                       <UnorderedListOutlined />
                     ) : (
                       <AppstoreOutlined />
