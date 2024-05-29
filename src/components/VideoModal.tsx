@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Modal, Result, theme } from "antd";
+import { Image, Result, theme } from "antd";
 import ReactDOM from "react-dom/client";
 import createCompoundedComponent from "@/components/utils/createCompoundedComponent";
 
@@ -23,34 +23,41 @@ const VideoModal = function (props: Props) {
   } = theme.useToken();
 
   return (
-    <Modal
-      open={props.visible}
-      onCancel={props.onClose}
-      footer={null}
-      centered
-      width={width}
-      closeIcon={false}
-      afterClose={props.afterClose}
-    >
-      {error ? (
-        <Result
-          status="error"
-          title="视频不能正常播放！"
-          subTitle="The video doesn't play properly!"
-          style={{ background: colorBgLayout }}
-        ></Result>
-      ) : (
-        <video
-          width="100%"
-          height={height}
-          autoPlay={autoPlay}
-          controls
-          src={props.url}
-          onError={() => setError(true)}
-          onPlay={() => setError(false)}
-        ></video>
-      )}
-    </Modal>
+    <Image
+      style={{ display: "none" }}
+      preview={{
+        visible: props.visible,
+        destroyOnClose: true,
+        imageRender: () => {
+          if (error) {
+            return (
+              <Result
+                status="error"
+                title="视频不能正常播放！"
+                subTitle="The video doesn't play properly!"
+                style={{ width, background: colorBgLayout }}
+              ></Result>
+            );
+          } else {
+            return (
+              <video
+                width={width}
+                height={height}
+                autoPlay={autoPlay}
+                controls
+                src={props.url}
+                onError={() => setError(true)}
+                onPlay={() => setError(false)}
+              ></video>
+            );
+          }
+        },
+        toolbarRender: () => null,
+        onVisibleChange: () => {
+          props.onClose?.();
+        },
+      }}
+    />
   );
 };
 
