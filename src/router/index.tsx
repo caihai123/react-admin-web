@@ -145,6 +145,22 @@ const router = createBrowserRouter(
           ),
         },
         {
+          path: "/audio-modal",
+          element: (
+            <Auth
+              Component={lazy(() => import("@/pages/components/audio-modal"))}
+            />
+          ),
+        },
+        {
+          path: "/video-modal",
+          element: (
+            <Auth
+              Component={lazy(() => import("@/pages/components/video-modal"))}
+            />
+          ),
+        },
+        {
           path: "/issues",
           handle: { title: "意见反馈" },
           children: [

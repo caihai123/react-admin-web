@@ -147,6 +147,20 @@ const mock = [
                 type: "1",
                 path: "/dropdown-from",
               },
+              {
+                id: "5-4",
+                parentId: "5",
+                title: "audio-modal",
+                type: "1",
+                path: "/audio-modal",
+              },
+              {
+                id: "5-5",
+                parentId: "5",
+                title: "video-modal",
+                type: "1",
+                path: "/video-modal",
+              },
             ],
           },
           {
