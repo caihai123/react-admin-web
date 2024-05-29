@@ -5,7 +5,7 @@ import createCompoundedComponent from "@/components/utils/createCompoundedCompon
 
 type Props = {
   visible: boolean;
-  url: string;
+  src: string;
   onClose?: () => void;
   width?: number | string;
   height?: number | string;
@@ -45,7 +45,7 @@ const VideoModal = function (props: Props) {
                 height={height}
                 autoPlay={autoPlay}
                 controls
-                src={props.url}
+                src={props.src}
                 onError={() => setError(true)}
                 onPlay={() => setError(false)}
               ></video>
@@ -65,7 +65,7 @@ let root: ReactDOM.Root | null;
 let uuid: number = 1;
 
 /** 函数式调用 会挂载到body下 重复调用时只会保留最后一个*/
-const showModal = function (src: Props["url"]) {
+const showModal = function (src: Props["src"]) {
   uuid++;
   if (!root) {
     const container = document.createDocumentFragment();
@@ -74,12 +74,12 @@ const showModal = function (src: Props["url"]) {
   }
 
   const handleClose = () => {
-    root?.render(<VideoModal key={uuid} url={src} visible={false} />);
+    root?.render(<VideoModal key={uuid} src={src} visible={false} />);
   };
 
   root.render(
     <VideoModal
-      url={src}
+      src={src}
       key={uuid}
       visible={true}
       onClose={() => handleClose()}

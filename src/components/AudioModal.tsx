@@ -63,7 +63,7 @@ const AudioBox = styled.div`
 
 type Props = {
   visible: boolean;
-  audioSrc: string;
+  src: string;
   name?: string;
   onClose?: () => void;
 };
@@ -112,7 +112,7 @@ const AudioModal = (props: Props) => {
                 ) : (
                   <AudioFilled style={{ marginRight: 8 }} />
                 )}
-                {!props.name ? getFilenameFromPath(props.audioSrc) : props.name}
+                {!props.name ? getFilenameFromPath(props.src) : props.name}
               </div>
 
               <Button
@@ -125,7 +125,7 @@ const AudioModal = (props: Props) => {
             </div>
 
             <audio
-              src={props.audioSrc}
+              src={props.src}
               controls
               autoPlay
               style={{ width: "100%" }}
@@ -143,7 +143,7 @@ const AudioModal = (props: Props) => {
 let root: ReactDOM.Root | null;
 
 /** 函数式调用 会挂载到body下 重复调用时只会保留最后一个*/
-const showModal = function (src: Props["audioSrc"], name?: Props["name"]) {
+const showModal = function (src: Props["src"], name?: Props["name"]) {
   if (!root) {
     const container = document.createDocumentFragment();
     document.body.appendChild(container);
@@ -151,7 +151,7 @@ const showModal = function (src: Props["audioSrc"], name?: Props["name"]) {
   }
 
   const handleClose = () => {
-    root?.render(<AudioModal audioSrc={src} name={name} visible={false} />);
+    root?.render(<AudioModal src={src} name={name} visible={false} />);
     setTimeout(() => {
       root?.unmount();
       root = null;
@@ -160,7 +160,7 @@ const showModal = function (src: Props["audioSrc"], name?: Props["name"]) {
 
   root.render(
     <AudioModal
-      audioSrc={src}
+      src={src}
       name={name}
       visible={true}
       onClose={() => handleClose()}
