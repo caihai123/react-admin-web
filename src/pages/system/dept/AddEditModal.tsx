@@ -52,10 +52,13 @@ const AddEditModal = function (props: Props) {
   const [addDeptItem] = useAddDeptItemMutation();
   const [updateDeptItem] = useUpdateDeptItemMutation();
 
-  React.useEffect(() => {
+  const resetFields = React.useCallback(
     // props.initialValues 很有可能是一个空对象或者undefined，这时有的组件不会重置为空，所以需要与defaultValues合并后传入
-    form.setFieldsValue({ ...defaultValues, ...props.initialValues });
-  }, [form, props.initialValues]);
+    () => form.setFieldsValue({ ...defaultValues, ...props.initialValues }),
+    [form, props.initialValues]
+  );
+
+  React.useEffect(() => resetFields(), [resetFields]);
 
   const [loading, setLoading] = useLoadingDelayAndKeep(false);
 
@@ -69,7 +72,15 @@ const AddEditModal = function (props: Props) {
       maskClosable={false}
       footer={
         <Space>
-          <Button onClick={() => props.onClose?.()}>取消</Button>
+          <Button
+            onClick={() => {
+              props.onClose?.();
+              // 点击取消时重置表单
+              resetFields();
+            }}
+          >
+            取消
+          </Button>
           <Button
             type="primary"
             loading={loading}
