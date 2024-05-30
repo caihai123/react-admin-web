@@ -14,7 +14,7 @@
     "@reduxjs/toolkit": "^1.9.3",
     "ahooks": "^3.7.6",
     "animejs": "^3.2.1",
-    "antd": "^5.15.3",
+    "antd": "^5.17.4",
     "axios": "^1.6.8",
     "clipboard-copy": "^4.0.1",
     "mockjs": "^1.1.0",
