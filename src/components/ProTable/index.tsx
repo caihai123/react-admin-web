@@ -197,7 +197,8 @@ const ProTable = forwardRef<Ref, ProTableProps>(function (props, ref) {
 
   // loadingDelay 和 loadingKeep，具体可参考：useLoadingDelayAndKeep
   const [tableLoading, { setTrue, setFalse }] = useLoadingDelayAndKeep(
-    typeof loading === "boolean" ? loading : false
+    typeof loading === "boolean" ? loading : false,
+    { delay: 0, keep: 350 }
   );
   useEffect(() => {
     const tableLoading =
