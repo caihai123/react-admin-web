@@ -15,7 +15,8 @@ const customQuery: BaseQueryFn = async (args, api, extraOptions) => {
       return { data: result };
     }
   } catch (error) {
-    return { error };
+    // @ts-ignore
+    return { error: error.data };
   }
 };
 
