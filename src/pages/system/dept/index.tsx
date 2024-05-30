@@ -90,7 +90,7 @@ export default function Page() {
       dataIndex: "deptName",
     },
     {
-      title: "描述",
+      title: "备注",
       dataIndex: "description",
     },
     {
