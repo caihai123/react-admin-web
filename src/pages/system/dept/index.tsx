@@ -112,7 +112,6 @@ export default function Page() {
             <Button
               type="primary"
               icon={<PlusOutlined />}
-              size="small"
               onClick={() => set(true)}
             >
               新增
