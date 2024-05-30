@@ -14,7 +14,7 @@ import type { Dept } from "@/api/system/dept";
 export default function Page() {
   const { modal, message } = App.useApp();
 
-  const { data: tableData, isLoading, refetch } = useGetDeptAllQuery();
+  const { data: tableData, isFetching, refetch } = useGetDeptAllQuery();
 
   const [deleteDeptItem] = useDeleteDeptItemMutation();
   const deleteItem = function (id: Dept["id"]) {
@@ -167,7 +167,7 @@ export default function Page() {
         columns={columns}
         dataSource={tableData}
         headerTitle="部门列表"
-        loading={isLoading}
+        loading={isFetching}
         search={false}
         onRefresh={refetch}
         toolBarRender={toolRender()}
