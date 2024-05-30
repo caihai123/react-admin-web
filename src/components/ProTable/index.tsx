@@ -82,6 +82,8 @@ export type ProTableProps<RecordType = any> = {
   onReset?: (params: any) => void;
 
   footer?: TableProps["footer"];
+
+  components?: TableProps["components"];
 };
 
 export type TableSize = TableProps["size"];
@@ -372,6 +374,7 @@ const ProTable = forwardRef<Ref, ProTableProps>(function (props, ref) {
             bordered
             scroll={{ x: "max-content" }}
             footer={props.footer}
+            components={props.components}
           ></Table>
         </div>
       </Card>
