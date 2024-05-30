@@ -1,4 +1,4 @@
-import { Button, Space, App, Popconfirm, Alert } from "antd";
+import { Button, Space, App, Alert } from "antd";
 import ProTable from "@/components/ProTable";
 import { PlusOutlined } from "@ant-design/icons";
 import {
@@ -6,12 +6,13 @@ import {
   useDeleteDeptItemMutation,
 } from "@/store/api-slice/dept";
 import { useFilterElementPermission } from "@/components/PermissionControl";
+import AddEditModal from "./AddEditModal";
 
 import type { ProTableProps } from "@/components/ProTable";
 import type { Dept } from "@/api/system/dept";
 
 export default function Page() {
-  const { message } = App.useApp();
+  const { modal, message } = App.useApp();
 
   const { data: tableData, isLoading, refetch } = useGetDeptAllQuery();
 
@@ -27,34 +28,57 @@ export default function Page() {
   // 表格操作栏
   const [actionRender, isShowAction] = useFilterElementPermission(
     {
-      render: () => (
-        <Button type="primary" ghost size="small">
-          编辑
-        </Button>
+      render: (row) => (
+        <AddEditModal.ManagedModal
+          content={(set) => (
+            <Button type="primary" ghost size="small" onClick={() => set(true)}>
+              编辑
+            </Button>
+          )}
+          key={row.id}
+          initialValues={{
+            id: row.id,
+            parentId: row.parentId,
+            deptName: row.deptName,
+            description: row.description,
+          }}
+        ></AddEditModal.ManagedModal>
       ),
       permission: "edit",
     },
     {
-      render: () => (
-        <Button type="primary" size="small">
-          新增下级
-        </Button>
+      render: (row) => (
+        <AddEditModal.ManagedModal
+          content={(set) => (
+            <Button type="primary" size="small" onClick={() => set(true)}>
+              新增下级
+            </Button>
+          )}
+          initialValues={{
+            parentId: row.id,
+          }}
+        ></AddEditModal.ManagedModal>
       ),
       permission: "add",
     },
     {
       render: (row) => (
-        <Popconfirm
-          title="提示"
-          description="您确定要删除此部门吗?"
-          onConfirm={() => deleteItem(row.id)}
-          okText="确定"
-          cancelText="取消"
+        <Button
+          type="primary"
+          danger
+          size="small"
+          onClick={() =>
+            modal.confirm({
+              title: "提示",
+              content: "您确定要删除此部门及其子部门吗？",
+              okType: "danger",
+              onOk: () => deleteItem(row.id),
+              centered: true,
+            })
+          }
         >
-          <Button type="primary" danger size="small">
-            删除
-          </Button>
-        </Popconfirm>
+          删除
+        </Button>
       ),
       permission: "del",
     }
@@ -83,13 +107,19 @@ export default function Page() {
   const [toolRender] = useFilterElementPermission(
     {
       render: () => (
-        <Button
-          type="primary"
-          icon={<PlusOutlined />}
-          onClick={() => message.warning("演示功能")}
-        >
-          新增
-        </Button>
+        <AddEditModal.ManagedModal
+          content={(set) => (
+            <Button
+              type="primary"
+              icon={<PlusOutlined />}
+              size="small"
+              onClick={() => set(true)}
+            >
+              新增
+            </Button>
+          )}
+          key="add"
+        ></AddEditModal.ManagedModal>
       ),
       permission: "add",
     },

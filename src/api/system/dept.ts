@@ -4,6 +4,7 @@ import type { AxiosResultPromise } from "@/utils/axios";
 
 export type Dept = {
   id: string;
+  parentId?: string;
   deptName: string;
   description: string;
   children?: Dept[];
