@@ -13,6 +13,7 @@ import { useBoolean } from "ahooks";
 import { getFilenameFromPath } from "@/utils/utils";
 import { CSSTransition } from "react-transition-group";
 import styled from "styled-components";
+import "@/styles/transition";
 
 const AudioBox = styled.div`
   width: 320px;
@@ -28,36 +29,6 @@ const AudioBox = styled.div`
     color: #fff;
     cursor: move;
     user-select: none;
-  }
-  &.zoom-in-top-enter {
-    opacity: 0;
-    transform: scaleY(0);
-  }
-  &.zoom-in-top-enter-active {
-    opacity: 1;
-    transform: scaleY(1);
-    transition: opacity 300ms, transform 300ms;
-    transform-origin: top;
-  }
-  &.zoom-in-top-exit {
-    opacity: 1;
-    transform: scaleY(1);
-    transition: opacity 300ms, transform 300ms;
-    transform-origin: top;
-  }
-  &.zoom-in-top-exit-active {
-    opacity: 0;
-    transform: scaleY(0);
-  }
-  &.zoom-in-top-appear {
-    opacity: 0;
-    transform: scaleY(0);
-  }
-  &.zoom-in-top-appear-active {
-    opacity: 1;
-    transform: scaleY(1);
-    transition: opacity 300ms, transform 300ms;
-    transform-origin: top;
   }
 `;
 
