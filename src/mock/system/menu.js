@@ -202,6 +202,14 @@ const mock = [
             icon: "ProfileFilled",
           },
           {
+            id: "8",
+            parentId: null,
+            title: "过渡动画",
+            type: "1",
+            path: "/transition",
+            icon: "HeartFilled",
+          },
+          {
             id: "3",
             parentId: null,
             title: "错误页面",

@@ -260,6 +260,7 @@ export default function Page() {
         }}
         toolBarRender={toolRender()}
         batchBarRender={isShowBatch ? batchRender() : undefined}
+        components={{ body: { row: ($props: any) => <tr {...$props}></tr> } }}
       />
       {addOrEditContext}
     </>
