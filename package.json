@@ -13,6 +13,7 @@
     "@ant-design/charts": "^1.4.2",
     "@reduxjs/toolkit": "^1.9.3",
     "ahooks": "^3.7.6",
+    "animate.css": "^4.1.1",
     "animejs": "^3.2.1",
     "antd": "^5.17.4",
     "axios": "^1.6.8",
