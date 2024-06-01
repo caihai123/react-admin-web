@@ -154,11 +154,15 @@ export default function AnimateDemo() {
           <Button onClick={() => toggle3()}>点我</Button>
           <div style={{ display: "flex", marginTop: 20, height: 100 }}>
             <CollapseTransition show={show3} appear>
-              <div style={transitionBoxStyle}>collapse-transition</div>
+              <div>
+                <div style={transitionBoxStyle}>collapse-transition</div>
+              </div>
             </CollapseTransition>
             <CollapseTransition show={show3} appear type="horizontal">
-              <div style={transitionBoxStyle}>
-                collapse-transition-horizontal
+              <div>
+                <div style={transitionBoxStyle}>
+                  collapse-transition-horizontal
+                </div>
               </div>
             </CollapseTransition>
           </div>
