@@ -34,6 +34,94 @@
   transition: all 0.3s cubic-bezier(0.55, 0, 0.1, 1);
 }
 
+/* fade-in-left */
+.fade-in-left-enter,
+.fade-in-left-appear {
+  opacity: 0;
+  transform: translate(-30px, 0);
+}
+.fade-in-left-enter-active,
+.fade-in-left-appear-done {
+  opacity: 1;
+  transform: translate(0, 0);
+  transition: all 0.3s cubic-bezier(0.55, 0, 0.1, 1);
+}
+.fade-in-left-exit {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+.fade-in-left-exit-active {
+  opacity: 0;
+  transform: translate(-30px, 0);
+  transition: all 0.3s cubic-bezier(0.55, 0, 0.1, 1);
+}
+
+/* fade-in-right */
+.fade-in-right-enter,
+.fade-in-right-appear {
+  opacity: 0;
+  transform: translate(30px, 0);
+}
+.fade-in-right-enter-active,
+.fade-in-right-appear-done {
+  opacity: 1;
+  transform: translate(0, 0);
+  transition: all 0.3s cubic-bezier(0.55, 0, 0.1, 1);
+}
+.fade-in-right-exit {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+.fade-in-right-exit-active {
+  opacity: 0;
+  transform: translate(30px, 0);
+  transition: all 0.3s cubic-bezier(0.55, 0, 0.1, 1);
+}
+
+/* fade-in-top */
+.fade-in-top-enter,
+.fade-in-top-appear {
+  opacity: 0;
+  transform: translate(0, -30px);
+}
+.fade-in-top-enter-active,
+.fade-in-top-appear-done {
+  opacity: 1;
+  transform: translate(0, 0);
+  transition: all 0.3s cubic-bezier(0.55, 0, 0.1, 1);
+}
+.fade-in-top-exit {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+.fade-in-top-exit-active {
+  opacity: 0;
+  transform: translate(0, -30px);
+  transition: all 0.3s cubic-bezier(0.55, 0, 0.1, 1);
+}
+
+/* fade-in-bottom */
+.fade-in-bottom-enter,
+.fade-in-bottom-appear {
+  opacity: 0;
+  transform: translate(0, 30px);
+}
+.fade-in-bottom-enter-active,
+.fade-in-bottom-appear-done {
+  opacity: 1;
+  transform: translate(0, 0);
+  transition: all 0.3s cubic-bezier(0.55, 0, 0.1, 1);
+}
+.fade-in-bottom-exit {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+.fade-in-bottom-exit-active {
+  opacity: 0;
+  transform: translate(0, 30px);
+  transition: all 0.3s cubic-bezier(0.55, 0, 0.1, 1);
+}
+
 /* zoom-in-center */
 .zoom-in-center-enter,
 .zoom-in-center-appear {

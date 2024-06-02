@@ -27,6 +27,10 @@ export default function AnimateDemo() {
   const nodeRef9 = React.useRef(null);
   const nodeRef10 = React.useRef(null);
   const nodeRef11 = React.useRef(null);
+  const nodeRef12 = React.useRef(null);
+  const nodeRef13 = React.useRef(null);
+  const nodeRef14 = React.useRef(null);
+  const nodeRef15 = React.useRef(null);
 
   const transitionBoxStyle: React.CSSProperties = {
     width: 200,
@@ -63,6 +67,7 @@ export default function AnimateDemo() {
                 fade-in-linear
               </div>
             </CSSTransition>
+
             <CSSTransition
               in={show1}
               nodeRef={nodeRef2}
@@ -73,6 +78,58 @@ export default function AnimateDemo() {
             >
               <div ref={nodeRef2} style={transitionBoxStyle}>
                 fade-in
+              </div>
+            </CSSTransition>
+
+            <CSSTransition
+              in={show1}
+              nodeRef={nodeRef12}
+              timeout={300}
+              unmountOnExit
+              classNames="fade-in-left"
+              appear
+            >
+              <div ref={nodeRef12} style={transitionBoxStyle}>
+                fade-in-left
+              </div>
+            </CSSTransition>
+
+            <CSSTransition
+              in={show1}
+              nodeRef={nodeRef13}
+              timeout={300}
+              unmountOnExit
+              classNames="fade-in-right"
+              appear
+            >
+              <div ref={nodeRef13} style={transitionBoxStyle}>
+                fade-in-right
+              </div>
+            </CSSTransition>
+
+            <CSSTransition
+              in={show1}
+              nodeRef={nodeRef14}
+              timeout={300}
+              unmountOnExit
+              classNames="fade-in-top"
+              appear
+            >
+              <div ref={nodeRef14} style={transitionBoxStyle}>
+                fade-in-top
+              </div>
+            </CSSTransition>
+
+            <CSSTransition
+              in={show1}
+              nodeRef={nodeRef15}
+              timeout={300}
+              unmountOnExit
+              classNames="fade-in-bottom"
+              appear
+            >
+              <div ref={nodeRef15} style={transitionBoxStyle}>
+                fade-in-bottom
               </div>
             </CSSTransition>
           </div>
