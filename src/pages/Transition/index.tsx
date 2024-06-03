@@ -1,16 +1,14 @@
 import React from "react";
-import { Button, Card, theme } from "antd";
+import { Button, Card } from "antd";
 import { useBoolean } from "ahooks";
 import { CSSTransition } from "react-transition-group";
 import CollapseTransition from "@/components/CollapseTransition";
 import "@/styles/transition.css";
 import "animate.css";
+import FlipTransition from "./components/FlipTransition";
+import useBoxStyle from "./components/useBoxStyle";
 
 export default function AnimateDemo() {
-  const {
-    token: { colorPrimary, colorWhite },
-  } = theme.useToken();
-
   const [show1, { toggle: toggle1 }] = useBoolean(true);
   const [show2, { toggle: toggle2 }] = useBoolean(true);
   const [show3, { toggle: toggle3 }] = useBoolean(true);
@@ -32,22 +30,8 @@ export default function AnimateDemo() {
   const nodeRef14 = React.useRef(null);
   const nodeRef15 = React.useRef(null);
 
-  const transitionBoxStyle: React.CSSProperties = {
-    width: 200,
-    height: 100,
-    display: "flex",
-    justifyContent: "space-around",
-    alignItems: "center",
-    marginRight: 20,
-    marginBottom: 10,
-    padding: 20,
-    textAlign: "center",
-    borderRadius: 4,
-    boxSizing: "border-box",
-    color: colorWhite,
-    fontSize: 16,
-    background: colorPrimary,
-  };
+  const transitionBoxStyle = useBoxStyle();
+
   return (
     <>
       <div>
@@ -225,6 +209,8 @@ export default function AnimateDemo() {
           </div>
         </Card>
       </div>
+
+      <FlipTransition style={{ marginTop: 20 }} />
 
       <div style={{ marginTop: 20 }}>
         <h2>Animate 动画</h2>
