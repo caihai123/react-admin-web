@@ -5,6 +5,7 @@ import { CSSTransition } from "react-transition-group";
 import CollapseTransition from "@/components/CollapseTransition";
 import "@/styles/transition.css";
 import "animate.css";
+import ListTranstion from "./components/ListTranstion";
 import FlipTransition from "./components/FlipTransition";
 import useBoxStyle from "./components/useBoxStyle";
 
@@ -308,6 +309,8 @@ export default function AnimateDemo() {
           </div>
         </Card>
       </div>
+
+      <ListTranstion style={{ marginTop: 20 }} />
     </>
   );
 }
