@@ -258,3 +258,46 @@
   transition: 0.3s width ease-in-out, 0.3s padding-left ease-in-out,
     0.3s padding-right ease-in-out;
 }
+
+/* flip-transition */
+.front-face-transition-enter {
+  transform: rotateY(180deg);
+}
+.front-face-transition-enter-active {
+  transition: all 1000ms ease;
+  transform: rotateY(0deg);
+}
+.front-face-transition-enter-done {
+  transform: rotateY(0deg);
+}
+.front-face-transition-exit {
+  transform: rotateY(0deg);
+}
+.front-face-transition-exit-active {
+  transform: rotateY(180deg);
+  transition: all 1000ms ease;
+}
+.front-face-transition-exit-done {
+  transform: rotateY(180deg);
+}
+
+.back-face-transition-enter {
+  transform: rotateY(-180deg);
+}
+.back-face-transition-enter-active {
+  transform: rotateY(0deg);
+  transition: all 1000ms ease;
+}
+.back-face-transition-enter-done {
+  transform: rotateY(0deg);
+}
+.back-face-transition-exit {
+  transform: rotateY(0deg);
+}
+.back-face-transition-exit-active {
+  transform: rotateY(-180deg);
+  transition: all 1000ms ease;
+}
+.back-face-transition-exit-done {
+  transform: rotateY(-180deg);
+}
