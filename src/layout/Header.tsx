@@ -49,7 +49,7 @@ type Props = {
 
 export default function MyHeader(props: Props) {
   const {
-    token: { colorBgContainer, colorBorder },
+    token: { colorBgContainer },
   } = theme.useToken();
 
   const navigate = useNavigate();
@@ -92,8 +92,7 @@ export default function MyHeader(props: Props) {
                 : props.siderWidth
               : 0,
           background: colorBgContainer,
-          boxShadow: props.fixed ? "rgba(0, 0, 0, 0.15) 0px 0px 4px 0" : "none",
-          borderBottom: `1px solid ${colorBorder}`,
+          boxShadow: props.fixed ? `rgba(0, 0, 0, 0.15) 0px 0px 4px` : "none",
           zIndex: props.layout === "side" ? 100 : 101,
           transition: "all 0.2s",
         }}
