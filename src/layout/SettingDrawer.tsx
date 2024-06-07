@@ -125,6 +125,7 @@ export default function SettingDrawer(props: Props) {
       <Drawer
         title="布局配置"
         open={visible}
+        width={320}
         onClose={() => setVisible(false)}
         style={{
           color: colorText,
