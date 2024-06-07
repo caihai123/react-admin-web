@@ -103,6 +103,7 @@ export default function MyHeader(props: Props) {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
+            height: "100%",
           }}
         >
           <div style={{ display: "flex", alignItems: "center", flex: "auto" }}>
