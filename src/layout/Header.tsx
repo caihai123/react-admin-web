@@ -1,5 +1,5 @@
 import React from "react";
-import { Layout, theme, Dropdown, Avatar } from "antd";
+import { Layout, theme, Dropdown, Avatar, App } from "antd";
 import { useMount, useBoolean, useUnmount } from "ahooks";
 import screenfull from "screenfull";
 import { useNavigate } from "react-router-dom";
@@ -54,6 +54,8 @@ export default function MyHeader(props: Props) {
 
   const navigate = useNavigate();
 
+  const { message } = App.useApp();
+
   // 全屏相关 start
   const [isFullscreen, { set: setIsFullscreen }] = useBoolean(false);
   const fullscreenChange = () => setIsFullscreen(screenfull.isFullscreen);
@@ -61,7 +63,7 @@ export default function MyHeader(props: Props) {
     if (screenfull.isEnabled) {
       screenfull.toggle();
     } else {
-      // message.warning("您的浏览器不支持全屏！");
+      message.warning("您的浏览器不支持全屏！");
     }
   };
   useMount(() => {
