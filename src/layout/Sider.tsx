@@ -1,113 +1,97 @@
-import { Layout, theme } from "antd";
-import { Link } from "react-router-dom";
-import styled, { keyframes } from "styled-components";
-import SiderMenu from "./SiderMenu";
-import LogoSvg from "@/assets/logo.svg";
+import React from "react";
+import { Layout, theme, Skeleton } from "antd";
 import { Scrollbars } from "react-custom-scrollbars";
+import Menu from "./Menu";
 
-import type { SiderProps } from "antd";
+import type { Menu as MenuType } from "@/api/system/menu";
 
-const SiderStyled = styled(Layout.Sider)`
-  position: fixed !important ;
-  height: 100vh;
-  top: 0;
-  left: 0;
-  z-index: 100;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-`;
+const { Sider } = Layout;
 
-const titleHide = keyframes`
-    0% {
-      display: none;
-      opacity: 0;
-    }
+type Props = {
+  layout: "side" | "mix" | "top";
+  collapsed: boolean;
+  logo?: React.ReactNode;
+  trigger?: React.ReactNode;
+  width: number;
+  collapsedWidth: number;
+  headerHeight: number;
+  menuItems: MenuType[];
+  menuLoading: boolean;
+};
 
-    80% {
-      display: none;
-      opacity: 0;
-    }
-
-    to {
-      display: unset;
-      opacity: 1;
-    }
-  `;
-
-const Logo = styled.div`
-  position: relative;
-  display: flex;
-  align-items: center;
-  padding: 16px;
-  cursor: pointer;
-  transition: padding 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-  & > a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 32px;
-  }
-  & img {
-    display: inline-block;
-    height: 32px;
-    vertical-align: middle;
-  }
-  & h1 {
-    height: 32px;
-    margin: 0 0 0 12px;
-    font-weight: 600;
-    font-size: 18px;
-    line-height: 32px;
-    vertical-align: middle;
-    animation: ${titleHide} 0.3s;
-  }
-`;
-
-const AsderFooter = styled.div`
-  padding: 12px;
-  text-align: center;
-  animation: ${titleHide} 0.3s;
-`;
-
-export default function Sider(props: { collapsed: boolean }) {
-  const siderConfig: SiderProps = {
-    width: 210,
-    collapsedWidth: 64,
-    collapsed: props.collapsed,
-    theme: "light",
-  };
-
+export default function MySider(props: Props) {
   const {
-    token: { colorTextTertiary },
+    token: { colorBorder },
   } = theme.useToken();
+
   return (
     <>
-      <Layout.Sider {...siderConfig}></Layout.Sider>
-      <SiderStyled {...siderConfig}>
-        <Logo>
-          <Link to="/">
-            <img src={LogoSvg} alt="logo" />
-            <h1 style={{ display: props.collapsed ? "none" : "block" }}>
-              {process.env.REACT_APP_WEBSITE_NAME}
-            </h1>
-          </Link>
-        </Logo>
+      <Sider
+        collapsed={props.collapsed}
+        width={props.width}
+        collapsedWidth={props.collapsedWidth}
+        theme="light"
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          paddingTop: props.layout === "mix" ? props.headerHeight : 0,
+          height: "100%",
+          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
+          zIndex: props.layout === "mix" ? 100 : 101,
+        }}
+      >
+        {props.layout === "side" ? (
+          <div
+            style={{
+              height: props.headerHeight + 1,
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            {props.logo}
+          </div>
+        ) : null}
 
-        <Scrollbars style={{ height: "calc(100% - 132px)" }} autoHide>
-          <SiderMenu />
+        <Scrollbars
+          style={{
+            height: `calc(100% - ${props.headerHeight + 1}px)`,
+          }}
+          autoHide
+        >
+          <Skeleton
+            active
+            loading={props.menuLoading}
+            paragraph={{ rows: 6 }}
+            title={false}
+            style={{ padding: 20 }}
+          >
+            <Menu menu={props.menuItems} mode="inline" />
+          </Skeleton>
         </Scrollbars>
 
-        <AsderFooter
-          style={{
-            display: props.collapsed ? "none" : "block",
-            color: colorTextTertiary,
-          }}
-        >
-          <div>
-            © 2024 Made with <span style={{ color: "#e5e0d8" }}>❤</span>
+        {props.layout === "mix" ? (
+          <div
+            style={{
+              width: "100%",
+              position: "absolute",
+              bottom: 0,
+              display: "flex",
+              justifyContent: "end",
+              borderTop: `1px solid ${colorBorder}`,
+            }}
+          >
+            {props.trigger}
           </div>
-          <div>by CaiHai</div>
-        </AsderFooter>
-      </SiderStyled>
+        ) : null}
+      </Sider>
+
+      <Sider
+        collapsed={props.collapsed}
+        width={props.width}
+        collapsedWidth={props.collapsedWidth}
+        theme="light"
+      ></Sider>
     </>
   );
 }

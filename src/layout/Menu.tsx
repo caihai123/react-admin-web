@@ -1,9 +1,8 @@
-import { createElement, useMemo } from "react";
+import { createElement, useMemo, type CSSProperties } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Menu, theme, Skeleton } from "antd";
+import { Menu, theme } from "antd";
 import { selectTheme } from "@/store/system";
 import { useSelector } from "react-redux";
-import { selectMenu } from "@/store/menu";
 
 import type { MenuProps } from "antd";
 import type { Menu as MenuType } from "@/api/system/menu";
@@ -28,36 +27,34 @@ const getItem: (menu: MenuType) => MenuItem = function (menu) {
   };
 };
 
-export default function LayMenu() {
-  const { list: menu, status } = useSelector(selectMenu);
-
+export default function MyMenu(props: {
+  menu: MenuType[];
+  mode: MenuProps["mode"];
+  style?: CSSProperties;
+}) {
   const navigate = useNavigate();
 
   const location = useLocation();
 
-  const menuList = useMemo(() => menu.map((item) => getItem(item)), [menu]);
+  const menuList = useMemo(
+    () => props.menu.map((item) => getItem(item)),
+    [props.menu]
+  );
 
   const themeName = useSelector(selectTheme);
+
   const {
     token: { colorBgContainer },
   } = theme.useToken();
 
   return (
-    <Skeleton
-      active
-      loading={status === "loading"}
-      paragraph={{ rows: 6 }}
-      title={false}
-      style={{ padding: 20 }}
-    >
-      <Menu
-        mode="inline"
-        selectedKeys={[location.pathname]}
-        items={menuList}
-        onClick={({ key }) => navigate(key)}
-        style={{ border: "none", background: colorBgContainer }}
-        theme={themeName === "dark" ? "dark" : "light"}
-      ></Menu>
-    </Skeleton>
+    <Menu
+      mode={props.mode}
+      selectedKeys={[location.pathname]}
+      items={menuList}
+      onClick={({ key }) => navigate(key)}
+      style={{ border: "none", background: colorBgContainer, ...props.style }}
+      theme={themeName === "dark" ? "dark" : "light"}
+    ></Menu>
   );
 }

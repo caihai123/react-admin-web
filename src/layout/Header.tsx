@@ -1,12 +1,10 @@
-import { Layout, theme, Avatar, Dropdown, message } from "antd";
+import React from "react";
+import { Layout, theme, Dropdown, Avatar } from "antd";
 import { useMount, useBoolean, useUnmount } from "ahooks";
-import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
 import screenfull from "screenfull";
-import Breadcrumb from "./Breadcrumb";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import {
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
   FullscreenOutlined,
   UserOutlined,
   SettingOutlined,
@@ -15,57 +13,45 @@ import {
   IssuesCloseOutlined,
   BellOutlined,
 } from "@ant-design/icons";
-import ThremSwitch from "@/layout/ThremSwitch";
+import ThremSwitch from "./ThremSwitch";
+import Breadcrumb from "./Breadcrumb";
+import Menu from "./Menu";
 
-const Header = styled(Layout.Header)`
-  height: 48px;
-  position: sticky;
-  top: 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
-  z-index: 99;
-  padding: 0;
-  height: 48;
-  lineheight: 1;
-  background: ${(props: { background: string }) => props.background};
-  & .header-actions-item {
-    display: flex;
-    align-items: center;
-    height: 48px;
-    font-size: 18px;
-    padding: 0 12px;
-    cursor: pointer;
-    transition: all 0.3s;
-    &:hover {
-      background-color: rgba(0, 0, 0, 0.03);
-    }
-  }
-`;
+import type { Menu as MenuType } from "@/api/system/menu";
 
-const Trigger = styled.div`
-  height: 48px;
+const { Header } = Layout;
+
+const ActionItem = styled.div`
   display: flex;
-  justify-content: center;
   align-items: center;
-  padding: 0 24px;
+  height: 48px;
   font-size: 18px;
-  transition: color 0.3s;
+  padding: 0 12px;
+  cursor: pointer;
+  transition: all 0.3s;
   &:hover {
-    color: #1890ff;
+    background-color: rgba(0, 0, 0, 0.03);
   }
 `;
 
 type Props = {
+  layout: "side" | "mix" | "top";
+  fixed: boolean;
+  height: number;
+  logo?: React.ReactNode;
+  trigger?: React.ReactNode;
+  siderWidth: number;
+  collapsedWidth: number;
   collapsed: boolean;
-  setCollapsed: (collapsed: boolean) => void;
+  menuItems: MenuType[];
+  showBreadcrumb: boolean;
 };
 
-export default function LayHeader(props: Props) {
+export default function MyHeader(props: Props) {
   const {
-    token: { colorBgContainer },
+    token: { colorBgContainer, colorBorder },
   } = theme.useToken();
+
   const navigate = useNavigate();
 
   // 全屏相关 start
@@ -75,7 +61,7 @@ export default function LayHeader(props: Props) {
     if (screenfull.isEnabled) {
       screenfull.toggle();
     } else {
-      message.warning("您的浏览器不支持全屏！");
+      // message.warning("您的浏览器不支持全屏！");
     }
   };
   useMount(() => {
@@ -89,77 +75,124 @@ export default function LayHeader(props: Props) {
   // 全屏相关 end
 
   return (
-    <Header background={colorBgContainer}>
-      <div style={{ display: "flex", alignItems: "center" }}>
-        <Trigger
-          // @ts-ignore
-          as={props.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined}
-          onClick={() => props.setCollapsed(!props.collapsed)}
-        />
-        <div style={{ height: 36, display: "flex", alignItems: "center" }}>
-          <Breadcrumb />
-        </div>
-      </div>
-
-      <div style={{ display: "flex", paddingRight: 16 }}>
-        <div className="header-actions-item" onClick={fullscreenToggle}>
-          {isFullscreen ? <FullscreenExitOutlined /> : <FullscreenOutlined />}
-        </div>
-
-        <div className="header-actions-item">
-          <BellOutlined />
-        </div>
-
-        <div className="header-actions-item">
-          <ThremSwitch />
-        </div>
-
-        <Dropdown
-          menu={{
-            items: [
-              {
-                key: 1,
-                label: "个人中心",
-                icon: <UserOutlined />,
-                onClick: () => navigate("/account/center"),
-              },
-              {
-                key: 2,
-                label: "个人设置",
-                icon: <SettingOutlined />,
-                onClick: () => navigate("/account/settings"),
-              },
-              {
-                key: 4,
-                label: "意见反馈",
-                icon: <IssuesCloseOutlined />,
-                onClick: () => navigate("/issues"),
-              },
-              {
-                type: "divider",
-              },
-              {
-                key: 3,
-                label: "退出登录",
-                icon: <LoginOutlined />,
-                onClick: () => {
-                  localStorage.removeItem("token");
-                  navigate("/login");
-                },
-              },
-            ],
+    <>
+      <Header
+        style={{
+          position: props.fixed ? "fixed" : "static",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: props.height,
+          lineHeight: `${props.height}px`,
+          paddingRight: 12,
+          paddingLeft:
+            // eslint-disable-next-line no-nested-ternary
+            props.layout === "side" && props.fixed
+              ? props.collapsed
+                ? props.collapsedWidth
+                : props.siderWidth
+              : 0,
+          background: colorBgContainer,
+          boxShadow: props.fixed ? "rgba(0, 0, 0, 0.15) 0px 0px 4px 0" : "none",
+          borderBottom: `1px solid ${colorBorder}`,
+          zIndex: props.layout === "side" ? 100 : 101,
+          transition: "all 0.2s",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            margin: "0 auto",
+            maxWidth: props.layout === "top" ? 1200 : "none",
           }}
         >
-          <div className="header-actions-item">
-            <Avatar
-              src="https://avatars.githubusercontent.com/u/47770861?v=4"
-              size="small"
-              style={{ marginRight: 8 }}
-            />
-            <span style={{ fontSize: 14 }}>Cai Hai</span>
+          <div style={{ display: "flex", alignItems: "center", flex: "auto" }}>
+            {props.layout === "side" ? props.trigger : props.logo}
+            {props.layout === "side" && props.showBreadcrumb ? (
+              <Breadcrumb />
+            ) : null}
+            {props.layout === "top" ? (
+              <Menu
+                mode="horizontal"
+                menu={props.menuItems}
+                style={{ flex: "auto", marginLeft: 16 }}
+              />
+            ) : null}
           </div>
-        </Dropdown>
-      </div>
-    </Header>
+
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <ActionItem onClick={fullscreenToggle}>
+              {isFullscreen ? (
+                <FullscreenExitOutlined />
+              ) : (
+                <FullscreenOutlined />
+              )}
+            </ActionItem>
+
+            <ActionItem>
+              <BellOutlined />
+            </ActionItem>
+
+            <ActionItem>
+              <ThremSwitch />
+            </ActionItem>
+
+            <Dropdown
+              menu={{
+                items: [
+                  {
+                    key: 1,
+                    label: "个人中心",
+                    icon: <UserOutlined />,
+                    onClick: () => navigate("/account/center"),
+                  },
+                  {
+                    key: 2,
+                    label: "个人设置",
+                    icon: <SettingOutlined />,
+                    onClick: () => navigate("/account/settings"),
+                  },
+                  {
+                    key: 4,
+                    label: "意见反馈",
+                    icon: <IssuesCloseOutlined />,
+                    onClick: () => navigate("/issues"),
+                  },
+                  {
+                    type: "divider",
+                  },
+                  {
+                    key: 3,
+                    label: "退出登录",
+                    icon: <LoginOutlined />,
+                    onClick: () => {
+                      localStorage.removeItem("token");
+                      navigate("/login");
+                    },
+                  },
+                ],
+              }}
+            >
+              <ActionItem>
+                <Avatar
+                  src="https://avatars.githubusercontent.com/u/47770861?v=4"
+                  size="small"
+                  style={{ marginRight: 8 }}
+                />
+                <span style={{ fontSize: 14 }}>Cai Hai</span>
+              </ActionItem>
+            </Dropdown>
+          </div>
+        </div>
+      </Header>
+
+      {props.fixed ? (
+        <Header
+          style={{ height: props.height, background: colorBgContainer }}
+        ></Header>
+      ) : null}
+    </>
   );
 }
