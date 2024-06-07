@@ -83,7 +83,6 @@ export default function MyHeader(props: Props) {
           left: 0,
           width: "100%",
           height: props.height,
-          lineHeight: `${props.height}px`,
           paddingRight: 12,
           paddingLeft:
             // eslint-disable-next-line no-nested-ternary
@@ -104,8 +103,6 @@ export default function MyHeader(props: Props) {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            margin: "0 auto",
-            maxWidth: props.layout === "top" ? 1200 : "none",
           }}
         >
           <div style={{ display: "flex", alignItems: "center", flex: "auto" }}>
@@ -117,7 +114,11 @@ export default function MyHeader(props: Props) {
               <Menu
                 mode="horizontal"
                 menu={props.menuItems}
-                style={{ flex: "auto", marginLeft: 16 }}
+                style={{
+                  flex: "auto",
+                  marginLeft: 16,
+                  lineHeight: `${props.height - 1}px`,
+                }}
               />
             ) : null}
           </div>

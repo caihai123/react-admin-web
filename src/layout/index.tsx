@@ -118,13 +118,7 @@ export default function MyLayout() {
 
   return (
     <Layout style={{ display: "block", background: colorBgLayout }}>
-      <Layout
-        style={{
-          minHeight: "100vh",
-          maxWidth: config.layout === "top" ? 1200 : "none",
-          margin: "0 auto",
-        }}
-      >
+      <Layout style={{ minHeight: "100vh" }}>
         {config.layout === "side" ? renderSider : renderHeader}
         <Layout>
           {config.layout === "side" && renderHeader}

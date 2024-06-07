@@ -11,7 +11,14 @@ export default function LayContent(props: {
   showBreadcrumb: boolean;
 }) {
   return (
-    <Content style={{ margin: 20 }}>
+    <Content
+      style={{
+        width: "100%",
+        maxWidth: props.layout === "top" ? 1200 : "none",
+        margin: "0 auto",
+        padding: 20,
+      }}
+    >
       {props.layout !== "side" && props.showBreadcrumb ? (
         <div style={{ marginBottom: 12 }}>
           <Breadcrumb />
