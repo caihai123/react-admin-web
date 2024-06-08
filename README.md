@@ -8,7 +8,7 @@
 <img src="./public/static/react-admin-web-login.png" width="50%" /><img src="./public/static/react-admin-web-login-dark.png" width="50%" /><img src="./public/static/react-admin-web-index.png" width="50%" /><img src="./public/static/react-admin-web-index-dark.png" width="50%" /><img src="./public/static/react-admin-web-table.png" width="50%" /><img src="./public/static/react-admin-web-table-dark.png" width="50%" /><img src="./public/static/react-admin-web-401.png" width="50%" /><img src="./public/static/react-admin-web-401-dark.png" width="50%" /><img src="./public/static/react-admin-web-404.png" width="50%" /><img src="./public/static/react-admin-web-404-dark.png" width="50%" />
 
 + 预览链接：https://caihai123.com/react-admin-web/index
-+ Gitee预览：https://caihai123.gitee.io/react-admin-web/index
++ ~~Gitee预览：https://caihai123.gitee.io/react-admin-web/index~~
 
 ## 目录结构
 
