@@ -5,7 +5,6 @@ import styled from "styled-components";
 import useContentOverflow from "@/hooks/useContentOverflow";
 
 const LogoStyle = styled.div`
-  width: 100%;
   position: relative;
   display: flex;
   align-items: center;

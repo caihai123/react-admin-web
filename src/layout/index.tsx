@@ -88,7 +88,7 @@ export default function MyLayout() {
         collapsed={collapsed}
         width={DEFAULTS.sider.width}
         collapsedWidth={DEFAULTS.sider.collapsedWidth}
-        logo={<Logo collapsed={collapsed} />}
+        logo={<Logo collapsed={collapsed} style={{ width: "100%" }} />}
         trigger={renderTrigger}
         headerHeight={DEFAULTS.header.height}
       />
