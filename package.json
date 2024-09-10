@@ -12,6 +12,7 @@
   "dependencies": {
     "@ant-design/charts": "^1.4.2",
     "@reduxjs/toolkit": "^1.9.3",
+    "@tinymce/tinymce-react": "^5.1.1",
     "ahooks": "^3.7.6",
     "animate.css": "^4.1.1",
     "animejs": "^3.2.1",

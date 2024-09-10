@@ -167,6 +167,14 @@ const router = createBrowserRouter(
           ),
         },
         {
+          path: "/tinymce-ditor",
+          element: (
+            <Auth
+              Component={lazy(() => import("@/pages/components/tinymce-ditor"))}
+            />
+          ),
+        },
+        {
           path: "/issues",
           handle: { title: "意见反馈" },
           children: [

@@ -161,6 +161,13 @@ const mock = [
                 type: "1",
                 path: "/video-modal",
               },
+              {
+                id: "5-6",
+                parentId: "5",
+                title: "富文本",
+                type: "1",
+                path: "/tinymce-ditor",
+              },
             ],
           },
           {
